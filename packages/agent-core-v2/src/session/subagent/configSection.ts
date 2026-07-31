@@ -34,12 +34,16 @@
  * purpose, since interpreting an already-persisted derived binding (resume)
  * must keep working after the experiment is switched off. Self-registered
  * at module load via `registerConfigSection`.
+ * While the `secondary-model` experiment is off they also strip the no-op
+ * `model` parameter from their advertised schemas via
+ * `stripSubagentModelParameter`.
  */
 
 import { z } from 'zod';
 
 import { Error2, ErrorCodes, isError2 } from '#/errors';
 import type { AgentModelPreference } from '#/app/agentProfileCatalog/agentProfileCatalog';
+import { isPlainObject } from '#/app/config/toml';
 import type { IFlagService } from '#/app/flag/flag';
 import {
   MODELS_SECTION,
@@ -248,6 +252,32 @@ function resolvedCapabilities(
   } catch {
     return undefined;
   }
+}
+
+/**
+ * Strip the `model` property from a subagent collaboration tool's advertised
+ * JSON schema. While the `secondary-model` experiment is off the parameter is
+ * a silent no-op, so the schema the model sees (and the args validator
+ * compiled from the same advertised schema) drops it entirely — the
+ * secondary-model concept never enters the prompt, and a stray `model`
+ * argument is rejected instead of silently inheriting the caller's model.
+ * Returns the input unchanged when there is no `model` property; otherwise a
+ * shallow copy — the input is never mutated, so callers can keep both
+ * variants as shared constants.
+ */
+export function stripSubagentModelParameter(
+  parameters: Record<string, unknown>,
+): Record<string, unknown> {
+  const properties = parameters['properties'];
+  if (!isPlainObject(properties) || !('model' in properties)) return parameters;
+  const nextProperties = { ...properties };
+  delete nextProperties['model'];
+  const next: Record<string, unknown> = { ...parameters, properties: nextProperties };
+  const required = parameters['required'];
+  if (Array.isArray(required) && required.includes('model')) {
+    next['required'] = required.filter((entry) => entry !== 'model');
+  }
+  return next;
 }
 
 export function wrapSubagentModelError(
