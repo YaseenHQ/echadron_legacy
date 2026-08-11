@@ -11,13 +11,32 @@ import { mkdir, mkdtemp, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 
-import { afterEach, describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import { createKimiHarnessV2, ErrorCodes, KimiError, KimiHarness, SDKRpcClientV2 } from '#/index';
 import { foldAgentWireReplay } from '#/v2/resume-replay';
 
 import { TEST_IDENTITY } from './test-identity';
 import { recordingTelemetry, type TelemetryRecord } from './telemetry';
+
+const hostEnvProbe = vi.hoisted(() => ({ failWithMissingShell: false }));
+
+vi.mock('@moonshot-ai/agent-core-v2/_base/execEnv/environmentProbe', async (importOriginal) => {
+  const actual = await importOriginal<
+    typeof import('@moonshot-ai/agent-core-v2/_base/execEnv/environmentProbe')
+  >();
+  return {
+    ...actual,
+    probeHostEnvironmentFromNode: () =>
+      hostEnvProbe.failWithMissingShell
+        ? Promise.reject(
+            new actual.ProbeShellNotFoundError('Git Bash missing (stubbed)', [
+              'C:\\Program Files\\Git\\bin\\bash.exe',
+            ]),
+          )
+        : actual.probeHostEnvironmentFromNode(),
+  };
+});
 
 const tempDirs: string[] = [];
 
@@ -26,6 +45,16 @@ afterEach(async () => {
     await rm(dir, { recursive: true, force: true });
   }
 });
+
+function stubProcessPlatform(platform: NodeJS.Platform): () => void {
+  const descriptor = Object.getOwnPropertyDescriptor(process, 'platform');
+  Object.defineProperty(process, 'platform', { value: platform, configurable: true });
+  return () => {
+    if (descriptor !== undefined) {
+      Object.defineProperty(process, 'platform', descriptor);
+    }
+  };
+}
 
 async function makeHarness(): Promise<{ harness: KimiHarness; homeDir: string }> {
   const homeDir = await mkdtemp(join(tmpdir(), 'kimi-sdk-v2-'));
