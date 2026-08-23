@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
 import {
+  classifyTextSample,
   decodeUtfText,
   detectTextEncoding,
   ENCODING_DETECTION_SAMPLE_BYTES,
@@ -41,7 +42,32 @@ describe('detectTextEncoding', () => {
   it('limits the heuristic to the leading sample window', () => {
     const sample = Buffer.alloc(ENCODING_DETECTION_SAMPLE_BYTES + 2, 0x61);
     sample[ENCODING_DETECTION_SAMPLE_BYTES + 1] = 0;
-    expect(detectTextEncoding(sample)).toEqual({ encoding: 'utf-8', seemsBinary: false });
+    expect(detectTextEncoding(sample)).toEqual({ encoding: 'utf-8', seemsBinary: true });
+  });
+});
+
+describe('classifyTextSample', () => {
+  it('classifies UTF-8 CJK and emoji text as text', () => {
+    const sample = Buffer.from('2026-08-16 INFO 启动完成 ✅\n处理请求 🚀 成功\n'.repeat(20), 'utf8');
+    expect(classifyTextSample(sample)).toEqual({ isBinary: false, encoding: 'utf-8' });
+  });
+
+  it('classifies invalid UTF-8 as binary', () => {
+    expect(classifyTextSample(Buffer.from([0xd6, 0xd0, 0xc4, 0xe3, 0x31, 0x32]))).toEqual({
+      isBinary: true,
+      encoding: 'utf-8',
+    });
+  });
+
+  it('tolerates a valid multibyte sequence truncated at the sample tail', () => {
+    const sample = Buffer.concat([Buffer.from('日志记录\n', 'utf8'), Buffer.from([0xe4, 0xb8])]);
+    expect(classifyTextSample(sample)).toEqual({ isBinary: false, encoding: 'utf-8' });
+  });
+
+  it('counts decoded control characters rather than UTF-8 continuation bytes', () => {
+    const esc = String.fromCodePoint(0x1b);
+    const sample = Buffer.from(`${esc}[32mINFO${esc}[0m 启动完成 ✅\n`.repeat(10), 'utf8');
+    expect(classifyTextSample(sample)).toEqual({ isBinary: false, encoding: 'utf-8' });
   });
 });
 

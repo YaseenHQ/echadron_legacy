@@ -1,6 +1,22 @@
 name: Deploy Docs to GitHub Pages
 
 on:
+  # Keep the published site in sync with documentation-only commits. The
+  # previous release-only trigger left Pages on an older commit until someone
+  # manually dispatched this workflow after a docs-only merge.
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/docs-deploy.yml'
+      - '.nvmrc'
+      - 'docs/**'
+      - 'apps/**/package.json'
+      - 'apps/**/CHANGELOG.md'
+      - 'packages/**/package.json'
+      - 'package.json'
+      - 'pnpm-lock.yaml'
+      - 'pnpm-workspace.yaml'
   workflow_call:
   workflow_dispatch:
 

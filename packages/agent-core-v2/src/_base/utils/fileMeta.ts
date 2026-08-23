@@ -14,8 +14,10 @@
 
 import { extname } from 'node:path';
 
+import { classifyTextSample } from '#/_base/text/encoding';
+
 export const FS_BINARY_SAMPLE_BYTES = 4096;
-export const FS_BINARY_NONPRINTABLE_FRACTION = 0.3;
+export { FS_BINARY_NONPRINTABLE_FRACTION } from '#/_base/text/encoding';
 
 export interface FileMetaStat {
   readonly size: number;
@@ -23,17 +25,18 @@ export interface FileMetaStat {
   readonly ino?: number;
 }
 
+/**
+ * Whether these bytes are unsafe to hand out as UTF-8 text.
+ *
+ * UTF-16 counts as binary here even though `classifyTextSample` reports it as
+ * text, because callers of this helper serve or label the *raw* bytes without
+ * transcoding them — labelling UTF-16 `text/plain` yields NUL-laden mojibake.
+ * A surface that does transcode (`SessionFsService.read`) must branch on
+ * `classifyTextSample(...).encoding` directly instead of calling this.
+ */
 export function detectBinary(buf: Uint8Array): boolean {
-  if (buf.length === 0) return false;
-  let nonPrintable = 0;
-  for (let i = 0; i < buf.length; i++) {
-    const b = buf[i]!;
-    if (b === 0) return true;
-    if (b === 9 || b === 10 || b === 13) continue;
-    if (b >= 32 && b <= 126) continue;
-    nonPrintable++;
-  }
-  return nonPrintable / buf.length > FS_BINARY_NONPRINTABLE_FRACTION;
+  const { isBinary, encoding } = classifyTextSample(buf);
+  return isBinary || encoding !== 'utf-8';
 }
 
 export function countLines(text: string): number {

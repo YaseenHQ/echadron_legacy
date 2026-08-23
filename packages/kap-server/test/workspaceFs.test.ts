@@ -369,6 +369,20 @@ describe('server-v2 /api/v1 fs:content', () => {
     expect(Buffer.from(await res.arrayBuffer()).equals(original)).toBe(true);
   });
 
+  it('serves UTF-16 as octet-stream because this route never transcodes', async () => {
+    // The route streams raw bytes, so a text/plain label would be read as
+    // UTF-8 and render NUL-laden mojibake. Encoding detection treats UTF-16 as
+    // text; `detectBinary` must still keep it off the text path here.
+    const file = join(dir as string, 'utf16.weird');
+    const original = Buffer.from(`﻿hello world`, 'utf16le');
+    await writeFile(file, original);
+
+    const res = await getContent(file);
+    expect(res.status).toBe(200);
+    expect(res.headers.get('content-type')).toContain('application/octet-stream');
+    expect(Buffer.from(await res.arrayBuffer()).equals(original)).toBe(true);
+  });
+
   it('guesses image mime from the extension', async () => {
     const file = join(dir as string, 'pic.png');
     await writeFile(file, Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x00, 0x01]));

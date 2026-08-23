@@ -13,7 +13,6 @@ jobs:
     runs-on: ubuntu-latest
     if: github.repository_owner == 'YaseenHQ'
     outputs:
-      packages_published: ${{ steps.changesets.outputs.published }}
       echadron_native_release: ${{ steps.echadron_release.outputs.should_publish }}
       echadron_release_tag: ${{ steps.echadron_release.outputs.tag }}
     permissions:
@@ -70,16 +69,6 @@ jobs:
         env:
           CHANGESETS_PUBLISHED_PACKAGES: ${{ steps.changesets.outputs.publishedPackages }}
           ECHADRON_NATIVE_RELEASE_ENABLED: ${{ vars.ECHADRON_NATIVE_RELEASE_ENABLED }}
-
-  deploy-docs:
-    name: Deploy docs
-    needs: release
-    if: needs.release.outputs.packages_published == 'true'
-    uses: ./.github/workflows/docs-deploy.yml
-    permissions:
-      contents: read
-      pages: write
-      id-token: write
 
   native-artifacts:
     name: Native release artifact
