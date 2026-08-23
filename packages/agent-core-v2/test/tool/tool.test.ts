@@ -795,6 +795,41 @@ describe('Agent tool description', () => {
 
     expect(agentDescription()).not.toContain('Available models');
   });
+
+  function agentParameters(): Record<string, unknown> {
+    const tool = ctx.toolsData().find((entry) => entry.name === 'Agent');
+    expect(tool?.parameters).toBeDefined();
+    return tool!.parameters!;
+  }
+
+  it('strips the model parameter from the advertised schema when the experiment is disabled', () => {
+    ctx = createTestAgent(secondaryModelFlags(false), {
+      initialConfig: { secondaryModel: { model: 'provider/secondary' } },
+    });
+
+    const properties = agentParameters()['properties'] as Record<string, unknown>;
+
+    expect(properties).not.toHaveProperty('model');
+    expect(properties).toHaveProperty('prompt');
+  });
+
+  it('advertises the model parameter when the experiment is enabled', () => {
+    ctx = createTestAgent(secondaryModelFlags(), {
+      initialConfig: { secondaryModel: { model: 'provider/secondary' } },
+    });
+
+    const properties = agentParameters()['properties'] as Record<
+      string,
+      { type?: string; description?: string }
+    >;
+
+    // This fork widened `model` from upstream's ['secondary','primary'] enum to
+    // a free-form string, so a task can also be routed to any configured model
+    // id by capability. Assert it is advertised and still names both roles.
+    expect(properties['model']?.type).toBe('string');
+    expect(properties['model']?.description).toContain('secondary');
+    expect(properties['model']?.description).toContain('primary');
+  });
 });
 
 describe('Agent tool execution contract', () => {
@@ -2246,6 +2281,39 @@ describe('AgentSwarm tool description', () => {
     expect(description).toContain('Available models (pass via model):');
     expect(description).toContain('- secondary: provider/secondary (default)');
     expect(description).toContain('- primary: mock-model');
+  });
+
+  function agentSwarmParameters(): Record<string, unknown> {
+    const tool = ctx.toolsData().find((entry) => entry.name === 'AgentSwarm');
+    expect(tool?.parameters).toBeDefined();
+    return tool!.parameters!;
+  }
+
+  it('strips the model parameter from the advertised schema when the experiment is disabled', () => {
+    ctx = createTestAgent(secondaryModelFlags(false), {
+      initialConfig: { secondaryModel: { model: 'provider/secondary' } },
+    });
+
+    const properties = agentSwarmParameters()['properties'] as Record<string, unknown>;
+
+    expect(properties).not.toHaveProperty('model');
+    expect(properties).toHaveProperty('prompt_template');
+  });
+
+  it('advertises the model parameter when the experiment is enabled', () => {
+    ctx = createTestAgent(secondaryModelFlags(), {
+      initialConfig: { secondaryModel: { model: 'provider/secondary' } },
+    });
+
+    const properties = agentSwarmParameters()['properties'] as Record<
+      string,
+      { type?: string; description?: string }
+    >;
+
+    // Same widening as the Agent tool: a free-form model id, not upstream's enum.
+    expect(properties['model']?.type).toBe('string');
+    expect(properties['model']?.description).toContain('secondary');
+    expect(properties['model']?.description).toContain('primary');
   });
 });
 
