@@ -10,6 +10,7 @@ import {
   LifecycleScope,
   ScopeActivation,
   _clearScopedRegistryForTests,
+  overrideScopedService,
   registerScopedService,
 } from '#/_base/di/scope';
 import { type ScopedTestHost, createScopedTestHost, stubPair } from '#/_base/di/test';
@@ -921,7 +922,9 @@ describe('SessionLifecycleService', () => {
   });
 
   it('runs constructor-registered session lifecycle hooks before returning create and close', async () => {
-    registerScopedService(
+    // The service is already registered by an import side effect; the
+    // duplicate guard means a test stub must replace it, not re-register it.
+    overrideScopedService(
       LifecycleScope.Session,
       ISessionExternalHooksService,
       RecordingSessionExternalHooksService,
