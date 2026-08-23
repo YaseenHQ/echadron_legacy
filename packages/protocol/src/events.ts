@@ -213,6 +213,7 @@ export interface GoalChange {
 
 export type KimiErrorCode =
   | 'config.invalid'
+  | 'config.persist_blocked'
   | 'session.not_found'
   | 'session.already_exists'
   | 'session.id_invalid'
@@ -1192,6 +1193,7 @@ export const goalChangeSchema = z.object({
 
 export const kimiErrorCodeSchema = z.enum([
   'config.invalid',
+  'config.persist_blocked',
   'session.not_found',
   'session.already_exists',
   'session.id_invalid',

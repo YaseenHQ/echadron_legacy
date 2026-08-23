@@ -25,6 +25,7 @@
 import { Disposable } from '#/_base/di/lifecycle';
 import { LifecycleScope, ScopeActivation, registerScopedService } from '#/_base/di/scope';
 import { Emitter, type Event } from '#/_base/event';
+import { Error2, ErrorCodes } from '#/errors';
 import { IBootstrapService } from '#/app/bootstrap/bootstrap';
 import { ILogService } from '#/_base/log/log';
 import {
@@ -254,6 +255,7 @@ export class ConfigService extends Disposable implements IConfigService {
   private delivered: ResolvedConfig = {};
   private readonly diagnosticsList: ConfigDiagnostic[] = [];
   private readonly configKey: string;
+  private tainted = false;
 
   constructor(
     @IConfigRegistry private readonly registry: IConfigRegistry,
@@ -312,6 +314,21 @@ export class ConfigService extends Disposable implements IConfigService {
     return [...this.diagnosticsList];
   }
 
+  /**
+   * Record a diagnostic, ignoring one already present. A persist that keeps
+   * failing against the same unreadable file would otherwise pile up
+   * identical entries for every attempt.
+   */
+  private pushDiagnostic(diagnostic: ConfigDiagnostic): void {
+    const duplicate = this.diagnosticsList.some(
+      (existing) =>
+        existing.domain === diagnostic.domain &&
+        existing.severity === diagnostic.severity &&
+        existing.message === diagnostic.message,
+    );
+    if (!duplicate) this.diagnosticsList.push(diagnostic);
+  }
+
   async set(
     domain: string,
     patch: unknown,
@@ -330,17 +347,18 @@ export class ConfigService extends Disposable implements IConfigService {
       return;
     }
     await this.enqueueStateTransition(async () => {
-      const base = this.raw[domain];
-      const next = this.registry.merge(domain, base, patch);
-      const validated = this.registry.validate(domain, next);
-      const stripped = this.stripEnv(domain, validated);
-      if (stripped === undefined) {
-        delete this.raw[domain];
-      } else {
-        this.registry.validate(domain, stripped);
-        this.raw[domain] = stripped;
-      }
-      await this.persist(domain);
+      this.assertPersistable();
+      await this.persist(domain, (stagedRaw, stagedRawSnake) => {
+        const next = this.registry.merge(domain, stagedRaw[domain], patch);
+        const validated = this.registry.validate(domain, next);
+        const stripped = this.stripEnv(domain, validated, stagedRaw, stagedRawSnake);
+        if (stripped === undefined) {
+          delete stagedRaw[domain];
+        } else {
+          this.registry.validate(domain, stripped);
+          stagedRaw[domain] = stripped;
+        }
+      });
       this.rebuildEffective('set', [domain]);
     });
   }
@@ -361,13 +379,15 @@ export class ConfigService extends Disposable implements IConfigService {
       return;
     }
     await this.enqueueStateTransition(async () => {
-      const stripped = this.stripEnv(domain, value);
-      if (stripped === undefined) {
-        delete this.raw[domain];
-      } else {
-        this.raw[domain] = this.registry.validate(domain, stripped);
-      }
-      await this.persist(domain);
+      this.assertPersistable();
+      await this.persist(domain, (stagedRaw, stagedRawSnake) => {
+        const stripped = this.stripEnv(domain, value, stagedRaw, stagedRawSnake);
+        if (stripped === undefined) {
+          delete stagedRaw[domain];
+        } else {
+          stagedRaw[domain] = this.registry.validate(domain, stripped);
+        }
+      });
       this.rebuildEffective('set', [domain]);
     });
   }
@@ -394,32 +414,38 @@ export class ConfigService extends Disposable implements IConfigService {
       return;
     }
     await this.enqueueStateTransition(async () => {
-      const staged: ResolvedConfig = { ...this.raw };
-      for (const domain of domains) {
-        const stripped = this.stripEnv(domain, sections[domain]);
-        if (stripped === undefined) {
-          delete staged[domain];
-        } else {
-          staged[domain] = this.registry.validate(domain, stripped);
+      this.assertPersistable();
+      await this.persistDomains(domains, (stagedRaw, stagedRawSnake) => {
+        for (const domain of domains) {
+          const value = sections[domain] === null ? undefined : sections[domain];
+          const stripped = this.stripEnv(domain, value, stagedRaw, stagedRawSnake);
+          if (stripped === undefined) {
+            delete stagedRaw[domain];
+          } else {
+            stagedRaw[domain] = this.registry.validate(domain, stripped);
+          }
         }
-      }
-      this.raw = staged;
-      await this.persistDomains(domains);
+      });
       this.rebuildEffective('set', domains);
     });
   }
 
-  private stripEnv(domain: string, value: unknown): unknown {
+  private stripEnv(
+    domain: string,
+    value: unknown,
+    raw: ResolvedConfig,
+    rawSnake: ResolvedConfig,
+  ): unknown {
     let result = value;
     const section = this.registry.getSection(domain);
     if (section?.stripEnv !== undefined) {
       const getEnv = (name: string): string | undefined => this.bootstrap.getEnv(name);
-      result = section.stripEnv(result, this.raw[domain], getEnv);
+      result = section.stripEnv(result, raw[domain], getEnv);
     }
     if (result === undefined) return result;
     for (const overlay of this.registry.listEffectiveOverlays()) {
       if (overlay.strip === undefined) continue;
-      result = overlay.strip(domain, result, this.rawSnake);
+      result = overlay.strip(domain, result, rawSnake);
       if (result === undefined) return result;
     }
     return result;
@@ -442,17 +468,24 @@ export class ConfigService extends Disposable implements IConfigService {
   private async load(source: ConfigChangeSource): Promise<void> {
     this.diagnosticsList.length = 0;
     let fileData: ResolvedConfig = {};
+    let failed = false;
     try {
       const data = await this.documentStore.get<ResolvedConfig>(CONFIG_SCOPE, this.configKey);
       fileData = data !== undefined && isPlainObject(data) ? data : {};
     } catch (error) {
+      failed = true;
       const message =
         error instanceof TomlError
           ? `Failed to parse ${this.bootstrap.configPath}: ${describeTomlSyntaxError(error)}`
           : describeUnknownError(error);
       this.diagnosticsList.push({ severity: 'error', message });
       this.log.warn('config load failed', { error: describeUnknownError(error) });
+      if (source !== 'load') {
+        this.tainted = true;
+        return;
+      }
     }
+    this.tainted = failed;
     const nextRawSnake = cloneRecord(fileData);
     if (source !== 'load' && JSON.stringify(nextRawSnake) === JSON.stringify(this.rawSnake)) {
       return;
@@ -619,15 +652,55 @@ export class ConfigService extends Disposable implements IConfigService {
     this.commit('reload', [domain]);
   }
 
-  private async persist(domain: string): Promise<void> {
-    await this.persistDomains([domain]);
+  private assertPersistable(): void {
+    if (!this.tainted) return;
+    throw new Error2(
+      ErrorCodes.CONFIG_PERSIST_BLOCKED,
+      `Refusing to persist config: ${this.bootstrap.configPath} could not be read; fix the file and reload before writing.`,
+    );
   }
 
-  private async persistDomains(domains: readonly string[]): Promise<void> {
-    for (const domain of domains) {
-      applySectionToToml(this.rawSnake, domain, this.raw[domain], this.registry);
+  private async persist(
+    domain: string,
+    rebase: (stagedRaw: ResolvedConfig, stagedRawSnake: ResolvedConfig) => void,
+  ): Promise<void> {
+    await this.persistDomains([domain], rebase);
+  }
+
+  private async persistDomains(
+    domains: readonly string[],
+    rebase: (stagedRaw: ResolvedConfig, stagedRawSnake: ResolvedConfig) => void,
+  ): Promise<void> {
+    this.assertPersistable();
+    let onDisk: ResolvedConfig = {};
+    try {
+      const data = await this.documentStore.get<ResolvedConfig>(CONFIG_SCOPE, this.configKey);
+      onDisk = data !== undefined && isPlainObject(data) ? data : {};
+    } catch (error) {
+      const message =
+        error instanceof TomlError
+          ? `Failed to parse ${this.bootstrap.configPath}: ${describeTomlSyntaxError(error)}`
+          : describeUnknownError(error);
+      this.pushDiagnostic({ severity: 'error', message });
+      this.log.warn('config persist aborted: re-read failed', {
+        error: describeUnknownError(error),
+      });
+      this.tainted = true;
+      throw new Error2(
+        ErrorCodes.CONFIG_PERSIST_BLOCKED,
+        `Refusing to persist config: ${this.bootstrap.configPath} could not be read; fix the file and reload before writing.`,
+        { cause: error },
+      );
     }
-    await this.documentStore.set(CONFIG_SCOPE, this.configKey, this.rawSnake);
+    const stagedRawSnake = cloneRecord(onDisk);
+    const stagedRaw = transformTomlData(onDisk, this.registry);
+    rebase(stagedRaw, stagedRawSnake);
+    for (const domain of domains) {
+      applySectionToToml(stagedRawSnake, domain, stagedRaw[domain], this.registry);
+    }
+    await this.documentStore.set(CONFIG_SCOPE, this.configKey, stagedRawSnake);
+    this.rawSnake = stagedRawSnake;
+    this.raw = stagedRaw;
   }
 }
 
