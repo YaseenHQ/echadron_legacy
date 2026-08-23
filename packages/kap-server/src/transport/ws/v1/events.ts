@@ -10,10 +10,10 @@
  * broadcaster that emits them.
  */
 
-import type { DomainEvent } from '@moonshot-ai/agent-core-v2/app/event/eventBus';
-import type { MessageContent } from '@moonshot-ai/agent-core-v2/agent/contextMemory/protocolMessage';
-import type { PermissionMode } from '@moonshot-ai/agent-core-v2/agent/permissionPolicy/types';
-import type { UsageStatus } from '@moonshot-ai/agent-core-v2/agent/usage/usage';
+import type { DomainEvent } from '@yaseenhq/agent-core-v2/app/event/eventBus';
+import type { MessageContent } from '@yaseenhq/agent-core-v2/agent/contextMemory/protocolMessage';
+import type { PermissionMode } from '@yaseenhq/agent-core-v2/agent/permissionPolicy/types';
+import type { UsageStatus } from '@yaseenhq/agent-core-v2/agent/usage/usage';
 import type { AgentPhase } from '../../../services/legacyStatus/legacyStatus';
 import type { ConfigResponse } from '../../../protocol/rest-config';
 import type { Session, SessionPendingInteraction } from '../../../protocol/session';

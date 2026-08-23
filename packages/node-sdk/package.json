@@ -1,5 +1,5 @@
 {
-  "name": "@moonshot-ai/kimi-code-sdk",
+  "name": "@yaseenhq/echadron-sdk",
   "version": "0.16.1",
   "private": true,
   "description": "TypeScript SDK for the Kimi Code Agent",
@@ -59,13 +59,13 @@
     "zod": "^4.3.6"
   },
   "devDependencies": {
-    "@moonshot-ai/agent-core": "workspace:^",
-    "@moonshot-ai/agent-core-v2": "workspace:^",
-    "@moonshot-ai/kaos": "workspace:^",
-    "@moonshot-ai/kimi-code-oauth": "workspace:^",
-    "@moonshot-ai/klient": "workspace:^",
-    "@moonshot-ai/kosong": "workspace:^",
     "@types/yazl": "^2.4.6",
+    "@yaseenhq/agent-core": "workspace:^",
+    "@yaseenhq/agent-core-v2": "workspace:^",
+    "@yaseenhq/echadron-oauth": "workspace:^",
+    "@yaseenhq/kaos": "workspace:^",
+    "@yaseenhq/klient": "workspace:^",
+    "@yaseenhq/tsugite": "workspace:^",
     "jimp": "^1.6.1"
   }
 }

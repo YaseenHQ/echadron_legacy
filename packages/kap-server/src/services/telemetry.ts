@@ -15,13 +15,13 @@ import {
   IOAuthToolkit,
   ITelemetryService,
   type Scope,
-} from '@moonshot-ai/agent-core-v2';
+} from '@yaseenhq/agent-core-v2';
 import {
   createKimiDeviceId,
   KIMI_CODE_PROVIDER_NAME,
   ECHADRON_DISABLE_TELEMETRY_ENV,
   LEGACY_TELEMETRY_DISABLE_ENV,
-} from '@moonshot-ai/kimi-code-oauth';
+} from '@yaseenhq/echadron-oauth';
 
 const SERVER_TELEMETRY_APP_NAME = 'echadron-cli';
 const SERVER_TELEMETRY_UI_MODE = 'web';

@@ -9,40 +9,40 @@
 import type {
   SessionListQuery,
   SessionSummary,
-} from '@moonshot-ai/agent-core-v2/app/sessionIndex/sessionIndex';
-import type { SessionMeta } from '@moonshot-ai/agent-core-v2/session/sessionMetadata/sessionMetadata';
-import type { Page } from '@moonshot-ai/agent-core-v2/persistence/interface/queryStore';
+} from '@yaseenhq/agent-core-v2/app/sessionIndex/sessionIndex';
+import type { SessionMeta } from '@yaseenhq/agent-core-v2/session/sessionMetadata/sessionMetadata';
+import type { Page } from '@yaseenhq/agent-core-v2/persistence/interface/queryStore';
 import type {
   Workspace,
   WorkspaceUpdate,
-} from '@moonshot-ai/agent-core-v2/app/workspace/workspace';
+} from '@yaseenhq/agent-core-v2/app/workspace/workspace';
 import type {
   ConfigDiagnostic,
   ConfigInspectValue,
   ConfigTarget,
-} from '@moonshot-ai/agent-core-v2/app/config/config';
-import type { ProviderConfig } from '@moonshot-ai/agent-core-v2/kosong/provider/provider';
+} from '@yaseenhq/agent-core-v2/app/config/config';
+import type { ProviderConfig } from '@yaseenhq/agent-core-v2/tsugite/provider/provider';
 import type {
   AuthStatus,
   IOAuthService,
-} from '@moonshot-ai/agent-core-v2/app/auth/auth';
-import type { ExperimentalFeatureState } from '@moonshot-ai/agent-core-v2/app/flag/flag';
+} from '@yaseenhq/agent-core-v2/app/auth/auth';
+import type { ExperimentalFeatureState } from '@yaseenhq/agent-core-v2/app/flag/flag';
 import type {
   FsBrowseResponse,
   FsHomeResponse,
-} from '@moonshot-ai/agent-core-v2/app/hostFolderBrowser/hostFolderBrowser';
-import type { ModelRecord } from '@moonshot-ai/agent-core-v2/kosong/model/model';
-import type { IModelCatalog } from '@moonshot-ai/agent-core-v2/kosong/model/catalog';
-import type { IProviderDiscoveryService } from '@moonshot-ai/agent-core-v2/app/kosongConfig/discovery';
+} from '@yaseenhq/agent-core-v2/app/hostFolderBrowser/hostFolderBrowser';
+import type { ModelRecord } from '@yaseenhq/agent-core-v2/tsugite/model/model';
+import type { IModelCatalog } from '@yaseenhq/agent-core-v2/tsugite/model/catalog';
+import type { IProviderDiscoveryService } from '@yaseenhq/agent-core-v2/app/tsugiteConfig/discovery';
 
-import type { AnonymousProviderInput, GenerateEvent, GenerateInput, GenerateParams, ProviderInput } from './kosong-types.js';
+import type { AnonymousProviderInput, GenerateEvent, GenerateInput, GenerateParams, ProviderInput } from './tsugite-types.js';
 import type {
   PluginCommandDef,
   PluginInfo,
   PluginSummary,
   PluginUpdateStatus,
   ReloadSummary,
-} from '@moonshot-ai/agent-core-v2/app/plugin/types';
+} from '@yaseenhq/agent-core-v2/app/plugin/types';
 
 /** Low-level caller the klient factory builds: routes + validates one service call. */
 export type Caller = (service: string, method: string, args: unknown[]) => Promise<unknown>;
@@ -64,7 +64,7 @@ export type ScopedStreamCaller = (
 ) => AsyncIterable<unknown>;
 
 // ---------------------------------------------------------------------------
-// Wire-type aliases for shapes the engine sources from `@moonshot-ai/protocol`
+// Wire-type aliases for shapes the engine sources from `@yaseenhq/protocol`
 // (not a direct klient dependency) — derived through the service interfaces.
 // ---------------------------------------------------------------------------
 
@@ -132,7 +132,7 @@ export interface GlobalConfigFacade {
   diagnostics(): Promise<readonly ConfigDiagnostic[]>;
 }
 
-export interface GlobalKosongFacade {
+export interface GlobalTsugiteFacade {
   // -- Provider ---------------------------------------------------------
   listProviders(): Promise<readonly ProviderCatalogItem[]>;
   getProvider(id: string): Promise<ProviderCatalogItem>;
@@ -162,8 +162,8 @@ export interface GlobalAuthFacade {
   cancelLogin(provider?: string): Promise<OAuthLoginCancelResponse>;
   logout(provider?: string): Promise<OAuthLogoutResponse>;
   /**
-   * @deprecated Use `kosong.refreshProviders({ scope: 'oauth' })` — the
-   * kosong facade owns provider-model refresh; this alias remains for one
+   * @deprecated Use `tsugite.refreshProviders({ scope: 'oauth' })` — the
+   * tsugite facade owns provider-model refresh; this alias remains for one
    * release cycle.
    */
   refreshProviderModels(): Promise<RefreshProviderModelsResponse>;
@@ -214,7 +214,7 @@ export interface GlobalFacade {
   readonly sessions: GlobalSessionsFacade;
   readonly workspaces: GlobalWorkspacesFacade;
   readonly config: GlobalConfigFacade;
-  readonly kosong: GlobalKosongFacade;
+  readonly tsugite: GlobalTsugiteFacade;
   readonly auth: GlobalAuthFacade;
   readonly flags: GlobalFlagsFacade;
   readonly plugins: GlobalPluginsFacade;
@@ -307,7 +307,7 @@ export function createGlobalFacade(scoped: ScopedCaller, scopedStream: ScopedStr
         call('configService', 'diagnostics', []) as Promise<readonly ConfigDiagnostic[]>,
     },
 
-    kosong: {
+    tsugite: {
       listProviders: () =>
         call('modelResolver', 'listProviders', []) as Promise<
           readonly ProviderCatalogItem[]
@@ -346,7 +346,7 @@ export function createGlobalFacade(scoped: ScopedCaller, scopedStream: ScopedStr
           capabilities,
         };
         return call('modelService', 'set', [anon.id, wire]) as Promise<void>;
-      }) as GlobalKosongFacade['addProvider'],
+      }) as GlobalTsugiteFacade['addProvider'],
       removeProvider: async (id) => {
         // Try provider registry first; fall back to model registry.
         const existing = await call('providerService', 'get', [id]);

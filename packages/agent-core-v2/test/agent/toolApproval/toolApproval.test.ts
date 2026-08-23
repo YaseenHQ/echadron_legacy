@@ -20,7 +20,7 @@ import { AgentToolApprovalService } from '#/agent/toolApproval/toolApprovalServi
 import { IEventBus } from '#/app/event/eventBus';
 import { EventBusService } from '#/app/event/eventBusService';
 import { ITelemetryService } from '#/app/telemetry/telemetry';
-import type { ToolCall } from '#/kosong/contract/message';
+import type { ToolCall } from '#/tsugite/contract/message';
 import {
   ISessionApprovalService,
   type ApprovalRequest,

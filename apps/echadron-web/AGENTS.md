@@ -4,7 +4,7 @@ Package-local rules for `apps/echadron-web` (`@yaseenhq/echadron-web`).
 
 ## What it is
 
-The browser web UI for Echadron — a peer to the TUI in `apps/kimi-code`. It talks to the local server over REST + WebSocket under `/api/v1`. Stack: Vue 3 + Vite 6 + TypeScript (strict) + vue-i18n v11. (Tailwind was removed; all styling is via design tokens in `src/style.css` + scoped component styles.) There is no client router and no Pinia; state lives in composables/refs and provide/inject.
+The browser web UI for Echadron — a peer to the TUI in `apps/echadron`. It talks to the local server over REST + WebSocket under `/api/v1`. Stack: Vue 3 + Vite 6 + TypeScript (strict) + vue-i18n v11. (Tailwind was removed; all styling is via design tokens in `src/style.css` + scoped component styles.) There is no client router and no Pinia; state lives in composables/refs and provide/inject.
 
 ## Design system (normative — required when modifying the UI)
 
@@ -55,7 +55,7 @@ Debugging against kap-server instances: start one from the repo root with `pnpm 
 
 ## Gotchas / hard rules
 
-- **Do not depend on `@moonshot-ai/agent-core`** (mirrors the CLI/SDK rule). The web app is decoupled from core/protocol; wire types are re-implemented locally in `src/api/daemon/wire.ts`. Keep it that way.
+- **Do not depend on `@yaseenhq/agent-core`** (mirrors the CLI/SDK rule). The web app is decoupled from core/protocol; wire types are re-implemented locally in `src/api/daemon/wire.ts`. Keep it that way.
 - **Same-origin by default:** the browser only talks to its own origin; Vite proxies `/api/v1` for both HTTP and WS. Set `VITE_ECHADRON_SERVER_HTTP_URL` only when you intentionally want direct (CORS) mode.
 - Vite-injected globals (`__ECHADRON_DEV_PROXY_TARGET__`, `__ECHADRON_DEV_BACKENDS__`, `__ECHADRON_WEB_VERSION__`, `__ECHADRON_WEB_COMMIT__`) are declared in `src/env.d.ts` and defined in `vite.config.ts`. Do not hand-edit `dist/`.
 - **Theming:** the root element carries `data-color-scheme` (`light` | `dark` | `system`); react to it through `useIsDark()`, not by reading the DOM directly.

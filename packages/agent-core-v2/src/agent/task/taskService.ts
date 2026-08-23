@@ -43,7 +43,7 @@ import { join } from 'pathe';
 
 import { LifecycleScope, ScopeActivation, registerScopedService } from '#/_base/di/scope';
 
-import type { ContentPart } from '#/kosong/contract/message';
+import type { ContentPart } from '#/tsugite/contract/message';
 
 import { Disposable } from '#/_base/di/lifecycle';
 import { ILogService } from '#/_base/log/log';

@@ -32,7 +32,7 @@ import { registerAgentToolService } from '#/agent/toolRegistry/toolContribution'
 import { toInputJsonSchema } from '#/tool/input-schema';
 import { IConfigService } from '#/app/config/config';
 import { IFlagService } from '#/app/flag/flag';
-import { IModelCatalog } from '#/kosong/model/catalog';
+import { IModelCatalog } from '#/tsugite/model/catalog';
 import {
   buildResultSchemaInstruction,
   extractStructuredResult,

@@ -1,7 +1,7 @@
 import { createHash } from 'node:crypto';
 
 import type { Logger } from '#/logging/types';
-import type { ChatProvider, GenerateOptions, Message, Tool } from '@moonshot-ai/kosong';
+import type { ChatProvider, GenerateOptions, Message, Tool } from '@yaseenhq/tsugite';
 
 import type { LLMRequestLogFields } from '../loop';
 
@@ -24,7 +24,7 @@ export class LlmRequestLogger {
   }): void {
     const { provider, modelAlias, systemPrompt, tools, messages, fields } = input;
     const requestLogFields = fields ?? {};
-    // This logs the outbound request; deferred tools are stripped by kosong
+    // This logs the outbound request; deferred tools are stripped by tsugite
     // generate() before the provider sees them, so mirror that here or the
     // toolCount/toolsHash would describe a request that never hits the wire.
     const wireTools = tools.filter((tool) => tool.deferred !== true);

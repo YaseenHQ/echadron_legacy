@@ -29,7 +29,7 @@ import {
   IAgentLifecycleService,
   ISessionLifecycleService,
   ISkillCatalogRuntimeOptions,
-} from '@moonshot-ai/agent-core-v2';
+} from '@yaseenhq/agent-core-v2';
 import {
   activateSkillResultSchema,
   listSkillsResponseSchema,

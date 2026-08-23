@@ -1,7 +1,7 @@
 import { homedir } from 'node:os';
 import { join } from 'pathe';
-import type { Kaos } from '@moonshot-ai/kaos';
-import type { SessionWarning } from '@moonshot-ai/protocol';
+import type { Kaos } from '@yaseenhq/kaos';
+import type { SessionWarning } from '@yaseenhq/protocol';
 
 import { ErrorCodes, KimiError } from '#/errors';
 import { getRootLogger, log } from '#/logging/logger';

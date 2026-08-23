@@ -1,4 +1,4 @@
-# @moonshot-ai/kimi-code-oauth
+# @yaseenhq/echadron-oauth
 
 Kimi Code's OAuth and managed-auth toolkit.
 
@@ -20,7 +20,7 @@ When adapting another provider's OAuth flow:
 - expose login, logout, status, refresh, and request authentication through the
   existing Kimi SDK and service layers;
 - keep provider/model discovery in Kimi's existing catalog refresh path;
-- keep CLI and TUI interaction in `apps/kimi-code` rather than copying another
+- keep CLI and TUI interaction in `apps/echadron` rather than copying another
   application's login UI; and
 - port only provider-specific authorization, refresh, and request-auth behavior.
 

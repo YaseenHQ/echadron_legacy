@@ -1,12 +1,12 @@
-# @moonshot-ai/klient
+# @yaseenhq/klient
 
 Contract-driven client SDK for the agent-core-v2 engine. One facade, two
 transports — you pick the transport **once** at creation; everything after
 that is byte-identical:
 
 ```ts
-import { bootstrap, logSeed, resolveLoggingConfig } from '@moonshot-ai/agent-core-v2';
-import { createKlient } from '@moonshot-ai/klient/memory';   // or '/ipc'
+import { bootstrap, logSeed, resolveLoggingConfig } from '@yaseenhq/agent-core-v2';
+import { createKlient } from '@yaseenhq/klient/memory';   // or '/ipc'
 
 const { app } = bootstrap({ homeDir }, [
   ...logSeed(resolveLoggingConfig({ homeDir, env: process.env })),
@@ -54,7 +54,7 @@ ipc │ memory
   disable). Validation is sub-µs for typical payloads — cheaper than the JSON
   serialization the wire already pays.
 - **Events** — `klient.events.on(...)` for the global bus
-  (`config.changed`, `kosong.models.changed`, `session.archived`, …),
+  (`config.changed`, `tsugite.models.changed`, `session.archived`, …),
   `session(id).events.on('metadata.changed' | 'interactions.changed' |
   'interactions.resolved')`, and `agent(id).events.on('turn.started' |
   'assistant.delta' | 'tool.call.started' | 'prompt.completed' | …)`.
@@ -65,8 +65,8 @@ ipc │ memory
 
 | entry | options | events |
 |---|---|---|
-| `@moonshot-ai/klient/ipc` | `{ socketPath, token? }` | same socket |
-| `@moonshot-ai/klient/memory` | `{ scope }` (a bootstrapped engine app scope) | direct emitter/bus subscription |
+| `@yaseenhq/klient/ipc` | `{ socketPath, token? }` | same socket |
+| `@yaseenhq/klient/memory` | `{ scope }` (a bootstrapped engine app scope) | direct emitter/bus subscription |
 
 `ipc` and `memory` share one in-process dispatcher, so they behave identically
 by construction; `memory` additionally JSON round-trips every value so results

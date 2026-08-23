@@ -9,7 +9,7 @@
  * stub; a stand-in listener registered after the plan listener proves
  * whether the guard ended adjudication (veto/allow) or abstained;
  * `IAgentToolApprovalService` is a recording stub.
- * Run: `pnpm --filter @moonshot-ai/agent-core-v2 exec vitest run test/agent/plan/planGuard.test.ts`.
+ * Run: `pnpm --filter @yaseenhq/agent-core-v2 exec vitest run test/agent/plan/planGuard.test.ts`.
  */
 
 import { afterEach, beforeEach, describe, expect, it, vi, type Mock } from 'vitest';
@@ -37,7 +37,7 @@ import type {
 } from '#/agent/toolExecutor/toolHooks';
 import { IAgentTelemetryContextService } from '#/app/telemetry/agentTelemetryContext';
 import { ITelemetryService } from '#/app/telemetry/telemetry';
-import type { ToolCall } from '#/kosong/contract/message';
+import type { ToolCall } from '#/tsugite/contract/message';
 import { IHostFileSystem } from '#/os/interface/hostFileSystem';
 import { ISessionContext } from '#/session/sessionContext/sessionContext';
 import { ToolAccesses } from '#/tool/toolContract';

@@ -28,7 +28,7 @@ import type { McpServerConfig } from '#/agent/mcp/config-schema';
 import type { ExperimentalFeatureState } from '#/app/flag/flag';
 import type { ResumeSessionResult } from '#/agent/replayBuilder/types';
 import type { SessionMeta } from '#/session/sessionMetadata/sessionMetadata';
-import type { ContentPart } from '#/kosong/contract/message';
+import type { ContentPart } from '#/tsugite/contract/message';
 import type { SessionWarning } from '#/app/sessionLegacy/sessionProtocol';
 
 import type { ExportSessionPayload, ExportSessionResult } from '#/app/sessionExport/sessionExport';

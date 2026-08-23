@@ -2,7 +2,7 @@
  * Scenario: goal lifecycle, durable wire records, and continuation scheduling.
  * Responsibilities: verify public goal commands, replayable state, and one-turn admission.
  * Wiring: real goal/wire services; loop is stubbed only for focused scheduling cases.
- * Run: `pnpm --filter @moonshot-ai/agent-core-v2 exec vitest run test/agent/goal/goal.test.ts`.
+ * Run: `pnpm --filter @yaseenhq/agent-core-v2 exec vitest run test/agent/goal/goal.test.ts`.
  */
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
@@ -42,9 +42,9 @@ import { IAgentToolRegistryService } from '#/agent/toolRegistry/toolRegistry';
 import { IAgentUsageService } from '#/agent/usage/usage';
 import type { WireRecord } from '#/wire/record';
 import { type DomainEvent, IEventBus } from '#/app/event/eventBus';
-import { APIConnectionError, APIStatusError } from '#/kosong/contract/errors';
-import type { ToolCall } from '#/kosong/contract/message';
-import type { TokenUsage } from '#/kosong/contract/usage';
+import { APIConnectionError, APIStatusError } from '#/tsugite/contract/errors';
+import type { ToolCall } from '#/tsugite/contract/message';
+import type { TokenUsage } from '#/tsugite/contract/usage';
 import { ErrorCodes, Error2, errorInfo, toKimiErrorPayload } from '#/errors';
 import type { ExecutableTool, RunnableToolExecution } from '#/tool/toolContract';
 import type { ToolInputDisplay } from '#/tool/toolInputDisplay';

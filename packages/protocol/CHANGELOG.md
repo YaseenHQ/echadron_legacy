@@ -1,4 +1,4 @@
-# @moonshot-ai/protocol
+# @yaseenhq/protocol
 
 ## 0.6.0
 

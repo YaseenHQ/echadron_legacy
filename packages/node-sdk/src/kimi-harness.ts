@@ -1,11 +1,11 @@
-import type { Kaos } from '@moonshot-ai/kaos';
+import type { Kaos } from '@yaseenhq/kaos';
 import {
   ErrorCodes,
   KimiError,
   ImageLimits,
   withTelemetryContext,
   type ExperimentalFeatureState,
-} from '@moonshot-ai/agent-core';
+} from '@yaseenhq/agent-core';
 
 import { Session } from '#/session';
 import type { KimiAuthFacade } from '#/auth';

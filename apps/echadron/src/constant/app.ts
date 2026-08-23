@@ -1,0 +1,134 @@
+import { ErrorCodes } from '@yaseenhq/echadron-sdk';
+
+/**
+ * Echadron is a separate host product built on the Kimi SDK. Keep the SDK's
+ * package-internal Kimi names below for wire/config compatibility, but never
+ * use them for the host's user-facing identity or data namespace.
+ */
+export const PRODUCT_NAME = 'Echadron';
+/** Display name of the managed subscription provider; this is not the host product name. */
+export const MANAGED_KIMI_DISPLAY_NAME = 'Kimi Code';
+export const CLI_COMMAND_NAME = 'echadron';
+/** Primary short commands. `ec` is deliberately not installed by default. */
+export const CLI_COMMAND_ALIASES = ['chad', 'maker'] as const;
+export const PROCESS_NAME = 'echadron';
+/** Self-update remains disabled until Echadron has its own release channel. */
+export const ECHADRON_SELF_UPDATE_ENABLED = false;
+
+// Used in telemetry app names and HTTP User-Agent headers.
+export const CLI_USER_AGENT_PRODUCT = 'echadron-cli';
+export const CLI_UI_MODE = 'shell';
+// Telemetry ui_mode for the `echadron web` host. Same product
+// as the CLI (CLI_USER_AGENT_PRODUCT); the surface is distinguished by ui_mode.
+export const WEB_UI_MODE = 'web';
+// User-Agent suffix for the `kimi web` host: its requests go out as
+// `kimi-code-cli/<version> (web)` so upstream can tell web-UI traffic
+// apart from direct CLI runs without changing the product token or platform.
+export const WEB_USER_AGENT_SUFFIX = 'web';
+
+// Give telemetry a short flush window without making CLI exit feel stuck.
+export const CLI_SHUTDOWN_TIMEOUT_MS = 3000;
+
+// Upper bound on headless (`echadron -p`) shutdown. A wedged cleanup step (e.g. a
+// SessionEnd hook, an MCP shutdown, or a connection blackholed by a restrictive
+// firewall) must not keep a completed run alive indefinitely — once this elapses
+// we stop waiting on cleanup and let the run return.
+export const PROMPT_CLEANUP_TIMEOUT_MS = 8000;
+
+// Grace after a headless run has fully completed (turn done, cleanup attempted)
+// before force-exiting. `echadron -p` otherwise relies on the event loop draining to
+// exit; a stray ref'd handle (socket/timer/child) left over from the run would
+// wedge it. The guard timer is unref'd, so a healthy run still exits naturally
+// well before this fires.
+export const HEADLESS_FORCE_EXIT_GRACE_MS = 2000;
+
+// Max time to wait for buffered stdout/stderr to flush before arming the
+// force-exit fallback. A slow/piped consumer's still-draining stdio is a
+// legitimate ref'd handle — flushing first prevents the fallback from
+// truncating completed output. Bounded so a permanently-stuck consumer can't
+// re-introduce the hang.
+export const HEADLESS_STDIO_DRAIN_TIMEOUT_MS = 10000;
+
+// Published npm package name; this can differ from the executable command.
+export const NPM_PACKAGE_NAME = 'echadron';
+/** Previous upstream package name, accepted only when locating old installs. */
+export const LEGACY_NPM_PACKAGE_NAME = '@yaseenhq/kimi-code';
+
+// App-owned data paths. SDK/core runtime config is intentionally not routed here.
+/** Primary host-owned home environment variable. */
+export const ECHADRON_HOME_ENV = 'ECHADRON_HOME';
+/** Internal subprocess alias used by ACP/web hosts; equivalent to ECHADRON_HOME. */
+export const ECHADRON_CODE_HOME_ENV = 'ECHADRON_CODE_HOME';
+/** Legacy host namespaces accepted during the migration. */
+export const IMPERIUM_HOME_ENV = 'IMPERIUM_HOME';
+export const ECHADRON_DATA_DIR_NAME = '.echadron';
+/** @deprecated Use ECHADRON_DATA_DIR_NAME; retained for source compatibility. */
+export const IMPERIUM_DATA_DIR_NAME = ECHADRON_DATA_DIR_NAME;
+
+/** SDK compatibility names. Their values intentionally remain Kimi-specific. */
+export const KIMI_CODE_HOME_ENV = 'KIMI_CODE_HOME';
+export const KIMI_CODE_DATA_DIR_NAME = IMPERIUM_DATA_DIR_NAME;
+export const KIMI_CODE_LOG_DIR_NAME = 'logs';
+export const KIMI_CODE_CACHE_DIR_NAME = 'cache';
+export const KIMI_CODE_UPDATE_DIR_NAME = 'updates';
+export const KIMI_CODE_BIN_DIR_NAME = 'bin';
+export const KIMI_CODE_UPDATE_STATE_FILE_NAME = 'latest.json';
+export const KIMI_CODE_UPDATE_INSTALL_STATE_FILE_NAME = 'install.json';
+export const KIMI_CODE_UPDATE_INSTALL_LOCK_FILE_NAME = 'install.lock';
+export const KIMI_CODE_UPDATE_ROLLOUT_LOG_FILE_NAME = 'rollout.log';
+export const KIMI_CODE_PLUGIN_UPDATE_NOTICE_STATE_FILE_NAME = 'plugin-notices.json';
+export const KIMI_CODE_INPUT_HISTORY_DIR_NAME = 'user-history';
+export const KIMI_CODE_BANNER_DIR_NAME = 'banner';
+export const KIMI_CODE_BANNER_STATE_FILE_NAME = 'state.json';
+export const ECHADRON_MODELS_CACHE_FILE_NAME = 'models.dev.json';
+/** @deprecated Use ECHADRON_MODELS_CACHE_FILE_NAME; retained for old imports. */
+export const IMPERIUM_MODELS_CACHE_FILE_NAME = ECHADRON_MODELS_CACHE_FILE_NAME;
+
+// Managed Kimi auth provider key shared with OAuth/SDK config.
+export const DEFAULT_OAUTH_PROVIDER_NAME = 'managed:kimi-code';
+
+// SDK/core error code that tells the TUI to show a login-required startup
+// notice. Derived from sdk's ErrorCodes so a future rename in core
+// auto-propagates instead of silently breaking the startup recovery path.
+export const OAUTH_LOGIN_REQUIRED_CODE = ErrorCodes.AUTH_LOGIN_REQUIRED;
+
+export const FEEDBACK_ISSUE_URL = 'https://github.com/YaseenHQ/echadron/issues';
+
+// Sent in the feedback `version` field so the backend can distinguish this
+// TypeScript client from clients that send a bare version.
+export const FEEDBACK_VERSION_PREFIX = 'echadron-';
+
+// Telemetry event name; keep stable for dashboard queries.
+export const FEEDBACK_TELEMETRY_EVENT = 'feedback_submitted';
+
+// CDN source of truth: all version checks and native install scripts pull from here.
+/**
+ * Legacy Kimi updater constants are retained for the old update modules while
+ * the Echadron release channel is being built. Echadron must not advertise
+ * them as its own source of truth.
+ */
+export const KIMI_CODE_CDN_BASE = 'https://code.kimi.com/kimi-code';
+export const KIMI_CODE_CDN_LATEST_URL = `${KIMI_CODE_CDN_BASE}/latest`;
+// Rollout manifest consumed by update checks; the plain-text `/latest` above
+// stays unchanged forever — already-shipped clients hard-fail on non-semver
+// bodies, and the CDN install scripts read it for fresh installs.
+export const KIMI_CODE_CDN_LATEST_JSON_URL = `${KIMI_CODE_CDN_BASE}/latest.json`;
+// Remote banners are disabled unless an Echadron-owned feed is explicitly
+// configured. This prevents provider marketing from appearing in the generic
+// harness while preserving the banner machinery for downstream deployments.
+export const ECHADRON_TIPS_BANNER_URL_ENV = 'ECHADRON_TIPS_BANNER_URL';
+export const KIMI_CODE_PLUGIN_MARKETPLACE_URL = `${KIMI_CODE_CDN_BASE}/plugins/marketplace.json`;
+export const ECHADRON_PLUGIN_MARKETPLACE_URL_ENV = 'ECHADRON_PLUGIN_MARKETPLACE_URL';
+export const KIMI_CODE_PLUGIN_MARKETPLACE_URL_ENV = 'KIMI_CODE_PLUGIN_MARKETPLACE_URL';
+// Official plugins whose usage bills against the user's plan quota. Installing
+// one of these shows a quota note after the install result.
+export const QUOTA_CONSUMING_PLUGIN_IDS: readonly string[] = ['kimi-datasource'];
+export const KIMI_CODE_INSTALL_SH_URL = `${KIMI_CODE_CDN_BASE}/install.sh`;
+export const KIMI_CODE_INSTALL_PS1_URL = `${KIMI_CODE_CDN_BASE}/install.ps1`;
+// Official download page, referenced by prompt copy that steers users away
+// from third-party install sources.
+export const KIMI_CODE_OFFICIAL_INSTALL_URL = 'https://www.kimi.com/code';
+
+// Native install commands, split by platform. Use these for prompt copy and spawn calls only; do not assemble the strings elsewhere.
+export const NATIVE_INSTALL_COMMAND_UNIX = `curl -fsSL ${KIMI_CODE_INSTALL_SH_URL} | bash`;
+export const NATIVE_INSTALL_COMMAND_WIN = `irm ${KIMI_CODE_INSTALL_PS1_URL} | iex`;

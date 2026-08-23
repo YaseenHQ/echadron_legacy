@@ -68,7 +68,7 @@ import type {
   OAuthFlowStart,
   OAuthLoginCancelResponse,
   OAuthLogoutResponse,
-} from '@moonshot-ai/protocol';
+} from '@yaseenhq/protocol';
 
 export interface IOAuthService {
   readonly _serviceBrand: undefined;

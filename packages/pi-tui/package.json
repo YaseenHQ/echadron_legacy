@@ -1,5 +1,5 @@
 {
-	"name": "@moonshot-ai/pi-tui",
+	"name": "@yaseenhq/pi-tui",
 	"version": "0.84.1",
 	"private": true,
 	"description": "Terminal User Interface library with differential rendering for efficient text-based applications",

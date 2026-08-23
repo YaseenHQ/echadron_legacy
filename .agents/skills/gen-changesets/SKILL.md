@@ -9,24 +9,24 @@ Echadron uses changesets to manage versions and changelogs. The current user-fac
 
 - `echadron`: the CLI
 
-All other `@moonshot-ai/*` packages are treated as internal packages, including `@moonshot-ai/kimi-code-sdk`, `agent-core`, `kosong`, `kaos`, `kimi-code-oauth`, `kimi-telemetry`, and `migration-legacy`.
+All other `@yaseenhq/*` packages are treated as internal packages, including `@yaseenhq/echadron-sdk`, `agent-core`, `tsugite`, `kaos`, `kimi-code-oauth`, `kimi-telemetry`, and `migration-legacy`.
 
-`@moonshot-ai/pi-tui` is a special internal package: it is a private fork (`private: true`) that is never published, but it keeps its own changelog through changesets. It is an exception to Core Rule 4 — see the dedicated section below.
+`@yaseenhq/pi-tui` is a special internal package: it is a private fork (`private: true`) that is never published, but it keeps its own changelog through changesets. It is an exception to Core Rule 4 — see the dedicated section below.
 
 ## Core Rules
 
 1. **Inspect the actual changes first.** Use `git status` / `git diff --name-only` to identify which packages were actually changed.
 2. **List packages that changesets can release.** If a changed package is ignored in `.changeset/config.json`, do not put that ignored package in frontmatter together with a non-ignored package; changesets rejects mixed ignored/non-ignored frontmatter.
 3. **Map ignored internal changes to the affected released package.** If an ignored internal package changes CLI output or behavior, list `echadron` and describe the actual user-visible or release-artifact change in the changelog text.
-4. **Internal package source changes that enter the CLI bundle must manually list the CLI — when they get a changeset at all.** `echadron` inline-bundles `@moonshot-ai/*` source, but those internal packages are devDependencies from the CLI's perspective, so changesets will not automatically propagate bumps. If a change enters the CLI output and is user-perceivable, list `echadron`. See rule 6 for when to skip the changeset entirely.
-   - **Web app (`@moonshot-ai/kimi-web`) changes always enter the CLI bundle.** `@moonshot-ai/kimi-web` is ignored by changesets (see `.changeset/config.json`) and cannot be mixed with `echadron` in one changeset frontmatter. Describe the web change in the changelog text, but list `echadron` so the CLI release carries the bundled `dist-web` output.
+4. **Internal package source changes that enter the CLI bundle must manually list the CLI — when they get a changeset at all.** `echadron` inline-bundles `@yaseenhq/*` source, but those internal packages are devDependencies from the CLI's perspective, so changesets will not automatically propagate bumps. If a change enters the CLI output and is user-perceivable, list `echadron`. See rule 6 for when to skip the changeset entirely.
+   - **Web app (`@yaseenhq/kimi-web`) changes always enter the CLI bundle.** `@yaseenhq/kimi-web` is ignored by changesets (see `.changeset/config.json`) and cannot be mixed with `echadron` in one changeset frontmatter. Describe the web change in the changelog text, but list `echadron` so the CLI release carries the bundled `dist-web` output.
 5. **Docs-only and tests-only changes usually do not need a changeset.** README, internal docs, and `test/` changes that do not enter package output do not trigger a CLI bump.
 6. **Skip changes users cannot perceive — write no changeset at all.** The CLI changelog is user-facing; a changeset is a changelog entry, not a shipping gate. Internal changes merged to `main` still ship in the next release triggered by any user-facing changeset, so skipping the changeset loses nothing. Do not write changesets for:
    - `agent-core-v2` internal architecture: new services, refactors, config-persistence or journal/wire mechanisms.
    - `kap-server` WebSocket / REST protocol changes consumed only by the bundled web UI, kimi-inspect, or other dev tooling (new endpoints, subscribe protocols, stream baselines). A web-facing feature they back gets its own `web:` entry instead.
    - Behavior that only takes effect on the experimental engine, unless it exposes documented user configuration such as a `config.toml` section or env vars that also work on a shipped surface.
    - When unsure whether users can perceive a change, ask before writing.
-7. `@moonshot-ai/vis` / `vis-server` / `vis-web` are ignored by changesets and should not be handled. `@moonshot-ai/kimi-inspect` (a private dev app that never ships) is likewise ignored and must never appear in a changeset frontmatter.
+7. `@yaseenhq/vis` / `vis-server` / `vis-web` are ignored by changesets and should not be handled. `@yaseenhq/echadron-inspect` (a private dev app that never ships) is likewise ignored and must never appear in a changeset frontmatter.
 
 ## Workflow
 
@@ -147,7 +147,7 @@ Only SDK source changed, and the CLI does not use it:
 
 ```markdown
 ---
-"@moonshot-ai/kimi-code-sdk": patch
+"@yaseenhq/echadron-sdk": patch
 ---
 
 Clarify session status typing for internal SDK callers.
@@ -155,9 +155,9 @@ Clarify session status typing for internal SDK callers.
 
 ## Web app changes
 
-`@moonshot-ai/kimi-web` is ignored by changesets and must **never** appear in a changeset frontmatter. Because the web app is bundled into the CLI release artifact, any web change that ships must list `echadron` instead and describe the actual web-facing change in the text.
+`@yaseenhq/kimi-web` is ignored by changesets and must **never** appear in a changeset frontmatter. Because the web app is bundled into the CLI release artifact, any web change that ships must list `echadron` instead and describe the actual web-facing change in the text.
 
-- Prefix the changelog entry text with `web: ` (for example `web: Fix the chat not scrolling to the bottom after sending a message.`) so the synced docs changelog can mark web UI entries. Apply this whenever the change is to the web project (`@moonshot-ai/kimi-web`).
+- Prefix the changelog entry text with `web: ` (for example `web: Fix the chat not scrolling to the bottom after sending a message.`) so the synced docs changelog can mark web UI entries. Apply this whenever the change is to the web project (`@yaseenhq/kimi-web`).
 - If a PR ships a web UI feature backed by server API changes that exist solely to power that feature, prefer a single `web:` entry describing what the web user gets. Do not add a separate server-API changeset unless the API has independent user value (a public endpoint that SDK or server consumers call directly). The docs changelog sync also deduplicates this pattern, but catching it here avoids duplicate changesets.
 - Do not enumerate every micro-tweak; keep it to one sentence that captures what the web user gets.
 
@@ -183,18 +183,18 @@ web: Add the server-hosted web UI, including chat layout and session list behavi
 
 Split into two changesets only when the API has independent user value on its own (for example, a public endpoint SDK consumers call directly). In that case add the web entry above plus a separate one such as `Add a public REST API to list archived sessions for SDK consumers.`
 
-## `@moonshot-ai/pi-tui` changes
+## `@yaseenhq/pi-tui` changes
 
-`@moonshot-ai/pi-tui` is a vendored fork that lives in `packages/pi-tui`. It is `private: true` and is never published, but it is **not** ignored by changesets: changesets versions it and writes `packages/pi-tui/CHANGELOG.md` so the fork keeps its own history. Because it is bundled into the CLI like other internal packages, it is an exception to Core Rule 4 — do **not** list `echadron` for a change that only touches pi-tui.
+`@yaseenhq/pi-tui` is a vendored fork that lives in `packages/pi-tui`. It is `private: true` and is never published, but it is **not** ignored by changesets: changesets versions it and writes `packages/pi-tui/CHANGELOG.md` so the fork keeps its own history. Because it is bundled into the CLI like other internal packages, it is an exception to Core Rule 4 — do **not** list `echadron` for a change that only touches pi-tui.
 
-- Changes that only affect pi-tui (build, package, strict-mode cleanup, renderer fixes): list `@moonshot-ai/pi-tui` only. No CLI changeset.
+- Changes that only affect pi-tui (build, package, strict-mode cleanup, renderer fixes): list `@yaseenhq/pi-tui` only. No CLI changeset.
 - If the same change is also user-visible in the CLI (for example a terminal rendering fix that CLI users can see), add a **separate** changeset that lists `echadron` with CLI-focused wording, in addition to the pi-tui changeset. Do not mix both packages in one frontmatter — the two changelogs need different wording.
 
 pi-tui-only change:
 
 ```markdown
 ---
-"@moonshot-ai/pi-tui": patch
+"@yaseenhq/pi-tui": patch
 ---
 
 Export the package manifest so the bundled binary can locate its native assets.
@@ -204,7 +204,7 @@ pi-tui change that is also visible in the CLI (two separate changesets):
 
 ```markdown
 ---
-"@moonshot-ai/pi-tui": patch
+"@yaseenhq/pi-tui": patch
 ---
 
 Clamp the differential render to the visible viewport so scrolling up during streaming no longer jumps to the top.
@@ -227,11 +227,11 @@ Fix the transcript jumping to the top when scrolling up through history during s
 - You guessed wording for a change you do not understand instead of asking the user whether you may dig into the repo.
 - Internal package source enters the CLI bundle, but `echadron` is missing.
 - A changeset frontmatter mixes ignored internal packages with non-ignored packages.
-- `packages/node-sdk` was not changed, but `@moonshot-ai/kimi-code-sdk` was listed for "internal package sync".
+- `packages/node-sdk` was not changed, but `@yaseenhq/echadron-sdk` was listed for "internal package sync".
 - The changelog entry is in Chinese.
 - The wording claims more than the diff actually did.
 - The CLI wording mentions internal package names, class names, or PR numbers.
 - The entry includes real internal identifiers instead of neutral placeholders.
-- A change that only touches `@moonshot-ai/pi-tui` lists `echadron` instead of `@moonshot-ai/pi-tui`, or mixes both packages in one frontmatter.
+- A change that only touches `@yaseenhq/pi-tui` lists `echadron` instead of `@yaseenhq/pi-tui`, or mixes both packages in one frontmatter.
 - A web app change entry is missing the `web: ` prefix.
 - A server/API changeset exists only to back a web feature that a `web:` changeset already describes (use one `web:` entry instead, unless the API has independent user value).

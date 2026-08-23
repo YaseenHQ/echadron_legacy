@@ -43,9 +43,9 @@
  * concurrent replays of different agent scopes never share fold state.
  */
 
-import type { FinishReason } from '#/kosong/contract/provider';
-import { createToolMessage, type ContentPart, type ToolCall } from '#/kosong/contract/message';
-import type { TokenUsage } from '#/kosong/contract/usage';
+import type { FinishReason } from '#/tsugite/contract/provider';
+import { createToolMessage, type ContentPart, type ToolCall } from '#/tsugite/contract/message';
+import type { TokenUsage } from '#/tsugite/contract/usage';
 
 import type { ContextMessage } from './types';
 import { isVacuousContentPart } from './vacuousContent';

@@ -1,4 +1,4 @@
-import type { ContentPart, ThinkingEffort, TokenUsage } from '@moonshot-ai/kosong';
+import type { ContentPart, ThinkingEffort, TokenUsage } from '@yaseenhq/tsugite';
 
 import type { LoopRecordedEvent } from '../../loop';
 import type { GoalActor, GoalBudgetLimits, GoalStatus } from '../goal';

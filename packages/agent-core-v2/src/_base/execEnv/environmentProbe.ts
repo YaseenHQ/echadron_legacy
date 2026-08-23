@@ -14,7 +14,7 @@
  * other probe errors and translate it into a coded error. Set
  * `KIMI_SHELL_PATH` to override.
  *
- * Vendored from `@moonshot-ai/kaos` `environment.ts` — kept as a pure helper
+ * Vendored from `@yaseenhq/kaos` `environment.ts` — kept as a pure helper
  * with no DI dependencies.
  */
 

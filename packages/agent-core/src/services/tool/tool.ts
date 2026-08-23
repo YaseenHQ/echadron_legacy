@@ -14,12 +14,12 @@
  * doesn't differentiate per-session, and `setActiveTools` is the only
  * per-session knob. Documented gap in `ToolService`.
  *
- * **Anti-corruption**: imports `@moonshot-ai/agent-core` only for the
+ * **Anti-corruption**: imports `@yaseenhq/agent-core` only for the
  * `createDecorator` value.
  */
 
 import { createDecorator } from '../../di';
-import type { ToolDescriptor, ToolSource } from '@moonshot-ai/protocol';
+import type { ToolDescriptor, ToolSource } from '@yaseenhq/protocol';
 
 // ---------------------------------------------------------------------------
 // Adapter helpers (tool side of former adapter/tool-adapter.ts)
@@ -27,7 +27,7 @@ import type { ToolDescriptor, ToolSource } from '@moonshot-ai/protocol';
 
 /**
  * In-process minimal shape we accept for tool conversion. Mirrors
- * `@moonshot-ai/agent-core` `ToolInfo` without taking a runtime dependency on
+ * `@yaseenhq/agent-core` `ToolInfo` without taking a runtime dependency on
  * its exact shape (the adapter is the boundary).
  */
 export interface AgentCoreToolInfoLike {
@@ -51,7 +51,7 @@ function mapToolSource(s: AgentCoreToolInfoLike['source']): ToolSource {
 
 /**
  * Parse the server id segment from an MCP tool name. Convention:
- * `mcp:<server>:<tool>` (kosong's `mcpRegistrar.qualifiedName`). Returns
+ * `mcp:<server>:<tool>` (tsugite's `mcpRegistrar.qualifiedName`). Returns
  * `undefined` when the name does not match — caller omits `mcp_server_id`.
  */
 function parseMcpServerIdFromToolName(name: string): string | undefined {

@@ -2,8 +2,8 @@
  * Assert-based smoke check for klient against an in-process engine (memory
  * transport). Exercises the `global` facade end-to-end: env snapshot, read
  * models, a workspace round-trip, a provider set/delete round-trip with the
- * `kosong.providers.changed` event, an anonymous-provider set/delete
- * round-trip with the `kosong.models.changed` event, the read-only model
+ * `tsugite.providers.changed` event, an anonymous-provider set/delete
+ * round-trip with the `tsugite.models.changed` event, the read-only model
  * catalog, and the error path.
  *
  *   pnpm -C packages/klient smoke
@@ -15,8 +15,8 @@ import { join } from 'node:path';
 import { EXAMPLE_CLIENT_IDENTITY } from './identity.js';
 
 
-import { bootstrap, logSeed, resolveLoggingConfig } from '@moonshot-ai/agent-core-v2';
-import { createKlient } from '@moonshot-ai/klient/memory';
+import { bootstrap, logSeed, resolveLoggingConfig } from '@yaseenhq/agent-core-v2';
+import { createKlient } from '@yaseenhq/klient/memory';
 
 function assert(cond: boolean, message: string): asserts cond {
   if (!cond) throw new Error(`assertion failed: ${message}`);
@@ -49,30 +49,30 @@ async function main(): Promise<void> {
 
     // Provider round-trip with the klient-level event.
     const seen: string[] = [];
-    const sub = klient.events.on('kosong.providers.changed', (event) => {
+    const sub = klient.events.on('tsugite.providers.changed', (event) => {
       seen.push(...event.added, ...event.changed, ...event.removed);
     });
     const name = '__klient_smoke__';
-    await klient.global.kosong.addProvider(name, {
+    await klient.global.tsugite.addProvider(name, {
       type: 'openai',
       auth: { method: 'api-key', apiKey: 'smoke-key' },
     });
-    const got = await klient.global.kosong.getProvider(name);
-    assert(got !== undefined, 'kosong.getProvider returns the new provider');
+    const got = await klient.global.tsugite.getProvider(name);
+    assert(got !== undefined, 'tsugite.getProvider returns the new provider');
     const deadline = Date.now() + 5_000;
     while (!seen.includes(name) && Date.now() < deadline) await tick(25);
-    assert(seen.includes(name), 'kosong.providers.changed fired for the new provider');
-    await klient.global.kosong.removeProvider(name);
+    assert(seen.includes(name), 'tsugite.providers.changed fired for the new provider');
+    await klient.global.tsugite.removeProvider(name);
     sub.dispose();
-    console.log('[ok] kosong addProvider/getProvider/removeProvider + kosong.providers.changed');
+    console.log('[ok] tsugite addProvider/getProvider/removeProvider + tsugite.providers.changed');
 
     // Anonymous provider round-trip (single-model, all fields inline).
     const seenModels: string[] = [];
-    const modelSub = klient.events.on('kosong.models.changed', (event) => {
+    const modelSub = klient.events.on('tsugite.models.changed', (event) => {
       seenModels.push(...event.added, ...event.changed, ...event.removed);
     });
     const modelId = '__klient_smoke__';
-    await klient.global.kosong.addProvider({
+    await klient.global.tsugite.addProvider({
       id: modelId,
       model: 'smoke-model',
       protocol: 'openai',
@@ -82,21 +82,21 @@ async function main(): Promise<void> {
     });
     const modelDeadline = Date.now() + 5_000;
     while (!seenModels.includes(modelId) && Date.now() < modelDeadline) await tick(25);
-    assert(seenModels.includes(modelId), 'kosong.models.changed fired for the new model');
-    await klient.global.kosong.removeProvider(modelId);
+    assert(seenModels.includes(modelId), 'tsugite.models.changed fired for the new model');
+    await klient.global.tsugite.removeProvider(modelId);
     modelSub.dispose();
-    console.log('[ok] kosong anonymous addProvider/removeProvider + kosong.models.changed');
+    console.log('[ok] tsugite anonymous addProvider/removeProvider + tsugite.models.changed');
 
     // The read-only catalog projection over the same materialization.
     assert(
-      Array.isArray(await klient.global.kosong.listModels()),
-      'kosong.listModels returns an array',
+      Array.isArray(await klient.global.tsugite.listModels()),
+      'tsugite.listModels returns an array',
     );
     assert(
-      Array.isArray(await klient.global.kosong.listProviders()),
-      'kosong.listProviders returns an array',
+      Array.isArray(await klient.global.tsugite.listProviders()),
+      'tsugite.listProviders returns an array',
     );
-    console.log('[ok] kosong.listModels / listProviders');
+    console.log('[ok] tsugite.listModels / listProviders');
 
     const config = await klient.global.config.getAll();
     assert(typeof config === 'object' && config !== null, 'config.getAll returns an object');

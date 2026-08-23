@@ -16,7 +16,7 @@
 
 import { z } from 'zod';
 
-import { addUsage, type TokenUsage } from '#/kosong/contract/usage';
+import { addUsage, type TokenUsage } from '#/tsugite/contract/usage';
 import { defineModel } from '#/wire/model';
 
 import type { UsageStatus } from './usage';

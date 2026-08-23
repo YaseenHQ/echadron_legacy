@@ -12,7 +12,7 @@ import {
   type TestInstantiationService,
 } from '#/_base/di/test';
 import { Emitter, Event } from '#/_base/event';
-import { emptyUsage } from '#/kosong/contract/usage';
+import { emptyUsage } from '#/tsugite/contract/usage';
 import { buildContextCompactionShape } from '#/agent/contextMemory/compactionHandoff';
 import {
   IAgentContextMemoryService,

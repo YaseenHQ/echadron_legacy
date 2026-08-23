@@ -8,9 +8,9 @@ import { Emitter } from '#/_base/event';
 import { IConfigService } from '#/app/config/config';
 import { IEventBus, type DomainEvent } from '#/app/event/eventBus';
 import { IFlagService } from '#/app/flag/flag';
-import { SECONDARY_MODEL_SECTION } from '#/app/kosongConfig/configSection';
+import { SECONDARY_MODEL_SECTION } from '#/app/tsugiteConfig/configSection';
 import { ErrorCodes, Error2 } from '#/errors';
-import { IModelCatalog, type Model } from '#/kosong/model/catalog';
+import { IModelCatalog, type Model } from '#/tsugite/model/catalog';
 import {
   IAgentLifecycleService,
   MAIN_AGENT_ID,
@@ -24,7 +24,7 @@ import { SessionSecondaryModelWarningService } from '#/session/subagent/secondar
 import { SECONDARY_MODEL_FLAG_ID } from '#/session/subagent/flag';
 
 import { stubFlag } from '../../app/flag/stubs';
-import { StubConfigService } from '../../kosong/stubs';
+import { StubConfigService } from '../../tsugite/stubs';
 
 describe('SessionSecondaryModelWarningService', () => {
   let disposables: DisposableStore;

@@ -1,16 +1,16 @@
 /**
  * Public contracts for the stateless agent loop.
  *
- * This file defines the narrow surfaces that connect a Kosong conversation to
+ * This file defines the narrow surfaces that connect a Tsugite conversation to
  * tool execution, phase hooks, and turn results. Host-layer metadata, policy,
  * archival limits, and UI concerns stay outside these contracts.
  *
- * Field naming is camelCase unless a reused Kosong type says otherwise.
+ * Field naming is camelCase unless a reused Tsugite type says otherwise.
  * Optional fields use `?: T | undefined` intentionally under
  * `exactOptionalPropertyTypes: true`.
  */
 
-import type { ContentPart, Message, TokenUsage, Tool, ToolCall } from '@moonshot-ai/kosong';
+import type { ContentPart, Message, TokenUsage, Tool, ToolCall } from '@yaseenhq/tsugite';
 
 import type { ToolInputDisplay } from '../tools/display';
 import type { ToolAccesses } from './tool-access';

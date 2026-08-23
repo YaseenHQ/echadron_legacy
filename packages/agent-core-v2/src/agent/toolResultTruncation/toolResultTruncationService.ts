@@ -13,7 +13,7 @@ import { LifecycleScope, ScopeActivation, registerScopedService } from '#/_base/
 import { IAgentScopeContext } from '#/agent/scopeContext/scopeContext';
 import type { ExecutableToolResult } from '#/tool/toolContract';
 import { IBootstrapService } from '#/app/bootstrap/bootstrap';
-import type { ContentPart } from '#/kosong/contract/message';
+import type { ContentPart } from '#/tsugite/contract/message';
 import { IFileSystemStorageService } from '#/persistence/interface/storage';
 import { join } from 'pathe';
 import {

@@ -9,14 +9,14 @@ import {
   KIMI_CODE_PROVIDER_NAME,
   OAuthError,
   type DeviceAuthorization,
-} from '@moonshot-ai/kimi-code-oauth';
+} from '@yaseenhq/echadron-oauth';
 import type {
   OAuthFlowSnapshot,
   OAuthFlowStart,
   OAuthFlowStatus,
   OAuthLoginCancelResponse,
   OAuthLogoutResponse,
-} from '@moonshot-ai/protocol';
+} from '@yaseenhq/protocol';
 import { ulid } from 'ulid';
 
 import { createManagedAuthFacade, type ServicesAuthFacade } from '../auth/managedAuth';

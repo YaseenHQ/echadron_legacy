@@ -4,11 +4,11 @@ Run the guards and re-scan the red lines before submitting.
 
 ## Commands
 
-Run from the package (or with `--filter @moonshot-ai/agent-core-v2`):
+Run from the package (or with `--filter @yaseenhq/agent-core-v2`):
 
-- `pnpm --filter @moonshot-ai/agent-core-v2 lint:domain` — domain-layer / dependency-direction guard (`scripts/check-domain-layers.mjs`). Catches a domain importing a layer it must not.
-- `pnpm --filter @moonshot-ai/agent-core-v2 typecheck` — `tsc -p tsconfig.json --noEmit`.
-- `pnpm --filter @moonshot-ai/agent-core-v2 test` — `vitest run`.
+- `pnpm --filter @yaseenhq/agent-core-v2 lint:domain` — domain-layer / dependency-direction guard (`scripts/check-domain-layers.mjs`). Catches a domain importing a layer it must not.
+- `pnpm --filter @yaseenhq/agent-core-v2 typecheck` — `tsc -p tsconfig.json --noEmit`.
+- `pnpm --filter @yaseenhq/agent-core-v2 test` — `vitest run`.
 
 ## Changesets (when the change ships through the CLI)
 

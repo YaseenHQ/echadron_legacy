@@ -26,7 +26,7 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm run build
       - name: Smoke test CLI bundle
-        run: pnpm -C apps/kimi-code run smoke
+        run: pnpm -C apps/echadron run smoke
 
   test:
     runs-on: ubuntu-latest
@@ -64,7 +64,7 @@ jobs:
           cache: pnpm
 
       - run: pnpm install --frozen-lockfile
-      - run: pnpm --filter @moonshot-ai/pi-tui test
+      - run: pnpm --filter @yaseenhq/pi-tui test
 
   # Does a fresh install actually launch on Windows? The full suite still has
   # unresolved POSIX-only assumptions (see the disabled job below), but that is
@@ -89,7 +89,7 @@ jobs:
         id: pack
         shell: bash
         run: |
-          cd apps/kimi-code
+          cd apps/echadron
           echo "tarball=$(pwd)/$(npm pack --silent)" >> "$GITHUB_OUTPUT"
 
       # A dependency with an install script makes npm hold the install behind an
@@ -174,7 +174,7 @@ jobs:
       - name: Typecheck
         run: |
           pnpm dlx --package @typescript/native-preview@beta tsgo --version
-          for config in packages/*/tsconfig.json apps/kimi-code/tsconfig.json; do
+          for config in packages/*/tsconfig.json apps/echadron/tsconfig.json; do
             echo "Typechecking ${config}"
             pnpm dlx --package @typescript/native-preview@beta tsgo -p "${config}" --noEmit
           done
@@ -183,6 +183,6 @@ jobs:
       - name: Typecheck Echadron web (vue-tsc)
         run: pnpm --filter @yaseenhq/echadron-web run typecheck
       - name: Typecheck vis-server
-        run: pnpm --filter @moonshot-ai/vis-server run typecheck
+        run: pnpm --filter @yaseenhq/vis-server run typecheck
       - name: Typecheck vis-web
-        run: pnpm --filter @moonshot-ai/vis-web run typecheck
+        run: pnpm --filter @yaseenhq/vis-web run typecheck

@@ -200,7 +200,7 @@ export interface CompactionMarkerMetadata {
  * `support_efforts` is the single source of truth for which concrete levels a
  * model accepts; providers silently drop unknown efforts rather than erroring.
  * Collapses to `string` at runtime — this is a semantic marker, not a closed
- * enum. Mirrors kosong's `ThinkingEffort`.
+ * enum. Mirrors tsugite's `ThinkingEffort`.
  */
 export type ThinkingLevel = 'off' | 'on' | (string & {});
 

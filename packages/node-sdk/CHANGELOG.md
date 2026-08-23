@@ -1,4 +1,4 @@
-# @moonshot-ai/kimi-code-sdk
+# @yaseenhq/echadron-sdk
 
 ## 0.16.1
 

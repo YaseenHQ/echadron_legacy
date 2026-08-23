@@ -40,7 +40,7 @@ import {
   type IFileService,
   type ImageCompressionTelemetry,
   type ITelemetryService,
-} from '@moonshot-ai/agent-core-v2';
+} from '@yaseenhq/agent-core-v2';
 
 import type { PromptSubmission } from '../protocol/rest-prompt';
 

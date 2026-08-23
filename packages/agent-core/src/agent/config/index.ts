@@ -4,7 +4,7 @@ import {
   type ChatProvider,
   type ModelCapability,
   type ProviderConfig,
-} from '@moonshot-ai/kosong';
+} from '@yaseenhq/tsugite';
 
 import {
   applyAnthropicThinkingKeep,

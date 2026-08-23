@@ -6,7 +6,7 @@
  * (shellCommand / profile / usage / plan / task) have their own contracts in
  * `agent/services.ts`, reusing the payload/result schemas below.
  * `PromptPayload.input` mirrors the `PromptPart` subset of `ContentPart`
- * (text / image_url / video_url) from `agent-core-v2/kosong/contract/message.ts`.
+ * (text / image_url / video_url) from `agent-core-v2/tsugite/contract/message.ts`.
  * Task wire shapes mirror the `TaskInfo` union in `protocol/src/events.ts`.
  */
 

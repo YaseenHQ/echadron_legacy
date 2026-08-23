@@ -2,7 +2,7 @@
  * Scenario: fresh-agent goal-completion verification.
  * Responsibilities: verify inherited binding, tool-capable run orchestration, strict verdict parsing, cleanup, fail-closed errors, and private-memory invariants.
  * Wiring: real completion-review service with lifecycle, catalog, subagent, and log collaborators stubbed at Session scope.
- * Run: `pnpm --filter @moonshot-ai/agent-core-v2 exec vitest run test/session/goalCompletionReview/goalCompletionReview.test.ts`.
+ * Run: `pnpm --filter @yaseenhq/agent-core-v2 exec vitest run test/session/goalCompletionReview/goalCompletionReview.test.ts`.
  */
 
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';

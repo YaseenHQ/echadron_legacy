@@ -3,12 +3,12 @@ import type {
   FinishReason,
   ProviderCompactionResult,
   ThinkingEffort,
-} from '#/kosong/contract/provider';
-import type { Message, StreamedMessagePart } from '#/kosong/contract/message';
-import type { Tool } from '#/kosong/contract/tool';
-import type { TokenUsage } from '#/kosong/contract/usage';
-import type { LLMRequestTrace } from '#/kosong/contract/requestTrace';
-import type { ModelRequestTiming } from '#/kosong/model/modelRequester';
+} from '#/tsugite/contract/provider';
+import type { Message, StreamedMessagePart } from '#/tsugite/contract/message';
+import type { Tool } from '#/tsugite/contract/tool';
+import type { TokenUsage } from '#/tsugite/contract/usage';
+import type { LLMRequestTrace } from '#/tsugite/contract/requestTrace';
+import type { ModelRequestTiming } from '#/tsugite/model/modelRequester';
 import type { LogContext } from '#/_base/log/log';
 
 export type AgentLLMRequestLogFields = Readonly<LogContext>;

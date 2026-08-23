@@ -22,7 +22,7 @@
  *     foreground runs pass a callback to collect chunks for this call.
  */
 
-import { getShellPathBridge, type Kaos, type KaosProcess } from '@moonshot-ai/kaos';
+import { getShellPathBridge, type Kaos, type KaosProcess } from '@yaseenhq/kaos';
 import { z } from 'zod';
 
 import { ProcessBackgroundTask, type BackgroundManager } from '../../../agent/background';

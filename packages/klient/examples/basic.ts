@@ -14,8 +14,8 @@ import { join } from 'node:path';
 import { EXAMPLE_CLIENT_IDENTITY } from './identity.js';
 
 
-import { bootstrap, logSeed, resolveLoggingConfig } from '@moonshot-ai/agent-core-v2';
-import { createKlient } from '@moonshot-ai/klient/memory';
+import { bootstrap, logSeed, resolveLoggingConfig } from '@yaseenhq/agent-core-v2';
+import { createKlient } from '@yaseenhq/klient/memory';
 
 async function main(): Promise<void> {
   const homeDir = await mkdtemp(join(tmpdir(), 'klient-basic-'));
@@ -34,23 +34,23 @@ async function main(): Promise<void> {
     console.log('[sessions] list               ->', sessions.items.length, 'sessions');
     const workspaces = await klient.global.workspaces.list();
     console.log('[workspaces] list             ->', workspaces.length, 'workspaces');
-    const providers = await klient.global.kosong.listProviders();
+    const providers = await klient.global.tsugite.listProviders();
     console.log('[providers] list              ->', providers.length, 'providers');
 
     // 3) Events — klient-level forwarding (no onDid*/onWill* in sight).
-    const sub = klient.events.on('kosong.providers.changed', (event) => {
+    const sub = klient.events.on('tsugite.providers.changed', (event) => {
       console.log(
-        '[event]    kosong.providers.changed  -> +%s -%s ~%s',
+        '[event]    tsugite.providers.changed  -> +%s -%s ~%s',
         event.added,
         event.removed,
         event.changed,
       );
     });
-    await klient.global.kosong.addProvider('__klient_example__', {
+    await klient.global.tsugite.addProvider('__klient_example__', {
       type: 'openai',
       auth: { method: 'api-key', apiKey: 'example-key' },
     });
-    await klient.global.kosong.removeProvider('__klient_example__');
+    await klient.global.tsugite.removeProvider('__klient_example__');
     sub.dispose();
 
     // 4) Error path — a missing plugin surfaces an error.

@@ -537,7 +537,7 @@ export function toManagedModelAlias(
 ): ManagedKimiModelAlias {
   const capabilities = capabilitiesForModel(model);
   // Kimi's Anthropic-compatible endpoint only accepts adaptive thinking
-  // (`thinking: { type: 'adaptive' }`); the kosong adapter otherwise infers
+  // (`thinking: { type: 'adaptive' }`); the tsugite adapter otherwise infers
   // budget-based thinking from the model name, which fails for Kimi model ids.
   // Restrict the override to thinking-capable models: the UI treats
   // `adaptiveThinking === true` as "supports a thinking toggle", so marking a

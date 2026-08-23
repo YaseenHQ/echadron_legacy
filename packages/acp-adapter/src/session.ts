@@ -25,7 +25,7 @@ import {
   type Session,
   type SessionStatus,
   type SessionUsage,
-} from '@moonshot-ai/kimi-code-sdk';
+} from '@yaseenhq/echadron-sdk';
 
 import {
   approvalRequestToPermissionOptions,
@@ -1592,7 +1592,7 @@ function formatContextUsage(contextUsage: number): string {
  *
  * The parsing/resolution itself is delegated to `./slash` —
  * deliberately duplicated from the TUI's
- * `apps/kimi-code/src/tui/commands/parse.ts` and `resolve.ts` to
+ * `apps/echadron/src/tui/commands/parse.ts` and `resolve.ts` to
  * avoid an app→package import inversion. See `./slash`'s top-of-file
  * comment for the sync target.
  */
@@ -1679,7 +1679,7 @@ function authRequiredFromUnknown(err: unknown): RequestError | undefined {
 const MAIN_AGENT_ID = 'main';
 
 /**
- * Parse a tool call's `arguments` field (kosong wire format: a JSON
+ * Parse a tool call's `arguments` field (tsugite wire format: a JSON
  * string or `null`) into the structured object expected by the live
  * {@link toolCallStartToSessionUpdate} mapper. Falls back to the raw
  * string when the payload is not valid JSON — the mapper itself uses
@@ -1700,7 +1700,7 @@ function parseToolCallArguments(rawArguments: string | null): unknown {
  * Project a `tool` role {@link ContextMessage}'s `content` array into
  * the ACP `tool_call_update.content` shape (an array of
  * `ToolCallContent` entries). The historical message's content is a
- * sequence of kosong content parts — for replay we surface text parts
+ * sequence of tsugite content parts — for replay we surface text parts
  * directly and stringify anything else (image refs etc.) as a
  * `[type]` placeholder so the client still sees that something was
  * returned.

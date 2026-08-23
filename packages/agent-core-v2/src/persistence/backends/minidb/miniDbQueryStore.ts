@@ -46,8 +46,8 @@ import { promises as fsp } from 'node:fs';
 
 import { join } from 'pathe';
 
-import { type QueryOptions } from '@moonshot-ai/minidb';
-import { ClusterDb } from '@moonshot-ai/minidb/cluster';
+import { type QueryOptions } from '@yaseenhq/minidb';
+import { ClusterDb } from '@yaseenhq/minidb/cluster';
 
 import { Disposable, toDisposable } from '#/_base/di/lifecycle';
 import { LifecycleScope, ScopeActivation, registerScopedService } from '#/_base/di/scope';

@@ -26,7 +26,7 @@ import {
   retryErrorFields,
   sleepForRetry,
 } from '#/_base/utils/retry';
-import { isRetryableGenerateError } from '#/kosong/contract/errors';
+import { isRetryableGenerateError } from '#/tsugite/contract/errors';
 import { IConfigService } from '#/app/config/config';
 import { IEventBus } from '#/app/event/eventBus';
 import { unwrapErrorCause } from '#/errors';

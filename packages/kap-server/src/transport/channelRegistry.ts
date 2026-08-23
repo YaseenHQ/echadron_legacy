@@ -13,9 +13,9 @@ import {
   Disposable,
   getScopedServiceDescriptors,
   LifecycleScope,
-} from '@moonshot-ai/agent-core-v2';
+} from '@yaseenhq/agent-core-v2';
 
-import type { ScopedEntry, ServiceIdentifier } from '@moonshot-ai/agent-core-v2';
+import type { ScopedEntry, ServiceIdentifier } from '@yaseenhq/agent-core-v2';
 
 export interface ChannelMethodDescriptor {
   readonly name: string;

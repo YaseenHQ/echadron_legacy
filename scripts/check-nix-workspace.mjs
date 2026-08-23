@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Recursively resolve workspace dependencies starting from apps/kimi-code
+ * Recursively resolve workspace dependencies starting from apps/echadron
  * and verify they are all present in flake.nix workspaceNames/workspacePaths.
  *
  * Exit code 0 if everything is in sync, 1 otherwise.

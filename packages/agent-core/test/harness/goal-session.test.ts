@@ -7,7 +7,7 @@ import {
   APIStatusError,
   type GenerateResult,
   type ProviderConfig,
-} from '@moonshot-ai/kosong';
+} from '@yaseenhq/tsugite';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import { ProviderManager } from '../../src/session/provider-manager';

@@ -1,7 +1,7 @@
 /**
- * `@moonshot-ai/klient` public surface — the transport-agnostic client facade
+ * `@yaseenhq/klient` public surface — the transport-agnostic client facade
  * over the agent-core-v2 engine. Create a klient with one of the transport
- * entry points (`@moonshot-ai/klient/ipc` or `/memory`); everything
+ * entry points (`@yaseenhq/klient/ipc` or `/memory`); everything
  * exported here behaves identically regardless of which one carried the
  * bytes.
  */
@@ -31,7 +31,7 @@ export type {
   GlobalFacade,
   GlobalFlagsFacade,
   GlobalHostFsFacade,
-  GlobalKosongFacade,
+  GlobalTsugiteFacade,
   GlobalPluginsFacade,
   GlobalSessionsFacade,
   GlobalWorkspacesFacade,
@@ -54,7 +54,7 @@ export type {
   GenerateParams,
   ProviderAuth,
   ProviderInput,
-} from './core/facade/kosong-types.js';
+} from './core/facade/tsugite-types.js';
 
 export type {
   SessionApprovalsFacade,
@@ -89,46 +89,46 @@ export type { AgentEventPayloads } from './contract/agent/events.js';
 export type {
   SessionListQuery,
   SessionSummary,
-} from '@moonshot-ai/agent-core-v2/app/sessionIndex/sessionIndex';
-export type { Page } from '@moonshot-ai/agent-core-v2/persistence/interface/queryStore';
+} from '@yaseenhq/agent-core-v2/app/sessionIndex/sessionIndex';
+export type { Page } from '@yaseenhq/agent-core-v2/persistence/interface/queryStore';
 export type {
   Workspace,
   WorkspaceUpdate,
-} from '@moonshot-ai/agent-core-v2/app/workspace/workspace';
+} from '@yaseenhq/agent-core-v2/app/workspace/workspace';
 export type {
   ConfigDiagnostic,
   ConfigInspectValue,
-} from '@moonshot-ai/agent-core-v2/app/config/config';
-export type { ProviderConfig } from '@moonshot-ai/agent-core-v2/kosong/provider/provider';
-export type { AuthStatus } from '@moonshot-ai/agent-core-v2/app/auth/auth';
-export type { ExperimentalFeatureState } from '@moonshot-ai/agent-core-v2/app/flag/flag';
+} from '@yaseenhq/agent-core-v2/app/config/config';
+export type { ProviderConfig } from '@yaseenhq/agent-core-v2/tsugite/provider/provider';
+export type { AuthStatus } from '@yaseenhq/agent-core-v2/app/auth/auth';
+export type { ExperimentalFeatureState } from '@yaseenhq/agent-core-v2/app/flag/flag';
 export type {
   FsBrowseResponse,
   FsHomeResponse,
-} from '@moonshot-ai/agent-core-v2/app/hostFolderBrowser/hostFolderBrowser';
+} from '@yaseenhq/agent-core-v2/app/hostFolderBrowser/hostFolderBrowser';
 export type {
   PluginCommandDef,
   PluginInfo,
   PluginSummary,
   PluginUpdateStatus,
   ReloadSummary,
-} from '@moonshot-ai/agent-core-v2/app/plugin/types';
+} from '@yaseenhq/agent-core-v2/app/plugin/types';
 export type {
   AgentMeta,
   SessionMeta,
   SessionMetaPatch,
-} from '@moonshot-ai/agent-core-v2/session/sessionMetadata/sessionMetadata';
+} from '@yaseenhq/agent-core-v2/session/sessionMetadata/sessionMetadata';
 export type {
   ApprovalRequest,
   ApprovalResponse,
-} from '@moonshot-ai/agent-core-v2/session/approval/approval';
+} from '@yaseenhq/agent-core-v2/session/approval/approval';
 export type {
   QuestionRequest,
   QuestionResult,
-} from '@moonshot-ai/agent-core-v2/session/question/question';
+} from '@yaseenhq/agent-core-v2/session/question/question';
 export type {
   Interaction,
   InteractionKind,
-} from '@moonshot-ai/agent-core-v2/session/interaction/interaction';
-export type { ContentPart } from '@moonshot-ai/agent-core-v2/kosong/contract/message';
-export type { PermissionMode } from '@moonshot-ai/agent-core-v2/agent/permissionPolicy/types';
+} from '@yaseenhq/agent-core-v2/session/interaction/interaction';
+export type { ContentPart } from '@yaseenhq/agent-core-v2/tsugite/contract/message';
+export type { PermissionMode } from '@yaseenhq/agent-core-v2/agent/permissionPolicy/types';

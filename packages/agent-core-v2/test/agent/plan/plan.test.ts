@@ -8,7 +8,7 @@ import { tmpdir } from 'node:os';
 // (reached via `#/index` in the harness) so plan-file writes are allowed before
 // deny rules adjudicate.
 import '#/agent/plan/planService';
-import type { ToolCall } from '#/kosong/contract/message';
+import type { ToolCall } from '#/tsugite/contract/message';
 import { dirname, isAbsolute, join } from 'pathe';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 

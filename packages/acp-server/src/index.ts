@@ -30,13 +30,13 @@ import {
   ACP_BUILTIN_SLASH_COMMANDS,
   buildSessionConfigOptions,
   acpMcpServersToConfigs,
-} from '@moonshot-ai/acp-adapter';
+} from '@yaseenhq/acp-adapter';
 import {
   type KimiHarness,
   type Session,
   type SessionStatus,
   type SessionSummary,
-} from '@moonshot-ai/kimi-code-sdk';
+} from '@yaseenhq/echadron-sdk';
 
 export interface AcpV2ServerOptions {
   readonly agentInfo?: { readonly name: string; readonly version: string };

@@ -4,7 +4,7 @@ outline: 2
 
 # 变更记录
 
-本页记录 Echadron 每个版本的变更内容。完整的软件包级记录也可在[仓库变更记录](https://github.com/YaseenHQ/echadron/blob/main/apps/kimi-code/CHANGELOG.md)中查看。
+本页记录 Echadron 每个版本的变更内容。完整的软件包级记录也可在[仓库变更记录](https://github.com/YaseenHQ/echadron/blob/main/apps/echadron/CHANGELOG.md)中查看。
 
 ## 未发布
 

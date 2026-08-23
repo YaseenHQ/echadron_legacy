@@ -13,7 +13,7 @@
  * re-streams the same logical calls under the same ids.
  */
 
-import type { Message, ToolCall } from '#/kosong/contract/message';
+import type { Message, ToolCall } from '#/tsugite/contract/message';
 
 export class ToolCallIdNormalizer {
   private readonly seen = new Set<string>();

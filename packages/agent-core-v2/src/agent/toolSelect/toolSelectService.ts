@@ -16,7 +16,7 @@ import { LifecycleScope, ScopeActivation, registerScopedService } from '#/_base/
 import { defineState } from '#/_base/state/stateRegistry';
 import { IEventBus } from '#/app/event/eventBus';
 import { IFlagService } from '#/app/flag/flag';
-import type { Tool } from '#/kosong/contract/tool';
+import type { Tool } from '#/tsugite/contract/tool';
 import { IAgentContextMemoryService } from '#/agent/contextMemory/contextMemory';
 import type { ContextMessage } from '#/agent/contextMemory/types';
 import { IAgentProfileService } from '#/agent/profile/profile';

@@ -20,7 +20,7 @@ import { createHash } from 'node:crypto';
 
 import { LifecycleScope, ScopeActivation, registerScopedService } from '#/_base/di/scope';
 import { defineState } from '#/_base/state/stateRegistry';
-import type { Tool as KosongTool } from '#/kosong/contract/tool';
+import type { Tool as TsugiteTool } from '#/tsugite/contract/tool';
 
 import { Disposable, type IDisposable } from "#/_base/di/lifecycle";
 import type { KimiErrorPayload } from '#/_base/errors/serialize';
@@ -299,7 +299,7 @@ export class AgentMcpService extends Disposable implements IAgentMcpService {
   private registerMcpServer(
     serverName: string,
     client: MCPClient,
-    tools: readonly KosongTool[],
+    tools: readonly TsugiteTool[],
     enabledTools: ReadonlySet<string>,
   ): {
     readonly registered: readonly string[];

@@ -16,10 +16,10 @@
  * scoped service.
  */
 
-import type { ContentPart, ToolCall } from '#/kosong/contract/message';
-import type { Tool } from '#/kosong/contract/tool';
-import type { LLMRequestTrace } from '#/kosong/contract/requestTrace';
-import type { ToolInputDisplay } from '@moonshot-ai/protocol';
+import type { ContentPart, ToolCall } from '#/tsugite/contract/message';
+import type { Tool } from '#/tsugite/contract/tool';
+import type { LLMRequestTrace } from '#/tsugite/contract/requestTrace';
+import type { ToolInputDisplay } from '@yaseenhq/protocol';
 
 export type ExecutableToolOutput = string | ContentPart[];
 

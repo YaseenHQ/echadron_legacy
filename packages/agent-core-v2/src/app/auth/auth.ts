@@ -17,11 +17,11 @@ import type {
   KimiOAuthLoginResult,
   KimiOAuthLogoutResult,
   KimiOAuthTokenRef,
-} from '@moonshot-ai/kimi-code-oauth';
+} from '@yaseenhq/echadron-oauth';
 import { createDecorator, type ServiceIdentifier } from '#/_base/di/instantiation';
 import { Error2 } from '#/_base/errors/errors';
 
-import type { OAuthRef } from '#/kosong/provider/provider';
+import type { OAuthRef } from '#/tsugite/provider/provider';
 
 import { AuthErrors } from './errors';
 import type {

@@ -37,7 +37,7 @@ git clone https://github.com/YaseenHQ/echadron.git echadron
 cd echadron
 pnpm install
 pnpm --filter echadron build
-npm install -g ./apps/kimi-code
+npm install -g ./apps/echadron
 ```
 
 > Windows 用户首次启动前还需要安装 [Git for Windows](https://gitforwindows.org/)。如果 Git Bash 安装在非标准路径，请把 `ECHADRON_SHELL_PATH` 设为 `bash.exe` 的绝对路径。

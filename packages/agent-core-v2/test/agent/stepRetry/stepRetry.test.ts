@@ -4,8 +4,8 @@ import {
   APIConnectionError,
   APIProviderRateLimitError,
   APIStatusError,
-} from '#/kosong/contract/errors';
-import { emptyUsage } from '#/kosong/contract/usage';
+} from '#/tsugite/contract/errors';
+import { emptyUsage } from '#/tsugite/contract/usage';
 import { IEventBus } from '#/app/event/eventBus';
 import { retryBackoffDelays } from '#/_base/utils/retry';
 import { IAgentLoopService } from '#/agent/loop/loop';

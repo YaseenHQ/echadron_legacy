@@ -1,10 +1,10 @@
-import { emptyUsage } from '#/kosong/contract/usage';
+import { emptyUsage } from '#/tsugite/contract/usage';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { IAgentLLMRequesterService } from '#/agent/llmRequester/llmRequester';
 import { IAgentProfileService } from '#/agent/profile/profile';
-import { SECONDARY_DERIVED_MODEL_ID } from '#/app/kosongConfig/secondaryModelOverlay';
-import type { ModelRecord } from '#/kosong/model/model';
+import { SECONDARY_DERIVED_MODEL_ID } from '#/app/tsugiteConfig/secondaryModelOverlay';
+import type { ModelRecord } from '#/tsugite/model/model';
 import {
   configServices,
   createTestAgent,

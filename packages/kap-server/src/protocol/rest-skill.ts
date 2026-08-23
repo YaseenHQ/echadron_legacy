@@ -10,7 +10,7 @@ import {
   fileContentSchema,
   imageContentSchema,
   videoContentSchema,
-} from '@moonshot-ai/protocol';
+} from '@yaseenhq/protocol';
 import { skillDescriptorSchema } from './skill';
 
 export const listSkillsResponseSchema = z.object({

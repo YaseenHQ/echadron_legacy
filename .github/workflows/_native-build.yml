@@ -82,15 +82,15 @@ jobs:
         shell: bash
         run: |
           CATALOG_FILE="$RUNNER_TEMP/kimi-code-built-in-catalog.json"
-          node apps/kimi-code/scripts/update-catalog.mjs --out "$CATALOG_FILE"
+          node apps/echadron/scripts/update-catalog.mjs --out "$CATALOG_FILE"
           echo "KIMI_CODE_BUILT_IN_CATALOG_FILE=$CATALOG_FILE" >> "$GITHUB_ENV"
 
       - name: Build Echadron web assets
-        # The SEA blob step embeds apps/kimi-code/dist-web; build the web app
+        # The SEA blob step embeds apps/echadron/dist-web; build the web app
         # and stage its assets before producing the native executable.
         run: |
           pnpm --filter @yaseenhq/echadron-web run build
-          node apps/kimi-code/scripts/copy-web-assets.mjs
+          node apps/echadron/scripts/copy-web-assets.mjs
 
       - name: Build native executable (release profile, macOS signed)
         if: runner.os == 'macOS' && inputs.sign-macos
@@ -104,7 +104,7 @@ jobs:
         if: runner.os == 'macOS' && inputs.sign-macos
         uses: ./.github/actions/macos-notarize
         with:
-          binary-path: ${{ github.workspace }}/apps/kimi-code/dist-native/bin/${{ matrix.target }}/echadron
+          binary-path: ${{ github.workspace }}/apps/echadron/dist-native/bin/${{ matrix.target }}/echadron
           notarization-key-p8: ${{ secrets.APPLE_NOTARIZATION_KEY_P8 }}
           notarization-key-id: ${{ secrets.APPLE_NOTARIZATION_KEY_ID }}
           notarization-issuer-id: ${{ secrets.APPLE_NOTARIZATION_ISSUER_ID }}
@@ -125,6 +125,6 @@ jobs:
           name: ${{ inputs.upload-artifact-prefix }}-${{ matrix.target }}
           retention-days: ${{ inputs.retention-days }}
           path: |
-            apps/kimi-code/dist-native/artifacts/echadron-${{ matrix.target }}.zip
-            apps/kimi-code/dist-native/artifacts/echadron-${{ matrix.target }}.zip.sha256
+            apps/echadron/dist-native/artifacts/echadron-${{ matrix.target }}.zip
+            apps/echadron/dist-native/artifacts/echadron-${{ matrix.target }}.zip.sha256
           if-no-files-found: ignore

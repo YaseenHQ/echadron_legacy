@@ -8,8 +8,8 @@
  * `SessionSwarmService` imports it.
  */
 
-import { isProviderRateLimitError } from '#/kosong/contract/errors';
-import { type TokenUsage } from '#/kosong/contract/usage';
+import { isProviderRateLimitError } from '#/tsugite/contract/errors';
+import { type TokenUsage } from '#/tsugite/contract/usage';
 import * as retry from 'retry';
 
 import { isUserCancellation } from '#/_base/utils/abort';

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import type { KimiHarness, ModelAlias } from '@moonshot-ai/kimi-code-sdk';
+import type { KimiHarness, ModelAlias } from '@yaseenhq/echadron-sdk';
 
 import {
   deriveAlwaysThinking,

@@ -12,7 +12,7 @@ installation, configuration, authentication, and session behavior between the
 editor and Echadron.
 
 Version `0.6.0` moves the extension into this monorepo under `apps/vscode` and
-runs the stable TypeScript v1 engine through `@moonshot-ai/kimi-code-sdk` in the
+runs the stable TypeScript v1 engine through `@yaseenhq/echadron-sdk` in the
 VS Code Extension Host. The migration preserves the existing commands, Webview,
 and user-visible workflows. Echadron uses its own extension identity so it can
 be installed alongside the upstream Kimi extension without taking it over. It
@@ -59,7 +59,7 @@ capabilities exposed by the v1 configuration.
 flowchart LR
   UI["React Webview<br/>browser sandbox"]
   Host["VS Code Extension Host<br/>Node process"]
-  SDK["@moonshot-ai/kimi-code-sdk<br/>KimiHarness and Session"]
+  SDK["@yaseenhq/echadron-sdk<br/>KimiHarness and Session"]
   Core["v1 agent-core"]
   Home["Echadron home<br/>config, auth, MCP, sessions"]
 
@@ -91,8 +91,8 @@ into runtime code or packaging scripts.
 
 ### Package boundaries
 
-- `apps/vscode` depends on `@moonshot-ai/kimi-code-sdk`.
-- `apps/vscode` must not depend directly on `@moonshot-ai/agent-core`.
+- `apps/vscode` depends on `@yaseenhq/echadron-sdk`.
+- `apps/vscode` must not depend directly on `@yaseenhq/agent-core`.
 - Core capabilities needed by released clients are exposed through the Node SDK
   and tested at that public boundary.
 - The Webview communicates only through the typed bridge in
@@ -235,7 +235,7 @@ and may require authorization after upgrade.
 
 ## Legacy migration
 
-Migration is opt-in and uses `@moonshot-ai/migration-legacy` for detection and
+Migration is opt-in and uses `@yaseenhq/migration-legacy` for detection and
 translation. The extension coordinates prompts and reports but does not
 maintain another config/session translator.
 

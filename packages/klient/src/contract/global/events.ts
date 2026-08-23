@@ -8,11 +8,11 @@
 
 import { z } from 'zod';
 
-import type { ConfigChangedEvent } from '@moonshot-ai/agent-core-v2/app/config/config';
-import type { ModelsChangedEvent } from '@moonshot-ai/agent-core-v2/kosong/model/model';
-import type { ProvidersChangedEvent } from '@moonshot-ai/agent-core-v2/kosong/provider/provider';
-import type { ReloadSummary } from '@moonshot-ai/agent-core-v2/app/plugin/types';
-import type { IOAuthService } from '@moonshot-ai/agent-core-v2/app/auth/auth';
+import type { ConfigChangedEvent } from '@yaseenhq/agent-core-v2/app/config/config';
+import type { ModelsChangedEvent } from '@yaseenhq/agent-core-v2/tsugite/model/model';
+import type { ProvidersChangedEvent } from '@yaseenhq/agent-core-v2/tsugite/provider/provider';
+import type { ReloadSummary } from '@yaseenhq/agent-core-v2/app/plugin/types';
+import type { IOAuthService } from '@yaseenhq/agent-core-v2/app/auth/auth';
 
 import { stringDeltaSchema } from '../helpers.js';
 import type { EventRegistration } from '../types.js';
@@ -43,12 +43,12 @@ export type CatalogChangedPayload = Awaited<
 export interface KlientEventPayloads {
   'config.changed': ConfigChangedEvent;
   'config.sectionChanged': ConfigChangedEvent;
-  'kosong.providers.changed': ProvidersChangedEvent;
-  'kosong.models.changed': ModelsChangedEvent;
+  'tsugite.providers.changed': ProvidersChangedEvent;
+  'tsugite.models.changed': ModelsChangedEvent;
   'plugins.reloaded': ReloadSummary;
   'session.archived': SessionArchivedPayload;
   'session.metaUpdated': SessionMetaUpdatedPayload;
-  'kosong.changed': CatalogChangedPayload;
+  'tsugite.changed': CatalogChangedPayload;
 }
 
 export type KlientEventName = keyof KlientEventPayloads;
@@ -104,13 +104,13 @@ export const globalEvents = {
     event: 'onDidSectionChange',
     schema: configChangedSchema,
   },
-  'kosong.providers.changed': {
+  'tsugite.providers.changed': {
     kind: 'emitter',
     service: 'providerService',
     event: 'onDidChangeProviders',
     schema: stringDeltaSchema,
   },
-  'kosong.models.changed': {
+  'tsugite.models.changed': {
     kind: 'emitter',
     service: 'modelService',
     event: 'onDidChangeModels',
@@ -132,7 +132,7 @@ export const globalEvents = {
     type: 'session.meta.updated',
     schema: sessionMetaUpdatedSchema,
   },
-  'kosong.changed': {
+  'tsugite.changed': {
     kind: 'bus',
     type: 'event.model_catalog.changed',
     schema: catalogChangedSchema,

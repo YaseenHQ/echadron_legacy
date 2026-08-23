@@ -39,7 +39,7 @@
  * absent from the replacement truly disappears, while a FIELD absent from a
  * kept entry would silently survive on disk (and resurrect on the next boot).
  * Field-level clears therefore always assign an explicit `undefined` (the
- * transform's `setDefined` drops those). The kosong
+ * transform's `setDefined` drops those). The tsugite
  * persistence bridge then pushes the change into the registries, which is
  * also what invalidates the catalog cache. Multi-step sequences are
  * serialized through `enqueueProviderWrite`.
@@ -47,7 +47,7 @@
 
 import {
   IConfigService,
-  IKosongConfigService,
+  ITsugiteConfigService,
   IModelCatalog,
   IOAuthService,
   IProviderDiscoveryService,
@@ -60,15 +60,15 @@ import {
   type ProviderConfig,
   type ProvidersSection,
   type Scope,
-} from '@moonshot-ai/agent-core-v2';
-import { setDefaultModelResponseSchema } from '@moonshot-ai/agent-core-v2/kosong/model/catalog';
-import { refreshProviderModelsResponseSchema } from '@moonshot-ai/agent-core-v2/app/kosongConfig/discovery';
+} from '@yaseenhq/agent-core-v2';
+import { setDefaultModelResponseSchema } from '@yaseenhq/agent-core-v2/tsugite/model/catalog';
+import { refreshProviderModelsResponseSchema } from '@yaseenhq/agent-core-v2/app/tsugiteConfig/discovery';
 import {
   DEFAULT_MODEL_SECTION,
   DEFAULT_PROVIDER_SECTION,
   MODELS_SECTION,
   PROVIDERS_SECTION,
-} from '@moonshot-ai/agent-core-v2/app/kosongConfig/configSection';
+} from '@yaseenhq/agent-core-v2/app/tsugiteConfig/configSection';
 import { z } from 'zod';
 
 import { errEnvelope, okEnvelope } from '../envelope';
@@ -164,16 +164,16 @@ async function loadCatalog(core: Scope): Promise<IModelCatalog> {
 }
 
 /**
- * Resolve the config service for the write routes once the kosong persistence
+ * Resolve the config service for the write routes once the tsugite persistence
  * bridge is also ready. The bridge subscribes to section changes after the
- * initial hydration; awaiting it guarantees a write below reaches the kosong
+ * initial hydration; awaiting it guarantees a write below reaches the tsugite
  * registries (and the catalog-cache invalidation riding them) before the
  * handler reads back or returns.
  */
 async function loadConfig(core: Scope): Promise<IConfigService> {
   const config = core.accessor.get(IConfigService);
   await config.ready;
-  await core.accessor.get(IKosongConfigService).ready;
+  await core.accessor.get(ITsugiteConfigService).ready;
   return config;
 }
 

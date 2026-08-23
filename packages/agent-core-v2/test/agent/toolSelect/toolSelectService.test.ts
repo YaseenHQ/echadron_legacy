@@ -16,8 +16,8 @@ import { createServices, type ServiceRegistration, type TestInstantiationService
 import { OrderedHookSlot } from '#/hooks';
 import { IEventBus, type DomainEvent } from '#/app/event/eventBus';
 import { IFlagService } from '#/app/flag/flag';
-import type { ModelCapability } from '#/kosong/contract/capability';
-import type { ToolCall } from '#/kosong/contract/message';
+import type { ModelCapability } from '#/tsugite/contract/capability';
+import type { ToolCall } from '#/tsugite/contract/message';
 import { IAgentContextMemoryService } from '#/agent/contextMemory/contextMemory';
 import type { UndoCut } from '#/agent/contextMemory/contextOps';
 import type { ContextMessage } from '#/agent/contextMemory/types';

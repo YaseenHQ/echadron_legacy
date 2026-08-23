@@ -34,7 +34,7 @@ import {
   type ContextMessage,
   type Scope,
   type SessionMeta,
-} from '@moonshot-ai/agent-core-v2';
+} from '@yaseenhq/agent-core-v2';
 
 import { toWireApproval } from '../../routes/approvals';
 import { toWireQuestion } from '../../routes/questions';

@@ -32,7 +32,7 @@
 import { createDecorator } from '../../di';
 import type { CoreRPC, KimiCoreOptions } from '../../rpc';
 import type { TelemetryClient } from '../../telemetry';
-import { type KimiHostIdentity } from '@moonshot-ai/kimi-code-oauth';
+import { type KimiHostIdentity } from '@yaseenhq/echadron-oauth';
 import type { ImageLimits } from '#/tools/support/image-limits';
 
 export interface CoreProcessServiceOptions extends KimiCoreOptions {

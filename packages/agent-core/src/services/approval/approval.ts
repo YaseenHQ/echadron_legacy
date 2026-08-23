@@ -56,8 +56,8 @@ import type { ApprovalRequest, ApprovalResponse } from '../../rpc';
 import type {
   ApprovalRequest as ProtocolApprovalRequest,
   ApprovalResponse as ProtocolApprovalResponse,
-} from '@moonshot-ai/protocol';
-import type {} from '@moonshot-ai/protocol'; // type-only marker — keep protocol dep referenced
+} from '@yaseenhq/protocol';
+import type {} from '@yaseenhq/protocol'; // type-only marker — keep protocol dep referenced
 
 // Re-export ApprovalResponse for service-side consumers so they don't have to
 // also depend on agent-core directly.

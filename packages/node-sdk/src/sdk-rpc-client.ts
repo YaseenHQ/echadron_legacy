@@ -12,13 +12,13 @@ import {
   type RPCMethods,
   type SDKAPI,
   type TelemetryClient,
-} from '@moonshot-ai/agent-core';
-import type { Kaos } from '@moonshot-ai/kaos';
+} from '@yaseenhq/agent-core';
+import type { Kaos } from '@yaseenhq/kaos';
 import {
   applyEchadronEnvironmentAliases,
   assertKimiHostIdentity,
   createKimiDefaultHeaders,
-} from '@moonshot-ai/kimi-code-oauth';
+} from '@yaseenhq/echadron-oauth';
 
 import { KimiAuthFacade } from '#/auth';
 import { KimiHarness } from '#/kimi-harness';

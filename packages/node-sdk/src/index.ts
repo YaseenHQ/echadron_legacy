@@ -57,7 +57,7 @@ export {
   fromKimiErrorPayload,
   isKimiError,
   toKimiErrorPayload,
-} from '@moonshot-ai/agent-core';
+} from '@yaseenhq/agent-core';
 
 // Diagnostic logging — public surface only.
 // RootLogger / getRootLogger / LoggingConfig stay inside agent-core.
@@ -68,22 +68,22 @@ export {
   redact,
   resolveGlobalLogPath,
   resolveKimiHome,
-} from '@moonshot-ai/agent-core';
-export type { LogContext, LogLevel, LogPayload, Logger } from '@moonshot-ai/agent-core';
+} from '@yaseenhq/agent-core';
+export type { LogContext, LogLevel, LogPayload, Logger } from '@yaseenhq/agent-core';
 
 // Host-side config helpers — safe config reader + config path resolution, used
 // by hosts (e.g. the CLI's server telemetry bootstrap) that need to inspect
 // config without spinning up a full KimiCore.
-export { effectiveModelAlias, loadRuntimeConfigSafe, resolveConfigPath } from '@moonshot-ai/agent-core';
-export { limitAgentReplayByTurns } from '@moonshot-ai/agent-core';
-export { parseAgentFileText, resolveAgentPath } from '@moonshot-ai/agent-core';
+export { effectiveModelAlias, loadRuntimeConfigSafe, resolveConfigPath } from '@yaseenhq/agent-core';
+export { limitAgentReplayByTurns } from '@yaseenhq/agent-core';
+export { parseAgentFileText, resolveAgentPath } from '@yaseenhq/agent-core';
 // The synthesized `[models]` alias a `[secondary_model]` recipe with patch
 // fields materializes at runtime — hosts filter it out of model pickers.
-export { SECONDARY_DERIVED_MODEL_ALIAS } from '@moonshot-ai/agent-core';
+export { SECONDARY_DERIVED_MODEL_ALIAS } from '@yaseenhq/agent-core';
 
 // Process-wide HTTP proxy bootstrap — installed once at CLI startup so all
 // outbound fetch honors HTTP_PROXY / HTTPS_PROXY / NO_PROXY.
-export { installGlobalProxyDispatcher } from '@moonshot-ai/agent-core';
+export { installGlobalProxyDispatcher } from '@yaseenhq/agent-core';
 
 // Image compression — ingestion sites (e.g. the CLI's clipboard paste, the ACP
 // adapter) shrink oversized images while constructing the content part, before
@@ -104,15 +104,15 @@ export {
   sessionMediaOriginalsDir,
   IMAGE_BYTE_BUDGET,
   MAX_IMAGE_EDGE_PX,
-} from '@moonshot-ai/agent-core';
-export { ImageLimits } from '@moonshot-ai/agent-core';
+} from '@yaseenhq/agent-core';
+export { ImageLimits } from '@yaseenhq/agent-core';
 export type {
   CompressImageOptions,
   CompressImageResult,
   CompressBase64Result,
   ImageCompressionCaptionInput,
   ImageCompressionTelemetry,
-} from '@moonshot-ai/agent-core';
+} from '@yaseenhq/agent-core';
 
 // Experimental feature flags — types only. Resolved values come from
 // `KimiHarness.getExperimentalFeatures()` over RPC, not from a re-exported runtime value.
@@ -124,7 +124,7 @@ export type {
   FlagDefinitionInput,
   FlagId,
   FlagSurface,
-} from '@moonshot-ai/agent-core';
+} from '@yaseenhq/agent-core';
 
 export type {
   KimiAuthCompleteFeedbackUploadInput,

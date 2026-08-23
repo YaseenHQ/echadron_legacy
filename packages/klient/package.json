@@ -1,5 +1,5 @@
 {
-  "name": "@moonshot-ai/klient",
+  "name": "@yaseenhq/klient",
   "version": "0.1.1",
   "private": true,
   "description": "Kimi client SDK — contract-driven facade over agent-core-v2, routable over ipc or in-memory transports.",
@@ -38,17 +38,17 @@
     "smoke": "tsx --tsconfig ./tsconfig.examples.json --import ../../build/register-raw-text-loader.mjs examples/smoke.ts",
     "smoke:boundary": "tsx --tsconfig ./tsconfig.examples.json --import ../../build/register-raw-text-loader.mjs examples/model-requester-boundary.ts",
     "smoke:select-tools": "tsx --tsconfig ./tsconfig.examples.json --import ../../build/register-raw-text-loader.mjs examples/kimi-select-tools.ts",
-    "stress:kosong-config": "tsx --tsconfig ./tsconfig.examples.json --import ../../build/register-raw-text-loader.mjs examples/kosong-config-stress.ts",
+    "stress:tsugite-config": "tsx --tsconfig ./tsconfig.examples.json --import ../../build/register-raw-text-loader.mjs examples/tsugite-config-stress.ts",
     "clean": "rm -rf dist",
     "docker:e2e": "bash scripts/run-docker-e2e.sh"
   },
   "dependencies": {
-    "@moonshot-ai/agent-core-v2": "workspace:^",
+    "@yaseenhq/agent-core-v2": "workspace:^",
     "zod": "catalog:"
   },
   "devDependencies": {
-    "@moonshot-ai/protocol": "workspace:^",
     "@types/ws": "^8.18.0",
+    "@yaseenhq/protocol": "workspace:^",
     "ulid": "^3.0.1",
     "ws": "^8.18.0"
   }

@@ -9,8 +9,8 @@
  * folder picker, the session filesystem, terminals, connections, shutdown).
  */
 
-import type { Scope } from '@moonshot-ai/agent-core-v2';
-import type { KimiHostIdentity } from '@moonshot-ai/kimi-code-oauth';
+import type { Scope } from '@yaseenhq/agent-core-v2';
+import type { KimiHostIdentity } from '@yaseenhq/echadron-oauth';
 import { ulid } from 'ulid';
 
 import { okEnvelope } from '../envelope';

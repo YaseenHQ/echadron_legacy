@@ -9,7 +9,7 @@ import { StepRequestQueue, type StepRequestBatch } from '#/agent/loop/stepReques
 import type { IAgentToolExecutorService } from '#/agent/toolExecutor/toolExecutor';
 import type { BeforeToolExecuteEvent, ToolDidExecuteContext, WillExecuteToolEvent } from '#/agent/toolExecutor/toolHooks';
 import { OrderedHookSlot } from '#/hooks';
-import type { ContentPart } from '#/kosong/contract/message';
+import type { ContentPart } from '#/tsugite/contract/message';
 import type { ContextMessage, PromptOrigin } from '#/agent/contextMemory/types';
 import { createHooks } from '#/hooks';
 import type { Op } from '#/wire/op';

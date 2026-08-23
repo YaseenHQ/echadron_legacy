@@ -19,12 +19,12 @@ export default defineConfig({
   sourcemap: false,
   plugins: [rawTextPlugin()],
   alias: {
-    '@moonshot-ai/kimi-code-sdk': resolve(root, '../../packages/node-sdk/src/index.ts'),
-    '@moonshot-ai/migration-legacy': resolve(root, '../../packages/migration-legacy/src/index.ts'),
-    '@moonshot-ai/agent-core': resolve(root, '../../packages/agent-core/src/index.ts'),
-    '@moonshot-ai/kaos': resolve(root, '../../packages/kaos/src/index.ts'),
-    '@moonshot-ai/kimi-code-oauth': resolve(root, '../../packages/oauth/src/index.ts'),
-    '@moonshot-ai/kosong': resolve(root, '../../packages/kosong/src/index.ts'),
+    '@yaseenhq/echadron-sdk': resolve(root, '../../packages/node-sdk/src/index.ts'),
+    '@yaseenhq/migration-legacy': resolve(root, '../../packages/migration-legacy/src/index.ts'),
+    '@yaseenhq/agent-core': resolve(root, '../../packages/agent-core/src/index.ts'),
+    '@yaseenhq/kaos': resolve(root, '../../packages/kaos/src/index.ts'),
+    '@yaseenhq/echadron-oauth': resolve(root, '../../packages/oauth/src/index.ts'),
+    '@yaseenhq/tsugite': resolve(root, '../../packages/tsugite/src/index.ts'),
   },
   define: {
     __EXTENSION_VERSION__: JSON.stringify(pkg.version),

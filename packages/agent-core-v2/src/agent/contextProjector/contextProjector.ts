@@ -7,7 +7,7 @@
  */
 
 import { createDecorator } from '#/_base/di/instantiation';
-import type { Message } from '#/kosong/contract/message';
+import type { Message } from '#/tsugite/contract/message';
 
 import type { ContextMessage } from '#/agent/contextMemory/types';
 

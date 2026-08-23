@@ -61,7 +61,7 @@ import {
   type QuestionRequest,
   type QuestionResult,
   type Scope,
-} from '@moonshot-ai/agent-core-v2';
+} from '@yaseenhq/agent-core-v2';
 import { ErrorCode } from '../protocol/error-codes';
 import {
   type QuestionItem as ProtocolQuestionItem,

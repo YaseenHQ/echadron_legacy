@@ -13,7 +13,7 @@ import {
   type Message,
   type ProviderCompactionResult,
   type Tool,
-} from '@moonshot-ai/kosong';
+} from '@yaseenhq/tsugite';
 
 import type { EnabledPluginSessionStart, PluginCommandDef } from '#/plugin';
 import { expandCommandArguments } from '../plugin/commands';
@@ -60,12 +60,12 @@ import type { SkillRegistry } from './skill/types';
 import { SwarmMode } from './swarm';
 import { ToolManager } from './tool/index';
 import { TurnFlow } from './turn';
-import { KosongLLM } from './turn/kosong-llm';
+import { TsugiteLLM } from './turn/tsugite-llm';
 import { UsageRecorder } from './usage';
 import { LlmRequestLogger, splitGenerateOptions } from './llm-request-logger';
 import { LlmRequestRecorder } from './llm-request-recorder';
 import { resolveCompletionBudget } from '../utils/completion-budget';
-import type { Kaos } from '@moonshot-ai/kaos';
+import type { Kaos } from '@yaseenhq/kaos';
 import type { ToolServices } from '../tools/support/services';
 
 export type { AgentRecord, AgentRecordPersistence } from './records';
@@ -292,7 +292,7 @@ export class Agent {
       const { requestLogFields, generateOptions } = splitGenerateOptions(options);
       const modelAlias = this.config.modelAlias;
       const run = (requestOptions: Parameters<typeof generate>[5]) => {
-        // Mirror kosong generate()'s pre-flight abort check: a call whose
+        // Mirror tsugite generate()'s pre-flight abort check: a call whose
         // signal is already aborted never reaches the wire (generate throws
         // before dispatching), so it must not leave a request trace or a
         // diagnostic log line claiming a request was sent.
@@ -450,7 +450,7 @@ export class Agent {
     }
   }
 
-  get llm(): KosongLLM {
+  get llm(): TsugiteLLM {
     // All provider-level request config (thinking, sampling params, thinking.keep)
     // is applied in ConfigState.provider so compaction shares it. See get provider().
     const provider = this.config.provider;
@@ -459,7 +459,7 @@ export class Agent {
       maxOutputSize: this.config.maxOutputSize,
       reservedContextSize: loopControl?.reservedContextSize,
     });
-    return new KosongLLM({
+    return new TsugiteLLM({
       provider,
       systemPrompt: this.config.systemPrompt,
       capability: this.config.modelCapabilities,

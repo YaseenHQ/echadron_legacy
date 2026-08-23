@@ -139,39 +139,39 @@ importers:
         specifier: ^8.18.0
         version: 8.20.0
 
-  apps/kimi-code:
+  apps/echadron:
     devDependencies:
-      '@moonshot-ai/acp-adapter':
+      '@yaseenhq/acp-adapter':
         specifier: workspace:^
         version: link:../../packages/acp-adapter
-      '@moonshot-ai/acp-server':
+      '@yaseenhq/acp-server':
         specifier: workspace:^
         version: link:../../packages/acp-server
-      '@moonshot-ai/agent-core-v2':
+      '@yaseenhq/agent-core-v2':
         specifier: workspace:^
         version: link:../../packages/agent-core-v2
-      '@moonshot-ai/kap-server':
+      '@yaseenhq/kap-server':
         specifier: workspace:^
         version: link:../../packages/kap-server
-      '@moonshot-ai/kimi-code-oauth':
+      '@yaseenhq/echadron-oauth':
         specifier: workspace:^
         version: link:../../packages/oauth
-      '@moonshot-ai/kimi-code-sdk':
+      '@yaseenhq/echadron-sdk':
         specifier: workspace:^
         version: link:../../packages/node-sdk
-      '@moonshot-ai/kimi-telemetry':
+      '@yaseenhq/echadron-telemetry':
         specifier: workspace:^
         version: link:../../packages/telemetry
-      '@moonshot-ai/migration-legacy':
+      '@yaseenhq/migration-legacy':
         specifier: workspace:^
         version: link:../../packages/migration-legacy
-      '@moonshot-ai/pi-tui':
+      '@yaseenhq/pi-tui':
         specifier: workspace:^
         version: link:../../packages/pi-tui
-      '@moonshot-ai/vis-server':
+      '@yaseenhq/vis-server':
         specifier: workspace:^
         version: link:../vis/server
-      '@moonshot-ai/vis-web':
+      '@yaseenhq/vis-web':
         specifier: workspace:*
         version: link:../vis/web
       '@types/semver':
@@ -230,12 +230,12 @@ importers:
         specifier: ^0.3.9
         version: 0.3.9
 
-  apps/kimi-inspect:
+  apps/echadron-inspect:
     dependencies:
-      '@moonshot-ai/agent-core-v2':
+      '@yaseenhq/agent-core-v2':
         specifier: workspace:^
         version: link:../../packages/agent-core-v2
-      '@moonshot-ai/transcript':
+      '@yaseenhq/transcript':
         specifier: workspace:^
         version: link:../../packages/transcript
       '@tanstack/react-query':
@@ -284,12 +284,12 @@ importers:
       '@hono/node-server':
         specifier: ^1.13.7
         version: 1.19.14(hono@4.12.14)
-      '@moonshot-ai/agent-core':
+      '@yaseenhq/agent-core':
         specifier: workspace:^
         version: link:../../../packages/agent-core
-      '@moonshot-ai/kosong':
+      '@yaseenhq/tsugite':
         specifier: workspace:^
-        version: link:../../../packages/kosong
+        version: link:../../../packages/tsugite
       hono:
         specifier: ^4.7.7
         version: 4.12.14
@@ -367,10 +367,10 @@ importers:
       '@fontsource-variable/inter':
         specifier: 5.2.8
         version: 5.2.8
-      '@moonshot-ai/kimi-code-sdk':
+      '@yaseenhq/echadron-sdk':
         specifier: workspace:^
         version: link:../../packages/node-sdk
-      '@moonshot-ai/migration-legacy':
+      '@yaseenhq/migration-legacy':
         specifier: workspace:^
         version: link:../../packages/migration-legacy
       '@radix-ui/react-accordion':
@@ -552,13 +552,13 @@ importers:
       '@agentclientprotocol/sdk':
         specifier: ^0.23.0
         version: 0.23.0(zod@4.3.6)
-      '@moonshot-ai/agent-core':
+      '@yaseenhq/agent-core':
         specifier: workspace:^
         version: link:../agent-core
-      '@moonshot-ai/kaos':
+      '@yaseenhq/kaos':
         specifier: workspace:^
         version: link:../kaos
-      '@moonshot-ai/kimi-code-sdk':
+      '@yaseenhq/echadron-sdk':
         specifier: workspace:^
         version: link:../node-sdk
     devDependencies:
@@ -571,10 +571,10 @@ importers:
       '@agentclientprotocol/sdk-v2':
         specifier: npm:@agentclientprotocol/sdk@^1.3.0
         version: '@agentclientprotocol/sdk@1.3.0(zod@4.3.6)'
-      '@moonshot-ai/acp-adapter':
+      '@yaseenhq/acp-adapter':
         specifier: workspace:^
         version: link:../acp-adapter
-      '@moonshot-ai/kimi-code-sdk':
+      '@yaseenhq/echadron-sdk':
         specifier: workspace:^
         version: link:../node-sdk
 
@@ -595,18 +595,18 @@ importers:
       '@modelcontextprotocol/sdk':
         specifier: ^1.29.0
         version: 1.29.0(zod@4.3.6)
-      '@moonshot-ai/kaos':
+      '@yaseenhq/kaos':
         specifier: workspace:^
         version: link:../kaos
-      '@moonshot-ai/kimi-code-oauth':
+      '@yaseenhq/echadron-oauth':
         specifier: workspace:^
         version: link:../oauth
-      '@moonshot-ai/kosong':
-        specifier: workspace:^
-        version: link:../kosong
-      '@moonshot-ai/protocol':
+      '@yaseenhq/protocol':
         specifier: workspace:^
         version: link:../protocol
+      '@yaseenhq/tsugite':
+        specifier: workspace:^
+        version: link:../tsugite
       '@mozilla/readability':
         specifier: ^0.6.0
         version: 0.6.0
@@ -734,16 +734,16 @@ importers:
       '@modelcontextprotocol/sdk':
         specifier: ^1.29.0
         version: 1.29.0(zod@4.3.6)
-      '@moonshot-ai/kimi-code-oauth':
+      '@yaseenhq/echadron-oauth':
         specifier: workspace:^
         version: link:../oauth
-      '@moonshot-ai/minidb':
+      '@yaseenhq/minidb':
         specifier: workspace:^
         version: link:../minidb
-      '@moonshot-ai/protocol':
+      '@yaseenhq/protocol':
         specifier: workspace:^
         version: link:../protocol
-      '@moonshot-ai/tree-sitter-bash':
+      '@yaseenhq/tree-sitter-bash':
         specifier: workspace:^
         version: link:../tree-sitter-bash
       '@mozilla/readability':
@@ -887,16 +887,16 @@ importers:
       '@fastify/swagger':
         specifier: ^9.7.0
         version: 9.7.0
-      '@moonshot-ai/agent-core-v2':
+      '@yaseenhq/agent-core-v2':
         specifier: workspace:^
         version: link:../agent-core-v2
-      '@moonshot-ai/kimi-code-oauth':
+      '@yaseenhq/echadron-oauth':
         specifier: workspace:^
         version: link:../oauth
-      '@moonshot-ai/protocol':
+      '@yaseenhq/protocol':
         specifier: workspace:^
         version: link:../protocol
-      '@moonshot-ai/transcript':
+      '@yaseenhq/transcript':
         specifier: workspace:^
         version: link:../transcript
       bcryptjs:
@@ -933,14 +933,14 @@ importers:
 
   packages/klient:
     dependencies:
-      '@moonshot-ai/agent-core-v2':
+      '@yaseenhq/agent-core-v2':
         specifier: workspace:^
         version: link:../agent-core-v2
       zod:
         specifier: 'catalog:'
         version: 4.3.6
     devDependencies:
-      '@moonshot-ai/protocol':
+      '@yaseenhq/protocol':
         specifier: workspace:^
         version: link:../protocol
       '@types/ws':
@@ -953,34 +953,9 @@ importers:
         specifier: ^8.18.0
         version: 8.20.0
 
-  packages/kosong:
-    dependencies:
-      '@anthropic-ai/sdk':
-        specifier: ^0.95.2
-        version: 0.95.2(zod@4.3.6)
-      '@google/genai':
-        specifier: ^1.49.0
-        version: 1.49.0(@modelcontextprotocol/sdk@1.29.0(zod@4.3.6))
-      openai:
-        specifier: ^6.34.0
-        version: 6.34.0(ws@8.20.0)(zod@4.3.6)
-      zod:
-        specifier: ^4.3.6
-        version: 4.3.6
-      zod-to-json-schema:
-        specifier: ^3.25.2
-        version: 3.25.2(zod@4.3.6)
-    devDependencies:
-      ajv:
-        specifier: ^8.18.0
-        version: 8.18.0
-      ajv-formats:
-        specifier: ^3.0.1
-        version: 3.0.1(ajv@8.18.0)
-
   packages/migration-legacy:
     dependencies:
-      '@moonshot-ai/agent-core':
+      '@yaseenhq/agent-core':
         specifier: workspace:^
         version: link:../agent-core
       smol-toml:
@@ -990,7 +965,7 @@ importers:
         specifier: ^4.3.6
         version: 4.3.6
     devDependencies:
-      '@moonshot-ai/kaos':
+      '@yaseenhq/kaos':
         specifier: workspace:^
         version: link:../kaos
 
@@ -1011,24 +986,24 @@ importers:
         specifier: ^4.3.6
         version: 4.3.6
     devDependencies:
-      '@moonshot-ai/agent-core':
+      '@yaseenhq/agent-core':
         specifier: workspace:^
         version: link:../agent-core
-      '@moonshot-ai/agent-core-v2':
+      '@yaseenhq/agent-core-v2':
         specifier: workspace:^
         version: link:../agent-core-v2
-      '@moonshot-ai/kaos':
+      '@yaseenhq/kaos':
         specifier: workspace:^
         version: link:../kaos
-      '@moonshot-ai/kimi-code-oauth':
+      '@yaseenhq/echadron-oauth':
         specifier: workspace:^
         version: link:../oauth
-      '@moonshot-ai/klient':
+      '@yaseenhq/klient':
         specifier: workspace:^
         version: link:../klient
-      '@moonshot-ai/kosong':
+      '@yaseenhq/tsugite':
         specifier: workspace:^
-        version: link:../kosong
+        version: link:../tsugite
       '@types/yazl':
         specifier: ^2.4.6
         version: 2.4.6
@@ -1038,9 +1013,9 @@ importers:
 
   packages/oauth:
     dependencies:
-      '@moonshot-ai/kosong':
+      '@yaseenhq/tsugite':
         specifier: workspace:^
-        version: link:../kosong
+        version: link:../tsugite
       proper-lockfile:
         specifier: ^4.1.2
         version: 4.1.2
@@ -1090,6 +1065,31 @@ importers:
       web-tree-sitter:
         specifier: 0.25.10
         version: 0.25.10
+
+  packages/tsugite:
+    dependencies:
+      '@anthropic-ai/sdk':
+        specifier: ^0.95.2
+        version: 0.95.2(zod@4.3.6)
+      '@google/genai':
+        specifier: ^1.49.0
+        version: 1.49.0(@modelcontextprotocol/sdk@1.29.0(zod@4.3.6))
+      openai:
+        specifier: ^6.34.0
+        version: 6.34.0(ws@8.20.0)(zod@4.3.6)
+      zod:
+        specifier: ^4.3.6
+        version: 4.3.6
+      zod-to-json-schema:
+        specifier: ^3.25.2
+        version: 3.25.2(zod@4.3.6)
+    devDependencies:
+      ajv:
+        specifier: ^8.18.0
+        version: 8.18.0
+      ajv-formats:
+        specifier: ^3.0.1
+        version: 3.0.1(ajv@8.18.0)
 
 packages:
 

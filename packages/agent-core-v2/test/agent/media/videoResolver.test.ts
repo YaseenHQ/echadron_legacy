@@ -7,10 +7,10 @@ import { AgentVideoResolverService } from '#/agent/media/videoResolverService';
 import { AgentStateService } from '#/agent/state/agentStateService';
 import type { GetResult, IFileService } from '#/app/file/fileService';
 import type { ITelemetryService } from '#/app/telemetry/telemetry';
-import type { ModelCapability } from '#/kosong/contract/capability';
-import type { Message, VideoURLPart } from '#/kosong/contract/message';
-import type { ModelRequester } from '#/kosong/model/modelRequester';
-import type { Protocol } from '#/kosong/protocol/protocol';
+import type { ModelCapability } from '#/tsugite/contract/capability';
+import type { Message, VideoURLPart } from '#/tsugite/contract/message';
+import type { ModelRequester } from '#/tsugite/model/modelRequester';
+import type { Protocol } from '#/tsugite/protocol/protocol';
 import type { IBlobStore } from '#/persistence/interface/blobStore';
 
 const FILE_ID = 'file_abc';

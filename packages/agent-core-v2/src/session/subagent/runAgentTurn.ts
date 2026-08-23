@@ -19,8 +19,8 @@
  * `isTruncatedTurnError` rather than its message.
  */
 
-import { APIProviderRateLimitError, isProviderRateLimitError } from '#/kosong/contract/errors';
-import { type TokenUsage } from '#/kosong/contract/usage';
+import { APIProviderRateLimitError, isProviderRateLimitError } from '#/tsugite/contract/errors';
+import { type TokenUsage } from '#/tsugite/contract/usage';
 
 import { linkAbortSignal, userCancellationReason } from '#/_base/utils/abort';
 import type { IAgentScopeHandle } from '#/_base/di/scope';

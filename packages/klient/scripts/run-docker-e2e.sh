@@ -45,7 +45,7 @@ NM_ROOT="${STATE_ROOT}/docker-e2e/${RUN_ID}/nm"
 
 workspace_node_modules=(
   "root:/workspace/kimi-code/node_modules"
-  "apps_kimi-code:/workspace/kimi-code/apps/kimi-code/node_modules"
+  "apps_kimi-code:/workspace/kimi-code/apps/echadron/node_modules"
   "apps_echadron-web:/workspace/kimi-code/apps/echadron-web/node_modules"
   "apps_vis:/workspace/kimi-code/apps/vis/node_modules"
   "apps_vis_server:/workspace/kimi-code/apps/vis/server/node_modules"
@@ -56,7 +56,7 @@ workspace_node_modules=(
   "pkg_kap-server:/workspace/kimi-code/packages/kap-server/node_modules"
   "pkg_server-e2e:/workspace/kimi-code/packages/klient/node_modules"
   "pkg_kaos:/workspace/kimi-code/packages/kaos/node_modules"
-  "pkg_kosong:/workspace/kimi-code/packages/kosong/node_modules"
+  "pkg_tsugite:/workspace/kimi-code/packages/tsugite/node_modules"
   "pkg_migration-legacy:/workspace/kimi-code/packages/migration-legacy/node_modules"
   "pkg_node-sdk:/workspace/kimi-code/packages/node-sdk/node_modules"
   "pkg_oauth:/workspace/kimi-code/packages/oauth/node_modules"

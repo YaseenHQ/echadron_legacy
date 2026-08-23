@@ -7,7 +7,7 @@
 import { mkdir, readFile, realpath, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 
-import type * as KosongModule from '@moonshot-ai/kosong';
+import type * as TsugiteModule from '@yaseenhq/tsugite';
 import { afterEach, beforeEach, describe, expect, expectTypeOf, it, vi } from 'vitest';
 
 import {
@@ -33,8 +33,8 @@ const fakeProviderState = vi.hoisted(() => ({
   responseText: 'skill response',
 }));
 
-vi.mock('@moonshot-ai/kosong', async (importOriginal) => {
-  const actual = await importOriginal<typeof KosongModule>();
+vi.mock('@yaseenhq/tsugite', async (importOriginal) => {
+  const actual = await importOriginal<typeof TsugiteModule>();
   return {
     ...actual,
     createProvider: () => ({

@@ -151,7 +151,7 @@ function makeFakeQuestion(): QuestionRequest & { sessionId: string; agentId: str
   };
 }
 
-describe('@moonshot-ai/agent-core · services interfaces', () => {
+describe('@yaseenhq/agent-core · services interfaces', () => {
   it('does not depend on the node SDK package', () => {
     expect(readPackageFiles()).not.toContain(sdkPackageName);
   });

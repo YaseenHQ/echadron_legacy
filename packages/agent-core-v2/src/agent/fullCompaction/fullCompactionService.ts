@@ -28,14 +28,14 @@ import {
   estimateTokensForMessage,
   estimateTokensForMessages,
   estimateTokensForTools,
-} from "#/kosong/contract/tokens";
+} from "#/tsugite/contract/tokens";
 import { buildCompactionSummaryText, isRealUserInput } from '#/agent/contextMemory/compactionHandoff';
 import { IAgentContextInjectorService } from '#/agent/contextInjector/contextInjector';
 import { IAgentContextMemoryService } from '#/agent/contextMemory/contextMemory';
 import type { ContextMessage } from '#/agent/contextMemory/types';
 import { IAgentContextSizeService } from '#/agent/contextSize/contextSize';
 import { IAgentLLMRequesterService, type AgentLLMRequestFinish } from '#/agent/llmRequester/llmRequester';
-import type { LLMRequestTrace } from '#/kosong/contract/requestTrace';
+import type { LLMRequestTrace } from '#/tsugite/contract/requestTrace';
 import {
   readRetryAfterMs,
   retryBackoffDelays,
@@ -56,10 +56,10 @@ import {
   APIEmptyResponseError,
   APIStatusError,
   isRetryableGenerateError,
-} from '#/kosong/contract/errors';
-import { createUserMessage, type Message } from '#/kosong/contract/message';
-import type { Tool } from '#/kosong/contract/tool';
-import { inputTotal, type TokenUsage } from '#/kosong/contract/usage';
+} from '#/tsugite/contract/errors';
+import { createUserMessage, type Message } from '#/tsugite/contract/message';
+import type { Tool } from '#/tsugite/contract/tool';
+import { inputTotal, type TokenUsage } from '#/tsugite/contract/usage';
 import { IEventBus } from '#/app/event/eventBus';
 import type { CompactionFailedEvent, CompactionFinishedEvent } from '#/app/telemetry/events';
 import { ITelemetryService } from '#/app/telemetry/telemetry';

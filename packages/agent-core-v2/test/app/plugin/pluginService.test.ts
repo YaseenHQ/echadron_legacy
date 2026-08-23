@@ -7,14 +7,14 @@
  * discovery are stubbed, while the installed-file store remains real except
  * for controlled read/write failures used for concurrency and rollback.
  *
- * Run: pnpm --filter @moonshot-ai/agent-core-v2 exec vitest run test/app/plugin/pluginService.test.ts
+ * Run: pnpm --filter @yaseenhq/agent-core-v2 exec vitest run test/app/plugin/pluginService.test.ts
  */
 
 import { mkdir, mkdtemp, readdir, readFile, realpath, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 
-import { KIMI_CODE_PROVIDER_NAME } from '@moonshot-ai/kimi-code-oauth';
+import { KIMI_CODE_PROVIDER_NAME } from '@yaseenhq/echadron-oauth';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import {
@@ -27,7 +27,7 @@ import { createScopedTestHost, stubPair, type ScopedTestHost } from '#/_base/di/
 import { IBootstrapService } from '#/app/bootstrap/bootstrap';
 import { IPluginService } from '#/app/plugin/plugin';
 import { PluginService } from '#/app/plugin/pluginService';
-import { IProviderService, type ProviderConfig } from '#/kosong/provider/provider';
+import { IProviderService, type ProviderConfig } from '#/tsugite/provider/provider';
 import { ISkillDiscovery } from '#/app/skillCatalog/skillDiscovery';
 import * as pluginStore from '#/app/plugin/store';
 import type { InstalledFile } from '#/app/plugin/store';

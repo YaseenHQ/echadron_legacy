@@ -18,7 +18,7 @@ import { LifecycleScope, ScopeActivation, registerScopedService } from '#/_base/
 import { IAgentBlobService } from '#/agent/blob/agentBlobService';
 import { IAgentScopeContext } from '#/agent/scopeContext/scopeContext';
 import { type DomainEvent, IEventBus } from '#/app/event/eventBus';
-import type { ContentPart } from '#/kosong/contract/message';
+import type { ContentPart } from '#/tsugite/contract/message';
 import { OrderedHookSlot } from '#/hooks';
 import { IAppendLogStore } from '#/persistence/interface/appendLogStore';
 import { StorageError, StorageErrors } from '#/persistence/interface/storage';

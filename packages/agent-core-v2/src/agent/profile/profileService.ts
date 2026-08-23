@@ -49,12 +49,12 @@
 import { Disposable } from '#/_base/di/lifecycle';
 import { LifecycleScope, ScopeActivation, registerScopedService } from '#/_base/di/scope';
 import { defineState } from '#/_base/state/stateRegistry';
-import { UNKNOWN_CAPABILITY, type ModelCapability } from '#/kosong/contract/capability';
-import { type SamplingOptions, type ThinkingEffort } from '#/kosong/contract/provider';
-import { IModelCatalog, type Model } from '#/kosong/model/catalog';
-import { type ModelOverrides } from '#/kosong/model/model.types';
-import { type ModelRequestParams } from '#/kosong/model/modelRequester';
-import { IProtocolAdapterRegistry } from '#/kosong/protocol/protocol';
+import { UNKNOWN_CAPABILITY, type ModelCapability } from '#/tsugite/contract/capability';
+import { type SamplingOptions, type ThinkingEffort } from '#/tsugite/contract/provider';
+import { IModelCatalog, type Model } from '#/tsugite/model/catalog';
+import { type ModelOverrides } from '#/tsugite/model/model.types';
+import { type ModelRequestParams } from '#/tsugite/model/modelRequester';
+import { IProtocolAdapterRegistry } from '#/tsugite/protocol/protocol';
 import {
   drivesThinkingThroughTraits,
   modelSupportsThinkingEffort,
@@ -64,13 +64,13 @@ import {
   resolveThinkingKeep,
   requiresStrictThinkingValidation,
   type ThinkingConfig,
-} from '#/kosong/model/thinking';
-import { THINKING_SECTION } from '#/app/kosongConfig/configSection';
+} from '#/tsugite/model/thinking';
+import { THINKING_SECTION } from '#/app/tsugiteConfig/configSection';
 import { DEFAULT_AGENT_PROFILE_NAME, IAgentProfileCatalogService } from '#/app/agentProfileCatalog/agentProfileCatalog';
 import { ErrorCodes, Error2 } from "#/errors";
 import { IBootstrapService } from '#/app/bootstrap/bootstrap';
 import { IConfigService } from '#/app/config/config';
-import { secondaryModelDisplayAlias } from '#/app/kosongConfig/secondaryModelOverlay';
+import { secondaryModelDisplayAlias } from '#/app/tsugiteConfig/secondaryModelOverlay';
 import type { LoopControl } from '#/agent/loop/configSection';
 import { IHostEnvironment } from '#/os/interface/hostEnvironment';
 import { IHostFileSystem } from '#/os/interface/hostFileSystem';

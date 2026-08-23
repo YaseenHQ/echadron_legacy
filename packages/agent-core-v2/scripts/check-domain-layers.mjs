@@ -5,12 +5,12 @@
  * Enforces three rules over `packages/agent-core-v2/src/**` (and the v1-import
  * ban over `test/**` too):
  *
- *  1. **No v1 imports** — v2 must never `import '@moonshot-ai/agent-core'`
+ *  1. **No v1 imports** — v2 must never `import '@yaseenhq/agent-core'`
  *     (or any subpath). v2 ports logic; it never depends on v1.
  *  2. **Domain layering** — a domain at layer L may only import domains at
  *     layer `<= L`. Lower layers must not reach upward. See
  *     `plan/PLAN.md` §3 / §5 for the layer table.
- *  3. **Kosong layering** — the `src/kosong/{contract,protocol,provider,model}`
+ *  3. **Tsugite layering** — the `src/tsugite/{contract,protocol,provider,model}`
  *     subtree has its own stricter rules on top of the numeric layers:
  *       - internal order: contract(L0) ← protocol(L1) ← provider/model(L2)
  *         ← catalog(L3); a lower layer never imports a higher one (so L1
@@ -25,13 +25,13 @@
  *         registration side lives in `*.contrib.ts` and in each base
  *         directory's `index.ts` barrel (import = registration); both are
  *         exempt.
- *     Kosong directories that do not exist yet are skipped silently (later
+ *     Tsugite directories that do not exist yet are skipped silently (later
  *     refactor phases add them).
  *
  * Intra-package relative imports and `#/`-alias imports are resolved to a
  * domain by the first path segment under `src/`. Sibling packages
- * (`@moonshot-ai/*` other than v1) and third-party imports are out of scope
- * (except for the kosong purity bans above).
+ * (`@yaseenhq/*` other than v1) and third-party imports are out of scope
+ * (except for the tsugite purity bans above).
  *
  * Run: `node scripts/check-domain-layers.mjs`. Exits non-zero on violation.
  */
@@ -62,7 +62,7 @@ const DOMAIN_LAYER = new Map([
   ['errors', 0],
   // `llmProtocol` is v2's public wire-type namespace (`Message`,
   // `ContentPart`, `Tool`, `TokenUsage`, `FinishReason`, error classes,
-  // etc.). It has no v2 dependencies of its own (it vendors the kosong wire
+  // etc.). It has no v2 dependencies of its own (it vendors the tsugite wire
   // implementation directly within `llmProtocol`); every domain — including
   // `_base/utils/tokens` and `_base/errors/serialize` — may import wire types
   // through it, so it sits at L0.
@@ -109,7 +109,7 @@ const DOMAIN_LAYER = new Map([
   // domain may hold its plain-data state through it; sits in L1 beside `event`.
   ['state', 1],
   // `bashParser` is the App-scope adapter over the pure
-  // `@moonshot-ai/tree-sitter-bash` package (bash source → syntax tree DTO).
+  // `@yaseenhq/tree-sitter-bash` package (bash source → syntax tree DTO).
   // It injects no services, so it sits in L1 beside the other pure
   // capabilities.
   ['bashParser', 1],
@@ -279,45 +279,45 @@ const DOMAIN_LAYER = new Map([
   ['sessionLegacy', 7],
   ['authLegacy', 7],
   ['messageLegacy', 7],
-  // Kosong subtree (`src/kosong/{contract,protocol,provider,model}`).
-  // The numeric entries make kosong visible to non-kosong importers (e.g. an
-  // L4 agent domain may import the L0 contract); the stricter kosong-internal
-  // rules live in the KOSONG_* tables below and are checked separately.
-  ['kosong/contract', 0],
-  ['kosong/protocol', 1],
-  ['kosong/provider', 2],
-  ['kosong/model', 2],
-  // `kosongConfig` (App, L3) is the persistence wrapper over kosong: it
-  // declares the kosong-owned config sections (constants + zod schemas
-  // re-derived from kosong's pure types, compile-time pinned) and their
-  // env-overlay registrations, the two-way config ↔ kosong sync bridge, the
+  // Tsugite subtree (`src/tsugite/{contract,protocol,provider,model}`).
+  // The numeric entries make tsugite visible to non-tsugite importers (e.g. an
+  // L4 agent domain may import the L0 contract); the stricter tsugite-internal
+  // rules live in the TSUGITE_* tables below and are checked separately.
+  ['tsugite/contract', 0],
+  ['tsugite/protocol', 1],
+  ['tsugite/provider', 2],
+  ['tsugite/model', 2],
+  // `tsugiteConfig` (App, L3) is the persistence wrapper over tsugite: it
+  // declares the tsugite-owned config sections (constants + zod schemas
+  // re-derived from tsugite's pure types, compile-time pinned) and their
+  // env-overlay registrations, the two-way config ↔ tsugite sync bridge, the
   // OAuth token adapter, and the discovery orchestrator. It may import
-  // `config`/`auth`/`event` (L1–L2) and every kosong layer; kosong never
+  // `config`/`auth`/`event` (L1–L2) and every tsugite layer; tsugite never
   // imports it back.
-  ['kosongConfig', 3],
+  ['tsugiteConfig', 3],
 ]);
 
-const V1_PACKAGE = '@moonshot-ai/agent-core';
+const V1_PACKAGE = '@yaseenhq/agent-core';
 
 /**
  * Scope directories introduced by the `src/{scope}/{domain}` layout. A path's
  * first segment is a scope tier, not a domain; the domain is the next segment.
  */
-const SCOPE_DIRS = new Set(['app', 'session', 'agent', 'persistence', 'os', 'kosong']);
+const SCOPE_DIRS = new Set(['app', 'session', 'agent', 'persistence', 'os', 'tsugite']);
 
 /**
  * Two-level scope directories: `persistence` and `os` use `{scope}/{tier}`
- * (e.g. `persistence/interface`, `os/backends`) as the domain key; `kosong`
- * uses `{scope}/{layer}` (e.g. `kosong/contract`) the same way.
+ * (e.g. `persistence/interface`, `os/backends`) as the domain key; `tsugite`
+ * uses `{scope}/{layer}` (e.g. `tsugite/contract`) the same way.
  */
-const TWO_LEVEL_SCOPES = new Set(['persistence', 'os', 'kosong']);
+const TWO_LEVEL_SCOPES = new Set(['persistence', 'os', 'tsugite']);
 
 /**
- * Kosong-internal layer order: contract ← protocol ← provider/model.
+ * Tsugite-internal layer order: contract ← protocol ← provider/model.
  * A lower layer never imports a higher one; `model` → `provider`
- * is the only allowed peer edge. Keyed by the segment under `src/kosong/`.
+ * is the only allowed peer edge. Keyed by the segment under `src/tsugite/`.
  */
-const KOSONG_LAYER = new Map([
+const TSUGITE_LAYER = new Map([
   ['contract', 0],
   ['protocol', 1],
   ['provider', 2],
@@ -325,37 +325,37 @@ const KOSONG_LAYER = new Map([
 ]);
 
 /**
- * Kosong is a pure provider/model abstraction layer: NO kosong subdomain may
- * import another v2 domain outside kosong itself — only `_base` utilities
- * are allowed. (`protocol` additionally sees `kosong/contract`, handled by
+ * Tsugite is a pure provider/model abstraction layer: NO tsugite subdomain may
+ * import another v2 domain outside tsugite itself — only `_base` utilities
+ * are allowed. (`protocol` additionally sees `tsugite/contract`, handled by
  * Rule 3b above.) Config persistence, OAuth tokens, events, and discovery
- * orchestration all live in the upper `app/kosongConfig` wrapper — kosong
+ * orchestration all live in the upper `app/tsugiteConfig` wrapper — tsugite
  * must never reach up to them.
  */
-const KOSONG_BASE_ONLY_SUBDOMAINS = new Set(['contract', 'protocol', 'provider', 'model']);
+const TSUGITE_BASE_ONLY_SUBDOMAINS = new Set(['contract', 'protocol', 'provider', 'model']);
 
 /**
- * Wire SDK packages the pure kosong layers must never import — not even
+ * Wire SDK packages the pure tsugite layers must never import — not even
  * types. `contract` in fact imports no external package at all; this list
  * covers the SDK ban for `protocol`.
  */
-const KOSONG_BANNED_SDK_PACKAGES = ['@anthropic-ai/sdk', '@google/genai', 'openai'];
+const TSUGITE_BANNED_SDK_PACKAGES = ['@anthropic-ai/sdk', '@google/genai', 'openai'];
 
 /**
- * Parse an absolute path under `src/kosong/` into its subdomain info.
- * Returns `undefined` for paths outside `src/kosong/`.
+ * Parse an absolute path under `src/tsugite/` into its subdomain info.
+ * Returns `undefined` for paths outside `src/tsugite/`.
  * @param {string} absPath
  * @returns {{ sub: string | undefined, inBases: boolean, isContrib: boolean, isIndex: boolean } | undefined}
  */
-function kosongInfoOf(absPath) {
+function tsugiteInfoOf(absPath) {
   const rel = relative(SRC_ROOT, absPath);
   if (rel.startsWith('..') || rel === '') return undefined;
   const segments = rel.split(/[\\/]/);
-  if (segments[0] !== 'kosong') return undefined;
+  if (segments[0] !== 'tsugite') return undefined;
   const sub = segments[1];
   const last = segments[segments.length - 1] ?? '';
   return {
-    // A file directly under `src/kosong/` has no subdomain.
+    // A file directly under `src/tsugite/` has no subdomain.
     sub: sub === undefined || sub.endsWith('.ts') ? undefined : sub,
     inBases: sub === 'provider' && segments[2] === 'bases',
     isContrib: last.endsWith('.contrib.ts'),
@@ -365,22 +365,22 @@ function kosongInfoOf(absPath) {
 
 /**
  * Whether an import target is off-limits to base implementation files under
- * `kosong/provider/bases/` (everything except `*.contrib.ts` and the
+ * `tsugite/provider/bases/` (everything except `*.contrib.ts` and the
  * registration `index.ts` barrels): the base registry
- * (`kosong/protocol/protocolBase`), the adapter registry
- * (`kosong/provider/protocolAdapterRegistry`), the provider-definition
- * registry (`kosong/provider/providerDefinition`), or any contrib
+ * (`tsugite/protocol/protocolBase`), the adapter registry
+ * (`tsugite/provider/protocolAdapterRegistry`), the provider-definition
+ * registry (`tsugite/provider/providerDefinition`), or any contrib
  * side-effect module. Matches extensionless specifiers too.
  * @param {string} targetAbs
  */
-function isKosongBasesBannedTarget(targetAbs) {
+function isTsugiteBasesBannedTarget(targetAbs) {
   const rel = relative(SRC_ROOT, targetAbs).split(/[\\/]/).join('/');
   const stripped = rel.endsWith('.ts') ? rel.slice(0, -'.ts'.length) : rel;
   if (stripped.endsWith('.contrib')) return true;
   return (
-    /(^|\/)kosong\/provider\/providerDefinition$/.test(stripped) ||
-    /(^|\/)kosong\/provider\/protocolAdapterRegistry$/.test(stripped) ||
-    /(^|\/)kosong\/protocol\/protocolBase$/.test(stripped)
+    /(^|\/)tsugite\/provider\/providerDefinition$/.test(stripped) ||
+    /(^|\/)tsugite\/provider\/protocolAdapterRegistry$/.test(stripped) ||
+    /(^|\/)tsugite\/protocol\/protocolBase$/.test(stripped)
   );
 }
 
@@ -445,9 +445,9 @@ const ALLOWED_EXCEPTIONS = new Set([
   'bootstrap>skillCatalog',
   // bootstrap is the composition root — it wires backends by design.
   'bootstrap>persistence/backends',
-  // bootstrap instantiates the kosong persistence bridge eagerly so kosong's
+  // bootstrap instantiates the tsugite persistence bridge eagerly so tsugite's
   // registries are hydrated before any consumer can await their `ready`.
-  'bootstrap>kosongConfig',
+  'bootstrap>tsugiteConfig',
   // `auth` (KimiOAuth, L2) owns the OAuth-backed `WebSearch` tool and registers
   // it through the tool contribution API, so it reaches up to the L3 tool
   // contract and registry. Surfaced for review: the tool needs an authenticated
@@ -455,11 +455,11 @@ const ALLOWED_EXCEPTIONS = new Set([
   // auth-independent `web` domain.
   'auth>tool',
   'auth>toolRegistry',
-  // Transitional: `auth` (L2) reads/writes the kosong-owned config sections
+  // Transitional: `auth` (L2) reads/writes the tsugite-owned config sections
   // (providers/models/thinking), whose constants and schemas are declared by
-  // the `kosongConfig` persistence wrapper (L3), when provisioning or clearing
+  // the `tsugiteConfig` persistence wrapper (L3), when provisioning or clearing
   // OAuth-managed config. Slated for cleanup with the auth layering rework.
-  'auth>kosongConfig',
+  'auth>tsugiteConfig',
   // `auth` (L2) builds the OAuth-backed `WebSearchProvider` that the
   // `WebSearch` tool delegates to; the provider/result contract types moved
   // with the tool into the `tools` domain (L7).
@@ -623,81 +623,81 @@ export function checkSource(source, absFile) {
     if (!inSrc) continue;
     if (sourceDomain === undefined) continue; // top-level barrel / non-domain file
     const targetAbs = resolveIntraV2(specifier, absFile);
-    const sourceKosong = kosongInfoOf(absFile);
+    const sourceTsugite = tsugiteInfoOf(absFile);
 
-    // Rule 3a: kosong purity bans on external packages. The L0 contract
+    // Rule 3a: tsugite purity bans on external packages. The L0 contract
     // imports no external package at all (no SDKs, not even types); the L1
     // protocol layer is SDK-free but may use general-purpose packages.
     if (targetAbs === undefined) {
-      if (sourceKosong?.sub === 'contract') {
+      if (sourceTsugite?.sub === 'contract') {
         violations.push({
           file: absFile,
           line,
-          message: `kosong/contract must not import external package '${specifier}' — the L0 wire contract is pure (no SDK, no I/O, no third-party dependencies)`,
+          message: `tsugite/contract must not import external package '${specifier}' — the L0 wire contract is pure (no SDK, no I/O, no third-party dependencies)`,
         });
       } else if (
-        sourceKosong?.sub === 'protocol' &&
-        KOSONG_BANNED_SDK_PACKAGES.some(
+        sourceTsugite?.sub === 'protocol' &&
+        TSUGITE_BANNED_SDK_PACKAGES.some(
           (pkg) => specifier === pkg || specifier.startsWith(`${pkg}/`),
         )
       ) {
         violations.push({
           file: absFile,
           line,
-          message: `kosong/protocol must not import wire SDK '${specifier}' — L1 trait interfaces are SDK-free`,
+          message: `tsugite/protocol must not import wire SDK '${specifier}' — L1 trait interfaces are SDK-free`,
         });
       }
       continue;
     }
 
-    // Rule 3b: kosong-internal layering. Runs even for same-domain imports
+    // Rule 3b: tsugite-internal layering. Runs even for same-domain imports
     // because the provider/bases sub-boundary also bans same-domain targets
     // (registries and contrib modules live beside the bases).
-    const targetKosong = kosongInfoOf(targetAbs);
-    if (sourceKosong !== undefined && targetKosong !== undefined) {
-      const sourceKosongLayer = KOSONG_LAYER.get(sourceKosong.sub);
-      const targetKosongLayer = KOSONG_LAYER.get(targetKosong.sub);
-      if (sourceKosongLayer !== undefined && targetKosongLayer !== undefined) {
-        if (targetKosongLayer > sourceKosongLayer) {
+    const targetTsugite = tsugiteInfoOf(targetAbs);
+    if (sourceTsugite !== undefined && targetTsugite !== undefined) {
+      const sourceTsugiteLayer = TSUGITE_LAYER.get(sourceTsugite.sub);
+      const targetTsugiteLayer = TSUGITE_LAYER.get(targetTsugite.sub);
+      if (sourceTsugiteLayer !== undefined && targetTsugiteLayer !== undefined) {
+        if (targetTsugiteLayer > sourceTsugiteLayer) {
           violations.push({
             file: absFile,
             line,
-            message: `kosong layer violation: 'kosong/${sourceKosong.sub}' (L${sourceKosongLayer}) imports 'kosong/${targetKosong.sub}' (L${targetKosongLayer}) via '${specifier}' — kosong layers are contract(L0) ← protocol(L1) ← provider/model(L2)`,
+            message: `tsugite layer violation: 'tsugite/${sourceTsugite.sub}' (L${sourceTsugiteLayer}) imports 'tsugite/${targetTsugite.sub}' (L${targetTsugiteLayer}) via '${specifier}' — tsugite layers are contract(L0) ← protocol(L1) ← provider/model(L2)`,
           });
-        } else if (sourceKosong.sub === 'provider' && targetKosong.sub === 'model') {
+        } else if (sourceTsugite.sub === 'provider' && targetTsugite.sub === 'model') {
           violations.push({
             file: absFile,
             line,
-            message: `kosong peer violation: 'kosong/provider' must not import 'kosong/model' via '${specifier}' — the peer dependency runs model → provider only`,
+            message: `tsugite peer violation: 'tsugite/provider' must not import 'tsugite/model' via '${specifier}' — the peer dependency runs model → provider only`,
           });
         }
       }
       if (
-        sourceKosong.inBases &&
-        !sourceKosong.isContrib &&
-        !sourceKosong.isIndex &&
-        isKosongBasesBannedTarget(targetAbs)
+        sourceTsugite.inBases &&
+        !sourceTsugite.isContrib &&
+        !sourceTsugite.isIndex &&
+        isTsugiteBasesBannedTarget(targetAbs)
       ) {
         violations.push({
           file: absFile,
           line,
-          message: `kosong bases boundary: base implementation files under 'kosong/provider/bases' must not import registries (protocolBase/protocolAdapterRegistry), providerDefinition, or contrib modules (via '${specifier}') — registration lives in *.contrib.ts and the directory index.ts`,
+          message: `tsugite bases boundary: base implementation files under 'tsugite/provider/bases' must not import registries (protocolBase/protocolAdapterRegistry), providerDefinition, or contrib modules (via '${specifier}') — registration lives in *.contrib.ts and the directory index.ts`,
         });
       }
       continue;
     }
 
-    // Rule 3c: outside the kosong subtree, kosong code may only depend on
-    // `_base` utilities (`protocol` additionally sees `kosong/contract`,
-    // handled by Rule 3b above). This is what keeps kosong a pure
+    // Rule 3c: outside the tsugite subtree, tsugite code may only depend on
+    // `_base` utilities (`protocol` additionally sees `tsugite/contract`,
+    // handled by Rule 3b above). This is what keeps tsugite a pure
     // abstraction layer with no upward dependencies.
-    if (sourceKosong !== undefined && KOSONG_BASE_ONLY_SUBDOMAINS.has(sourceKosong.sub)) {
+    if (sourceTsugite !== undefined && TSUGITE_BASE_ONLY_SUBDOMAINS.has(sourceTsugite.sub)) {
       const targetDomain = targetDomainOf(targetAbs);
       if (targetDomain !== '_base') {
         violations.push({
           file: absFile,
           line,
-          message: `'kosong/${sourceKosong.sub}' must not import domain '${targetDomain ?? specifier}' via '${specifier}' — kosong is a pure abstraction layer: only _base utilities are allowed outside the kosong subtree (persistence/OAuth/discovery live in app/kosongConfig)`,
+          message: `'tsugite/${sourceTsugite.sub}' must not import domain '${targetDomain ?? specifier}' via '${specifier}' — tsugite is a pure abstraction layer: only _base utilities are allowed outside the tsugite subtree (persistence/OAuth/discovery live in app/tsugiteConfig)`,
         });
       }
       continue;

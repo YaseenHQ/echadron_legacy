@@ -1,7 +1,7 @@
 import { randomUUID } from 'node:crypto';
 import { homedir } from 'node:os';
 
-import { applyEchadronEnvironmentAliases } from '@moonshot-ai/kimi-code-oauth';
+import { applyEchadronEnvironmentAliases } from '@yaseenhq/echadron-oauth';
 
 import { ErrorCodes, KimiError } from '#/errors';
 import { getRootLogger, log } from '#/logging/logger';
@@ -156,9 +156,9 @@ import type {
 } from './core-api';
 import type { ResumedAgentState, ResumeSessionResult } from './resumed';
 import type { SDKRPC } from './sdk-api';
-import type { SessionWarning } from '@moonshot-ai/protocol';
+import type { SessionWarning } from '@yaseenhq/protocol';
 import { proxyWithExtraPayload } from './types';
-import { KaosShellNotFoundError, LocalKaos, type Kaos } from '@moonshot-ai/kaos';
+import { KaosShellNotFoundError, LocalKaos, type Kaos } from '@yaseenhq/kaos';
 import type { ToolServices } from '../tools/support/services';
 
 const KIMI_CODE_PROVIDER_NAME = 'managed:kimi-code';

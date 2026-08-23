@@ -41,7 +41,7 @@ export interface CompactionResult {
    */
   droppedCount?: number;
   /** Canonical provider-owned replacement window for native compaction. */
-  replacementMessages?: readonly import('@moonshot-ai/kosong').Message[];
+  replacementMessages?: readonly import('@yaseenhq/tsugite').Message[];
 }
 
 /**

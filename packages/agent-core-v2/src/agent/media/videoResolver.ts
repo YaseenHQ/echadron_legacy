@@ -9,8 +9,8 @@
  */
 
 import { createDecorator } from '#/_base/di/instantiation';
-import type { Message } from '#/kosong/contract/message';
-import type { ModelRequester } from '#/kosong/model/modelRequester';
+import type { Message } from '#/tsugite/contract/message';
+import type { ModelRequester } from '#/tsugite/model/modelRequester';
 
 export interface IAgentVideoResolverService {
   readonly _serviceBrand: undefined;

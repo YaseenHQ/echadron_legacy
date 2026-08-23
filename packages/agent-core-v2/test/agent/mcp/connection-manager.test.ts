@@ -4,7 +4,7 @@
  * Exercises the real connection manager and resolves the real session MCP
  * service through DI. Stdio MCP processes are the external boundary; timeout
  * forwarding tests stub only the MCP SDK client boundary.
- * Run with `pnpm --filter @moonshot-ai/agent-core-v2 exec vitest run
+ * Run with `pnpm --filter @yaseenhq/agent-core-v2 exec vitest run
  * test/agent/mcp/connection-manager.test.ts`.
  */
 

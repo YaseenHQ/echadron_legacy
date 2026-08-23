@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import type { Environment, ShellPathBridge } from '@moonshot-ai/kaos';
+import type { Environment, ShellPathBridge } from '@yaseenhq/kaos';
 
 import {
   canonicalizePath,

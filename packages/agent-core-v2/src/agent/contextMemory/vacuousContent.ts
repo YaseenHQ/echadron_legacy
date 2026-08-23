@@ -9,7 +9,7 @@
  * carry content.
  */
 
-import type { ContentPart } from '#/kosong/contract/message';
+import type { ContentPart } from '#/tsugite/contract/message';
 
 export function isVacuousContentPart(part: ContentPart): boolean {
   if (part.type === 'text') return part.text.trim().length === 0;

@@ -17,9 +17,9 @@ import { mkdirSync } from 'node:fs';
 import { homedir } from 'node:os';
 
 import { join } from 'pathe';
-import { applyEchadronEnvironmentAliases } from '@moonshot-ai/kimi-code-oauth';
+import { applyEchadronEnvironmentAliases } from '@yaseenhq/echadron-oauth';
 
-import type { KimiHostIdentity } from '@moonshot-ai/kimi-code-oauth';
+import type { KimiHostIdentity } from '@yaseenhq/echadron-oauth';
 
 import { SyncDescriptor } from '#/_base/di/descriptors';
 import { createDecorator, type ServiceIdentifier } from '#/_base/di/instantiation';

@@ -1,17 +1,17 @@
 import type { Logger } from '#/logging/types';
 import {
   clampPromptCacheKey,
-  type ProviderConfig as KosongProviderConfig,
+  type ProviderConfig as TsugiteProviderConfig,
   type ModelCapability,
   type ProviderRequestAuth,
-} from '@moonshot-ai/kosong';
+} from '@yaseenhq/tsugite';
 import {
   APIStatusError,
   classifyKimiQuotaError,
   getModelCapability,
   UNKNOWN_CAPABILITY,
-} from '@moonshot-ai/kosong';
-import { parseKimiCodeCustomHeaders } from '@moonshot-ai/kimi-code-oauth';
+} from '@yaseenhq/tsugite';
+import { parseKimiCodeCustomHeaders } from '@yaseenhq/echadron-oauth';
 import {
   effectiveModelAlias,
   type KimiConfig,
@@ -37,7 +37,7 @@ export type OAuthTokenProviderResolver = (
 
 export interface ResolvedRuntimeProvider {
   readonly providerName: string;
-  readonly provider: KosongProviderConfig;
+  readonly provider: TsugiteProviderConfig;
   readonly modelCapabilities: ModelCapability;
   /** Declared 'always_thinking' capability — the model cannot disable thinking. */
   readonly alwaysThinking?: boolean;
@@ -69,7 +69,7 @@ export interface ModelProvider {
 
 export class SingleModelProvider implements ModelProvider {
   constructor(
-    private readonly providerConfig: KosongProviderConfig,
+    private readonly providerConfig: TsugiteProviderConfig,
     private readonly modelCapabilities: ModelCapability = UNKNOWN_CAPABILITY,
   ) {}
 
@@ -138,7 +138,7 @@ export class ProviderManager implements ModelProvider {
       );
     }
 
-    const provider = toKosongProviderConfig(
+    const provider = toTsugiteProviderConfig(
       providerConfig,
       alias.model,
       alias.protocol,
@@ -256,7 +256,7 @@ export class ProviderManager implements ModelProvider {
 
 function resolveModelCapabilities(
   alias: ModelAlias,
-  provider: KosongProviderConfig,
+  provider: TsugiteProviderConfig,
 ): ModelCapability {
   const declared = new Set((alias.capabilities ?? []).map((c) => c.trim().toLowerCase()));
   const detected = getModelCapability(provider.type, provider.model);
@@ -271,14 +271,14 @@ function resolveModelCapabilities(
     max_input_tokens: alias.maxInputSize,
     // Message-level tool declarations ("dynamically loaded tools"). Every
     // field here must be merged explicitly — a capability registered in
-    // kosong that is not forwarded here never reaches the agent.
+    // tsugite that is not forwarded here never reaches the agent.
     dynamically_loaded_tools:
       declared.has('dynamically_loaded_tools') ||
       detected.dynamically_loaded_tools === true,
   };
 }
 
-function toKosongProviderConfig(
+function toTsugiteProviderConfig(
   provider: ProviderConfig,
   model: string,
   modelProtocol: ModelAlias['protocol'],
@@ -295,7 +295,7 @@ function toKosongProviderConfig(
   adaptiveThinking: boolean | undefined,
   betaApi: boolean | undefined,
   requestBody: Record<string, unknown> | undefined,
-): KosongProviderConfig {
+): TsugiteProviderConfig {
   const effectiveType = modelWire ?? (modelProtocol === 'anthropic' ? 'anthropic' : provider.type);
   const envCustomHeaders = parseKimiCodeCustomHeaders();
   switch (effectiveType) {
@@ -456,7 +456,7 @@ function toKosongProviderConfig(
   }
 }
 
-// Returns a fresh `defaultHeaders` field for a kosong provider config so
+// Returns a fresh `defaultHeaders` field for a tsugite provider config so
 // resolved instances never share a header object. Omits the key entirely when
 // there are no headers — callers and tests rely on `'defaultHeaders' in provider`.
 function defaultHeadersField(

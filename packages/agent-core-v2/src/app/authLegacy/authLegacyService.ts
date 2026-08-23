@@ -3,7 +3,7 @@
  *
  * Stateless App-scope projector: reads the configured providers through
  * `provider`, the global default-model selection through `model` (the
- * kosong registry is the runtime source of truth; config is only its
+ * tsugite registry is the runtime source of truth; config is only its
  * persistence), and the managed OAuth provider's cached-token state through
  * `auth`, then assembles the v1 `AuthSummary`. The computation mirrors v1's
  * `AuthSummaryService.get()` so the `/api/v1/auth` envelope is
@@ -11,13 +11,13 @@
  * `IAuthSummaryService` (which serves `/api/v2`) is not involved.
  */
 
-import { KIMI_CODE_PROVIDER_NAME } from '@moonshot-ai/kimi-code-oauth';
+import { KIMI_CODE_PROVIDER_NAME } from '@yaseenhq/echadron-oauth';
 import type { AuthSummary } from './authLegacy';
 
 import { LifecycleScope, ScopeActivation, registerScopedService } from '#/_base/di/scope';
 import { IOAuthService } from '#/app/auth/auth';
-import { IModelService } from '#/kosong/model/model';
-import { IProviderService } from '#/kosong/provider/provider';
+import { IModelService } from '#/tsugite/model/model';
+import { IProviderService } from '#/tsugite/provider/provider';
 
 import { IAuthLegacyService } from './authLegacy';
 
@@ -33,7 +33,7 @@ export class AuthLegacyService implements IAuthLegacyService {
   ) {}
 
   async get(): Promise<AuthSummary> {
-    // The kosong registries become ready once the persistence bridge has
+    // The tsugite registries become ready once the persistence bridge has
     // hydrated them from config — that is the readiness this projection needs.
     await this.modelService.ready;
 

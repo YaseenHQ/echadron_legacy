@@ -1,4 +1,4 @@
-import type { Tool as KosongTool } from '#/kosong/contract/tool';
+import type { Tool as TsugiteTool } from '#/tsugite/contract/tool';
 
 import { createDecorator } from "#/_base/di/instantiation";
 import { type IDisposable } from "#/_base/di/lifecycle";
@@ -8,7 +8,7 @@ import type { MCPClient, MCPToolDefinition } from './types';
 
 export interface McpResolvedServer {
   readonly client: MCPClient;
-  readonly tools: readonly KosongTool[];
+  readonly tools: readonly TsugiteTool[];
   readonly rawTools: readonly MCPToolDefinition[];
   readonly enabledNames: ReadonlySet<string>;
 }

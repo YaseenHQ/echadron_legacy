@@ -5,7 +5,7 @@ import type { AddressInfo } from 'node:net';
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { SSEServerTransport } from '@modelcontextprotocol/sdk/server/sse.js';
 import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/streamableHttp.js';
-import type { Tool as KosongTool } from '#/kosong/contract/tool';
+import type { Tool as TsugiteTool } from '#/tsugite/contract/tool';
 import { z } from 'zod';
 
 import type { McpOAuthStore } from '#/agent/mcp/oauth/store';
@@ -84,7 +84,7 @@ export function fakeMcpClient(
   };
 }
 
-export async function discoverTools(client: MCPClient): Promise<KosongTool[]> {
+export async function discoverTools(client: MCPClient): Promise<TsugiteTool[]> {
   const defs = await client.listTools();
   return defs.map((d) => ({
     name: d.name,

@@ -1,32 +1,32 @@
 /**
  * `model` domain tests — covers `effectiveModelConfig`, the `models` config
- * section registration + TOML transforms (now owned by the app/kosongConfig
+ * section registration + TOML transforms (now owned by the app/tsugiteConfig
  * persistence wrapper), and the `KIMI_MODEL_*` env overlay.
  *
  * The registry itself (`ModelService`) is a pure in-memory store covered by
- * `test/kosong/model/modelService.test.ts`; persistence through the config
- * bridge is covered by `test/app/kosongConfig/kosongConfigService.test.ts`.
+ * `test/tsugite/model/modelService.test.ts`; persistence through the config
+ * bridge is covered by `test/app/tsugiteConfig/tsugiteConfigService.test.ts`.
  */
 
 import { describe, expect, it } from 'vitest';
 
 import { ConfigRegistry } from '#/app/config/configService';
 import { ErrorCodes, Error2 } from '#/errors';
-import { kimiModelEnvOverlay, ENV_MODEL_ALIAS_KEY } from '#/app/kosongConfig/envOverlay';
+import { kimiModelEnvOverlay, ENV_MODEL_ALIAS_KEY } from '#/app/tsugiteConfig/envOverlay';
 import {
   ENV_MODEL_PROVIDER_KEY,
   MODELS_SECTION,
   ModelsSectionSchema,
   modelsFromToml,
   modelsToToml,
-} from '#/app/kosongConfig/configSection';
-import { type ModelRecord } from '#/kosong/model/model';
-import { effectiveModelConfig } from '#/kosong/model/modelAuth';
+} from '#/app/tsugiteConfig/configSection';
+import { type ModelRecord } from '#/tsugite/model/model';
+import { effectiveModelConfig } from '#/tsugite/model/modelAuth';
 
 // Side-effect registrations: endpoint defaults and the trait-driven-thinking
 // verdict (`drivesThinkingThroughTraits`) answer through the provider-definition registry.
-import '#/kosong/provider/providers/kimi/kimi.contrib';
-import '#/kosong/provider/providers/standard.contrib';
+import '#/tsugite/provider/providers/kimi/kimi.contrib';
+import '#/tsugite/provider/providers/standard.contrib';
 
 describe('effectiveModelConfig', () => {
   it('clamps the input cap to the effective total window without mutating the source', () => {

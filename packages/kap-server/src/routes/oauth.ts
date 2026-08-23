@@ -11,7 +11,7 @@
  * (`ix.invokeFunction`) for the v2 one (`core.accessor.get`).
  */
 
-import { IOAuthService, type Scope } from '@moonshot-ai/agent-core-v2';
+import { IOAuthService, type Scope } from '@yaseenhq/agent-core-v2';
 import {
   managedUsageResultSchema,
   oauthFlowSnapshotSchema,
@@ -20,7 +20,7 @@ import {
   oauthLogoutResponseSchema,
   type ManagedUsageResult,
   type UsageRow,
-} from '@moonshot-ai/agent-core-v2/app/auth/oauthProtocol';
+} from '@yaseenhq/agent-core-v2/app/auth/oauthProtocol';
 import { z } from 'zod';
 
 import { okEnvelope } from '../envelope';

@@ -1,5 +1,5 @@
 {
-  "name": "@moonshot-ai/acp-server",
+  "name": "@yaseenhq/acp-server",
   "version": "0.0.2",
   "private": true,
   "description": "ACP v2 server for Echadron, backed by the existing SDK harness",
@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "@agentclientprotocol/sdk-v2": "npm:@agentclientprotocol/sdk@^1.3.0",
-    "@moonshot-ai/acp-adapter": "workspace:^",
-    "@moonshot-ai/kimi-code-sdk": "workspace:^"
+    "@yaseenhq/acp-adapter": "workspace:^",
+    "@yaseenhq/echadron-sdk": "workspace:^"
   }
 }

@@ -14,16 +14,16 @@ import { existsSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'no
 import { tmpdir } from 'node:os';
 import { join } from 'pathe';
 
-import { UNKNOWN_CAPABILITY } from '#/kosong/contract/capability';
+import { UNKNOWN_CAPABILITY } from '#/tsugite/contract/capability';
 import {
   APIConnectionError,
   APIContextOverflowError,
   APIRequestTooLargeError,
   APIStatusError,
-} from '#/kosong/contract/errors';
-import { type Message, type StreamedMessagePart, type ToolCall } from '#/kosong/contract/message';
-import { generate as runKosongGenerate } from '#/kosong/contract/generate';
-import type { ChatProvider, StreamedMessage } from '#/kosong/contract/provider';
+} from '#/tsugite/contract/errors';
+import { type Message, type StreamedMessagePart, type ToolCall } from '#/tsugite/contract/message';
+import { generate as runTsugiteGenerate } from '#/tsugite/contract/generate';
+import type { ChatProvider, StreamedMessage } from '#/tsugite/contract/provider';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import {
@@ -33,7 +33,7 @@ import { COMPACTION_SUMMARY_PREFIX } from '#/agent/contextMemory/compactionHando
 import { makeHookRunner } from '../externalHooks/runner-stub';
 import type { IExternalHooksRunnerService } from '#/app/externalHooksRunner/externalHooksRunner';
 import { MASTER_ENV } from '#/app/flag/flagService';
-import { estimateTokensForMessages } from '#/kosong/contract/tokens';
+import { estimateTokensForMessages } from '#/tsugite/contract/tokens';
 import { recordingTelemetry, type TelemetryRecord } from '../../app/telemetry/stubs';
 import type { TestAgentContext, TestAgentOptions, TestAgentServiceOverride } from '../../harness';
 import { agentService, appServices, createCommandRunner, execEnvServices, hostEnvironmentServices, sessionServices, testAgent } from '../../harness';
@@ -851,7 +851,7 @@ describe('FullCompaction', () => {
     vi.useFakeTimers();
     const firstThinkOnly = deferred<void>();
     const inputs: string[][] = [];
-    const generate = realKosongGenerate((attempt, history) => {
+    const generate = realTsugiteGenerate((attempt, history) => {
       inputs.push(inputHistorySnapshot(history));
       if (attempt === 1) {
         firstThinkOnly.resolve();
@@ -935,7 +935,7 @@ describe('FullCompaction', () => {
     const records: TelemetryRecord[] = [];
     const inputs: string[][] = [];
     const firstResponse = deferred<void>();
-    const generate = realKosongGenerate((attempt, history) => {
+    const generate = realTsugiteGenerate((attempt, history) => {
       inputs.push(inputHistorySnapshot(history));
       if (attempt === 1) {
         firstResponse.resolve();
@@ -1140,7 +1140,7 @@ describe('FullCompaction', () => {
     // The stream delivers response headers (trace id) and one part, then fails
     // — the error itself carries no trace, so attribution must come from the
     // trace captured when the headers arrived.
-    const generate = realKosongGenerate(() => {
+    const generate = realTsugiteGenerate(() => {
       const base = mockStreamedMessage([], 'trace-mid-stream');
       return {
         ...base,
@@ -3035,7 +3035,7 @@ function oauthTestAgentOptions(
       },
     },
     services: appServices((reg) => {
-      // The catalog's OAuth port is `IModelOAuthTokens` (the app/kosongConfig
+      // The catalog's OAuth port is `IModelOAuthTokens` (the app/tsugiteConfig
       // adapter delegates it to IOAuthService in production); stub the port
       // directly, mirroring the adapter's force-flag normalization.
       reg.defineInstance(IModelOAuthTokens, {
@@ -3099,7 +3099,7 @@ function mockStreamedMessage(
   };
 }
 
-function realKosongGenerate(
+function realTsugiteGenerate(
   script: (attempt: number, history: readonly Message[]) => StreamedMessage,
 ): GenerateFn {
   let attempt = 0;
@@ -3112,7 +3112,7 @@ function realKosongGenerate(
       thinkingEffort: chat.thinkingEffort,
       generate: () => Promise.resolve(script(currentAttempt, history)),
     };
-    return runKosongGenerate(provider, systemPrompt, tools, history, callbacks, options);
+    return runTsugiteGenerate(provider, systemPrompt, tools, history, callbacks, options);
   };
 }
 

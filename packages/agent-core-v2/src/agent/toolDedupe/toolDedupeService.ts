@@ -23,12 +23,12 @@ import { defineState } from '#/_base/state/stateRegistry';
 import { canonicalTelemetryArgs } from '#/_base/utils/canonical-args';
 import type { ToolCallDedupDetectedEvent, ToolCallRepeatEvent } from '#/app/telemetry/events';
 import { ITelemetryService } from '#/app/telemetry/telemetry';
-import type { LLMRequestTrace } from '#/kosong/contract/requestTrace';
+import type { LLMRequestTrace } from '#/tsugite/contract/requestTrace';
 import { parseToolCallArguments } from '#/tool/tool-args-parse';
 import { IAgentLoopService } from '#/agent/loop/loop';
 import { IAgentStateService } from '#/agent/state/agentState';
 import { IAgentToolExecutorService, type ToolCallDupType } from '#/agent/toolExecutor/toolExecutor';
-import type { ContentPart } from '#/kosong/contract/message';
+import type { ContentPart } from '#/tsugite/contract/message';
 import { IAgentToolDedupeService, type ToolDedupeResult } from './toolDedupe';
 
 const REMINDER_TEXT_1 =

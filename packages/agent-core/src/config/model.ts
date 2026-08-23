@@ -2,7 +2,7 @@ import {
   BUDGET_THINKING_EFFORTS,
   matchKnownAnthropicModelProfile,
   matchUnknownClaudeProfile,
-} from '@moonshot-ai/kosong/providers/anthropic-profile';
+} from '@yaseenhq/tsugite/providers/anthropic-profile';
 
 import type { ModelAlias, ProviderType } from './schema';
 
@@ -57,7 +57,7 @@ function withAnthropicProfile(model: ModelAlias, providerType?: ProviderType): M
   );
   // `adaptive_thinking = false` opts the endpoint out of the adaptive API, so
   // the catalog must not advertise adaptive-only efforts (xhigh/max) — this
-  // mirrors the budget branch of kosong's resolveThinkingProfile.
+  // mirrors the budget branch of tsugite's resolveThinkingProfile.
   const supportEfforts =
     model.supportEfforts ??
     (model.adaptiveThinking === false ? [...BUDGET_THINKING_EFFORTS] : [...profile.efforts]);

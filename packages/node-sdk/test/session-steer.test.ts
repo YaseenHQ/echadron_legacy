@@ -1,4 +1,4 @@
-import type * as KosongModule from '@moonshot-ai/kosong';
+import type * as TsugiteModule from '@yaseenhq/tsugite';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { createKimiHarness, type KimiError } from '#/index';
@@ -10,8 +10,8 @@ const fakeProviderState = vi.hoisted(() => ({
   responseText: 'steer response',
 }));
 
-vi.mock('@moonshot-ai/kosong', async (importOriginal) => {
-  const actual = await importOriginal<typeof KosongModule>();
+vi.mock('@yaseenhq/tsugite', async (importOriginal) => {
+  const actual = await importOriginal<typeof TsugiteModule>();
   return {
     ...actual,
     createProvider: () => ({

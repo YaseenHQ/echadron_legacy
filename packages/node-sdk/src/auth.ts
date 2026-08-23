@@ -5,7 +5,7 @@ import {
   writeConfigFile,
   type KimiConfig,
   type OAuthRef,
-} from '@moonshot-ai/agent-core';
+} from '@yaseenhq/agent-core';
 import {
   applyManagedKimiCodeConfig,
   applyManagedKimiCodeLogoutConfig,
@@ -38,7 +38,7 @@ import {
   type KimiOAuthLoginOptions,
   type ManagedKimiConfigShape,
   type OAuthRefreshOutcome,
-} from '@moonshot-ai/kimi-code-oauth';
+} from '@yaseenhq/echadron-oauth';
 
 import { mapOAuthTokenError } from '#/oauth-error';
 import {

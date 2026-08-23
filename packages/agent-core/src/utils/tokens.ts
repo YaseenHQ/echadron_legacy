@@ -1,7 +1,7 @@
-import type { ContentPart, Message, Tool } from '@moonshot-ai/kosong';
+import type { ContentPart, Message, Tool } from '@yaseenhq/tsugite';
 
 /**
- * Structural subset of kosong's {@link Message} that token estimation reads.
+ * Structural subset of tsugite's {@link Message} that token estimation reads.
  * Accepting the subset (instead of the full `Message`) lets callers with
  * message-shaped objects — such as the compaction helpers in `handoff.ts`,
  * which carry only `role`/`content`/`origin` — estimate tokens without an

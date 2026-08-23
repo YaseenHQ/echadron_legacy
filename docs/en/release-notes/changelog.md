@@ -4,7 +4,7 @@ outline: 2
 
 # Changelog
 
-This page documents each Echadron release. The complete package-level record is also available in the [repository changelog](https://github.com/YaseenHQ/echadron/blob/main/apps/kimi-code/CHANGELOG.md).
+This page documents each Echadron release. The complete package-level record is also available in the [repository changelog](https://github.com/YaseenHQ/echadron/blob/main/apps/echadron/CHANGELOG.md).
 
 ## Unreleased
 

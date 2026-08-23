@@ -1,4 +1,4 @@
-# @moonshot-ai/kaos
+# @yaseenhq/kaos
 
 ## 0.1.6
 

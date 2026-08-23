@@ -19,8 +19,8 @@
  * invariant to enforce. Bound at Session scope.
  */
 
-import type { TokenUsage } from '#/kosong/contract/usage';
-import { IModelCatalog } from '#/kosong/model/catalog';
+import type { TokenUsage } from '#/tsugite/contract/usage';
+import { IModelCatalog } from '#/tsugite/model/catalog';
 
 import { LifecycleScope, ScopeActivation, registerScopedService } from '#/_base/di/scope';
 import { linkAbortSignal } from '#/_base/utils/abort';
@@ -34,7 +34,7 @@ import { IConfigService } from '#/app/config/config';
 import { ISessionAgentProfileCatalog } from '#/session/sessionAgentProfileCatalog/sessionAgentProfileCatalog';
 import { applyProfilePromptPrefix } from '#/app/agentProfileCatalog/promptPrefix';
 import { agentProfileModelAlias } from '#/app/agentProfileCatalog/profile-shared';
-import { secondaryModelDisplayAlias } from '#/app/kosongConfig/secondaryModelOverlay';
+import { secondaryModelDisplayAlias } from '#/app/tsugiteConfig/secondaryModelOverlay';
 import { IAgentLifecycleService } from '#/session/agentLifecycle/agentLifecycle';
 import {
   isSubagentMeta,

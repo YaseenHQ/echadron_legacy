@@ -7,7 +7,7 @@
  */
 
 import type { AgentLLMRequestSource } from '#/agent/llmRequester/llmRequester';
-import type { TokenUsage } from '#/kosong/contract/usage';
+import type { TokenUsage } from '#/tsugite/contract/usage';
 
 import { createDecorator } from '#/_base/di/instantiation';
 import type { Event } from '#/_base/event';

@@ -1,8 +1,8 @@
-import { APIConnectionError, APIStatusError } from '#/kosong/contract/errors';
+import { APIConnectionError, APIStatusError } from '#/tsugite/contract/errors';
 import { TOOL_SELECT_FLAG_ENV } from '#/agent/toolSelect/flag';
-import { type StreamedMessagePart } from '#/kosong/contract/message';
-import type { Tool } from '#/kosong/contract/tool';
-import { emptyUsage } from '#/kosong/contract/usage';
+import { type StreamedMessagePart } from '#/tsugite/contract/message';
+import type { Tool } from '#/tsugite/contract/tool';
+import { emptyUsage } from '#/tsugite/contract/usage';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import {
@@ -586,7 +586,7 @@ describe('LLMRequester service migration coverage', () => {
       expect(requestMaxTokens).toBe(123_000);
     });
 
-    it('carries kosong decode accounting and leaves the TTFT split undefined without a dispatch boundary', async () => {
+    it('carries tsugite decode accounting and leaves the TTFT split undefined without a dispatch boundary', async () => {
       const { finish } = await collectLLMRequest((onPart) =>
         llmRequester.request(undefined, onPart),
       );
@@ -638,7 +638,7 @@ describe('LLMRequester service migration coverage', () => {
       // The engine half of the cache-key probe: the same session's id reaches
       // the composed provider as GenerateOptions.cacheKey. How each dialect
       // encodes it (Kimi `prompt_cache_key`, Anthropic `metadata.user_id`) is
-      // asserted at the kosong/provider composition layer.
+      // asserted at the tsugite/provider composition layer.
       await llmRequester.request();
 
       expect(capturedCacheKey).toBe('test-session');

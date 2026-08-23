@@ -45,27 +45,27 @@ import { EXAMPLE_CLIENT_IDENTITY } from './identity.js';
 
 import type { AddressInfo } from 'node:net';
 
-import { bootstrap, logSeed, resolveLoggingConfig } from '@moonshot-ai/agent-core-v2';
-import { isError2 } from '@moonshot-ai/agent-core-v2/_base/errors/errors';
-import { IConfigService } from '@moonshot-ai/agent-core-v2/app/config/config';
-import { UNKNOWN_CAPABILITY } from '@moonshot-ai/agent-core-v2/kosong/contract/capability';
+import { bootstrap, logSeed, resolveLoggingConfig } from '@yaseenhq/agent-core-v2';
+import { isError2 } from '@yaseenhq/agent-core-v2/_base/errors/errors';
+import { IConfigService } from '@yaseenhq/agent-core-v2/app/config/config';
+import { UNKNOWN_CAPABILITY } from '@yaseenhq/agent-core-v2/tsugite/contract/capability';
 import {
   APIContextOverflowError,
   APIStatusError,
   ChatProviderError,
   isAbortError,
   isToolExchangeAdjacencyError,
-} from '@moonshot-ai/agent-core-v2/kosong/contract/errors';
-import type { ToolCall } from '@moonshot-ai/agent-core-v2/kosong/contract/message';
-import type { Tool } from '@moonshot-ai/agent-core-v2/kosong/contract/tool';
-import type { AuthProvider, Model } from '@moonshot-ai/agent-core-v2/kosong/model/catalog';
-import { IModelCatalog } from '@moonshot-ai/agent-core-v2/kosong/model/catalog';
+} from '@yaseenhq/agent-core-v2/tsugite/contract/errors';
+import type { ToolCall } from '@yaseenhq/agent-core-v2/tsugite/contract/message';
+import type { Tool } from '@yaseenhq/agent-core-v2/tsugite/contract/tool';
+import type { AuthProvider, Model } from '@yaseenhq/agent-core-v2/tsugite/model/catalog';
+import { IModelCatalog } from '@yaseenhq/agent-core-v2/tsugite/model/catalog';
 import type {
   ModelRequestInput,
   ModelRequester,
-} from '@moonshot-ai/agent-core-v2/kosong/model/modelRequester';
-import { ModelRequesterImpl } from '@moonshot-ai/agent-core-v2/kosong/model/modelRequesterImpl';
-import { ProtocolAdapterRegistry } from '@moonshot-ai/agent-core-v2/kosong/provider/protocolAdapterRegistry';
+} from '@yaseenhq/agent-core-v2/tsugite/model/modelRequester';
+import { ModelRequesterImpl } from '@yaseenhq/agent-core-v2/tsugite/model/modelRequesterImpl';
+import { ProtocolAdapterRegistry } from '@yaseenhq/agent-core-v2/tsugite/provider/protocolAdapterRegistry';
 
 function assert(cond: boolean, message: string): asserts cond {
   if (!cond) throw new Error(`assertion failed: ${message}`);

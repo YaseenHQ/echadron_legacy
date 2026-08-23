@@ -73,20 +73,20 @@ export * from '#/session/state/sessionState';
 import '#/session/state/sessionStateService';
 export * from '#/agent/state/agentState';
 import '#/agent/state/agentStateService';
-export * from '#/kosong/contract/capability';
-export * from '#/kosong/contract/errors';
-export * from '#/kosong/contract/message';
-export * from '#/kosong/contract/messageHelpers';
-export * from '#/kosong/contract/tool';
-export * from '#/kosong/contract/usage';
-export * from '#/kosong/contract/provider';
-export * from '#/kosong/contract/generate';
-export * from '#/kosong/contract/requestTrace';
+export * from '#/tsugite/contract/capability';
+export * from '#/tsugite/contract/errors';
+export * from '#/tsugite/contract/message';
+export * from '#/tsugite/contract/messageHelpers';
+export * from '#/tsugite/contract/tool';
+export * from '#/tsugite/contract/usage';
+export * from '#/tsugite/contract/provider';
+export * from '#/tsugite/contract/generate';
+export * from '#/tsugite/contract/requestTrace';
 export type {
   ExtraBody,
   GenerationKwargs,
   KimiThinkingConfig,
-} from '#/kosong/provider/providers/kimi/kimi.contrib';
+} from '#/tsugite/provider/providers/kimi/kimi.contrib';
 
 export * from '#/app/sessionIndex/sessionIndex';
 export * from '#/app/sessionIndex/sessionIndexService';
@@ -99,29 +99,29 @@ export * from '#/session/sessionToolPolicy/sessionToolPolicyService';
 export * from '#/app/config/config';
 export * from '#/app/config/configService';
 export * from '#/app/config/deprecations';
-import '#/app/kosongConfig/configSection';
-export * from '#/kosong/provider/provider';
-export * from '#/kosong/provider/providerService';
-export * from '#/kosong/provider/providerDefinition';
-export * from '#/kosong/provider/protocolAdapterRegistry';
+import '#/app/tsugiteConfig/configSection';
+export * from '#/tsugite/provider/provider';
+export * from '#/tsugite/provider/providerService';
+export * from '#/tsugite/provider/providerDefinition';
+export * from '#/tsugite/provider/protocolAdapterRegistry';
 import '#/app/skillCatalog/configSection';
-import '#/kosong/protocol/errors';
-export * from '#/kosong/protocol/errors';
-export * from '#/kosong/protocol/protocol';
-export * from '#/kosong/protocol/protocolBase';
-export * from '#/kosong/protocol/protocolTrait';
-import '#/app/kosongConfig/envOverlay';
-import '#/app/kosongConfig/secondaryModelOverlay';
-export * from '#/kosong/model/completionBudget';
-export * from '#/kosong/model/hostRequestHeaders';
-export * from '#/kosong/model/model';
-export * from '#/kosong/model/model.types';
-export * from '#/kosong/model/modelService';
-export * from '#/kosong/model/thinking';
-export * from '#/kosong/model/catalog';
-export * from '#/kosong/model/catalogService';
-export * from '#/kosong/model/modelRequester';
-import '#/kosong/model/errors';
+import '#/tsugite/protocol/errors';
+export * from '#/tsugite/protocol/errors';
+export * from '#/tsugite/protocol/protocol';
+export * from '#/tsugite/protocol/protocolBase';
+export * from '#/tsugite/protocol/protocolTrait';
+import '#/app/tsugiteConfig/envOverlay';
+import '#/app/tsugiteConfig/secondaryModelOverlay';
+export * from '#/tsugite/model/completionBudget';
+export * from '#/tsugite/model/hostRequestHeaders';
+export * from '#/tsugite/model/model';
+export * from '#/tsugite/model/model.types';
+export * from '#/tsugite/model/modelService';
+export * from '#/tsugite/model/thinking';
+export * from '#/tsugite/model/catalog';
+export * from '#/tsugite/model/catalogService';
+export * from '#/tsugite/model/modelRequester';
+import '#/tsugite/model/errors';
 // `ModelCatalogConfig` / `MODEL_CATALOG_SECTION` live in the configSection
 // side-effect module but the edge (kap-server's refresh scheduler) consumes
 // them from the package root — re-export here.
@@ -129,8 +129,8 @@ export {
   MODEL_CATALOG_SECTION,
   ModelCatalogConfigSchema,
   type ModelCatalogConfig,
-} from '#/app/kosongConfig/configSection';
-export type { SecondaryModelConfig } from '#/app/kosongConfig/configSection';
+} from '#/app/tsugiteConfig/configSection';
+export type { SecondaryModelConfig } from '#/app/tsugiteConfig/configSection';
 // The secondary-model derived-entry overlay: the edge (kap-server's
 // `GET /models` route) hides the reserved id from pickers, and tests drive
 // the overlay directly — re-export from the package root.
@@ -138,26 +138,26 @@ export {
   SECONDARY_DERIVED_MODEL_ID,
   secondaryModelOverlay,
   secondaryModelPatch,
-} from '#/app/kosongConfig/secondaryModelOverlay';
-export * from '#/app/kosongConfig/kosongConfig';
-export * from '#/app/kosongConfig/kosongConfigService';
-export * from '#/kosong/model/modelOAuth';
-export * from '#/app/kosongConfig/oauthTokenAdapter';
-export * from '#/app/kosongConfig/discovery';
-export * from '#/app/kosongConfig/discoveryService';
-export * from '#/app/kosongConfig/errors';
-export * from '#/app/kosongConfig/modelsDevImport';
-export * from '#/app/kosongConfig/modelsDevImportService';
-export * from '#/app/kosongConfig/modelsDevUpstream';
-export * from '#/app/kosongConfig/modelsDev';
-// kosong wire composition roots — importing these modules registers the four
+} from '#/app/tsugiteConfig/secondaryModelOverlay';
+export * from '#/app/tsugiteConfig/tsugiteConfig';
+export * from '#/app/tsugiteConfig/tsugiteConfigService';
+export * from '#/tsugite/model/modelOAuth';
+export * from '#/app/tsugiteConfig/oauthTokenAdapter';
+export * from '#/app/tsugiteConfig/discovery';
+export * from '#/app/tsugiteConfig/discoveryService';
+export * from '#/app/tsugiteConfig/errors';
+export * from '#/app/tsugiteConfig/modelsDevImport';
+export * from '#/app/tsugiteConfig/modelsDevImportService';
+export * from '#/app/tsugiteConfig/modelsDevUpstream';
+export * from '#/app/tsugiteConfig/modelsDev';
+// tsugite wire composition roots — importing these modules registers the four
 // protocol bases and every provider definition (kimi + the canonical vendor
 // endpoints); without them the adapter registry stays empty.
-import '#/kosong/provider/bases/anthropic/index';
-import '#/kosong/provider/bases/google-genai/index';
-import '#/kosong/provider/bases/openai/index';
-import '#/kosong/provider/providers/kimi/kimi.contrib';
-import '#/kosong/provider/providers/standard.contrib';
+import '#/tsugite/provider/bases/anthropic/index';
+import '#/tsugite/provider/bases/google-genai/index';
+import '#/tsugite/provider/bases/openai/index';
+import '#/tsugite/provider/providers/kimi/kimi.contrib';
+import '#/tsugite/provider/providers/standard.contrib';
 export * from '#/app/agentProfileCatalog/agentProfileCatalog';
 export * from '#/app/agentProfileCatalog/agentProfileCatalogService';
 export * from '#/app/agentProfileCatalog/profile-shared';

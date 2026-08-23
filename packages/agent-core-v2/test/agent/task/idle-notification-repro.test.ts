@@ -25,7 +25,7 @@ import { join } from 'pathe';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { LifecycleScope, type IAgentScopeHandle } from '#/_base/di/scope';
-import type { generate as kosongGenerate } from '#/kosong/contract/generate';
+import type { generate as tsugiteGenerate } from '#/tsugite/contract/generate';
 import { IAgentTaskService } from '#/agent/task/task';
 import { SubagentTask } from '#/agent/tools/agent/subagent-task';
 import { runAgentTurn } from '#/session/subagent/runAgentTurn';
@@ -242,7 +242,7 @@ describe('task notification → main agent (real Agent instance)', () => {
   });
 
   describe('kill ordering vs child loop unwind', () => {
-    type GenerateFn = typeof kosongGenerate;
+    type GenerateFn = typeof tsugiteGenerate;
 
     function agentScopeHandle(ctx: TestAgentContext, id: string): IAgentScopeHandle {
       return {

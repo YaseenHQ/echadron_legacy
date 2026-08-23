@@ -1,4 +1,4 @@
-import type { ContentPart } from '@moonshot-ai/kosong';
+import type { ContentPart } from '@yaseenhq/tsugite';
 import { estimateTokensForMessage } from '../../utils/tokens';
 import type { PromptOrigin } from '../context/types';
 import summaryPrefixTemplate from './compaction-summary-prefix.md?raw';
@@ -36,7 +36,7 @@ export const COMPACT_USER_MESSAGE_HEAD_TOKENS = 2_000;
 export const COMPACTION_ELISION_VARIANT = 'compaction_elision';
 
 /**
- * Structural subset of kosong's `Message` that the handoff helpers inspect.
+ * Structural subset of tsugite's `Message` that the handoff helpers inspect.
  * Both `ContextMessage` (the live context) and the wire-transcript reducer's
  * mutable message satisfy this shape, so one set of helpers serves both
  * layers without introducing a shared nominal type. `origin` is what tells

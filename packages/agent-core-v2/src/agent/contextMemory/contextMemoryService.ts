@@ -11,7 +11,7 @@
 
 import { Disposable } from '#/_base/di/lifecycle';
 import { LifecycleScope, ScopeActivation, registerScopedService } from '#/_base/di/scope';
-import { estimateTokensForMessages } from '#/kosong/contract/tokens';
+import { estimateTokensForMessages } from '#/tsugite/contract/tokens';
 import { IEventBus } from '#/app/event/eventBus';
 import { ContextSizeModel, contextSizeMeasured } from '#/agent/contextSize/contextSizeOps';
 import { IWireService } from '#/wire/wire';

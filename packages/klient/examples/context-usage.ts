@@ -36,8 +36,8 @@ import { join } from 'node:path';
 import { EXAMPLE_CLIENT_IDENTITY } from './identity.js';
 
 
-import { bootstrap, logSeed, resolveLoggingConfig } from '@moonshot-ai/agent-core-v2';
-import { createKlient } from '@moonshot-ai/klient/memory';
+import { bootstrap, logSeed, resolveLoggingConfig } from '@yaseenhq/agent-core-v2';
+import { createKlient } from '@yaseenhq/klient/memory';
 
 const SEEDED_MODEL_ID = 'klient-example-model';
 
@@ -76,7 +76,7 @@ async function main(): Promise<void> {
     console.log('[session] created ->', session.id);
     const agent = klient.session(session.id).agent('main');
 
-    await klient.global.kosong.addProvider({
+    await klient.global.tsugite.addProvider({
       id: SEEDED_MODEL_ID,
       model: seedModel,
       protocol: (process.env['KIMI_EXAMPLE_PROTOCOL'] ?? 'openai'),

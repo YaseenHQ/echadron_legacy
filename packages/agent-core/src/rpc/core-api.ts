@@ -20,8 +20,8 @@ import type { ExperimentalFeatureState } from '#/flags';
 import type { ResumeSessionResult } from '#/rpc/resumed';
 import type { SessionMeta } from '#/session';
 import type { GlobalMcpServerConfig } from '#/mcp/global-config';
-import type { ContentPart } from '@moonshot-ai/kosong';
-import type { SessionWarning } from '@moonshot-ai/protocol';
+import type { ContentPart } from '@yaseenhq/tsugite';
+import type { SessionWarning } from '@yaseenhq/protocol';
 
 import type { PluginCommandDef, PluginInfo, PluginSummary, ReloadSummary } from '#/plugin';
 import type { UsageStatus } from './events';

@@ -16,7 +16,7 @@
     "../agent-core-v2/src/**/*.ts",
     "../kaos/src/**/*.ts",
     "../klient/src/**/*.ts",
-    "../kosong/src/**/*.ts",
+    "../tsugite/src/**/*.ts",
     "../oauth/src/**/*.ts"
   ],
   "exclude": ["dist", ".tmp-api-extractor", "examples", "test", "../*/dist", "../*/test"]

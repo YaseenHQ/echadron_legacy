@@ -9,7 +9,7 @@
  */
 
 import { createDecorator } from '../../di';
-import type { KimiHostIdentity } from '@moonshot-ai/kimi-code-oauth';
+import type { KimiHostIdentity } from '@yaseenhq/echadron-oauth';
 
 export interface IEnvironmentService {
   readonly _serviceBrand: undefined;

@@ -26,7 +26,7 @@ export interface MCPEmbeddedResourceContents {
  *
  * This is a structural subset of the MCP protocol `ContentBlock` union,
  * covering the shapes that {@link convertMCPContentBlock} knows how to convert
- * into kosong `ContentPart`s. Additional fields are ignored.
+ * into tsugite `ContentPart`s. Additional fields are ignored.
  */
 export interface MCPContentBlock {
   // Known values: 'text' | 'image' | 'audio' | 'resource' | 'resource_link'.

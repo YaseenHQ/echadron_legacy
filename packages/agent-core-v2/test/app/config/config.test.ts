@@ -3,12 +3,12 @@
  *
  * Exercises the public profile/config surfaces and resolves the real
  * `ConfigService` with TOML document storage while stubbing host and model
- * boundaries. Run with `pnpm --filter @moonshot-ai/agent-core-v2 exec vitest run
+ * boundaries. Run with `pnpm --filter @yaseenhq/agent-core-v2 exec vitest run
  * test/app/config/config.test.ts`.
  */
 
-import type { ModelCapability } from '#/kosong/contract/capability';
-import type { ToolCall } from '#/kosong/contract/message';
+import type { ModelCapability } from '#/tsugite/contract/capability';
+import type { ToolCall } from '#/tsugite/contract/message';
 import { mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'pathe';
@@ -55,9 +55,9 @@ import {
   SECONDARY_MODEL_ENV,
   SECONDARY_MODEL_SECTION,
   THINKING_SECTION,
-} from '#/app/kosongConfig/configSection';
-import '#/app/kosongConfig/envOverlay';
-import { type ThinkingConfig } from '#/kosong/model/thinking';
+} from '#/app/tsugiteConfig/configSection';
+import '#/app/tsugiteConfig/envOverlay';
+import { type ThinkingConfig } from '#/tsugite/model/thinking';
 import {
   KEEP_ALIVE_ON_EXIT_ENV,
   MAX_RUNNING_TASKS_ENV,
@@ -90,8 +90,8 @@ import {
 import {
   SECONDARY_DERIVED_MODEL_ID,
   secondaryModelDisplayAlias,
-} from '#/app/kosongConfig/secondaryModelOverlay';
-import { type SecondaryModelConfig } from '#/app/kosongConfig/configSection';
+} from '#/app/tsugiteConfig/secondaryModelOverlay';
+import { type SecondaryModelConfig } from '#/app/tsugiteConfig/configSection';
 import '#/agent/mcp/configSection';
 import {
   MCP_SECTION,

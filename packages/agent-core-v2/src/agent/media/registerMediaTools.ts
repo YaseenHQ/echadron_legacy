@@ -13,8 +13,8 @@
  * closure; media tooling doesn't need to know about tokens.
  */
 
-import type { ModelCapability } from '#/kosong/contract/capability';
-import type { ModelRequester } from '#/kosong/model/modelRequester';
+import type { ModelCapability } from '#/tsugite/contract/capability';
+import type { ModelRequester } from '#/tsugite/model/modelRequester';
 import type { VideoUploadEvent } from '#/app/telemetry/events';
 import type { ITelemetryService } from '#/app/telemetry/telemetry';
 

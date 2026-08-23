@@ -6,8 +6,8 @@ import {
   ModelAliasSchema,
   ProviderConfigSchema,
   transformTomlData,
-} from '@moonshot-ai/agent-core';
-import { FLAG_DEFINITIONS } from '@moonshot-ai/agent-core/flags/registry';
+} from '@yaseenhq/agent-core';
+import { FLAG_DEFINITIONS } from '@yaseenhq/agent-core/flags/registry';
 import { atomicWrite } from '../atomic-write.js';
 import { DEFAULT_CONFIG_FILE_TEXT, isTuiStubOrMissing } from '../stub-detect.js';
 import {
@@ -33,7 +33,7 @@ const REGISTERED_EXPERIMENTAL_FLAGS: ReadonlySet<string> = new Set(
   (FLAG_DEFINITIONS as ReadonlyArray<{ readonly id: string }>).map((definition) => definition.id),
 );
 
-// kimi-code's tui.toml `theme` enum (mirrors apps/kimi-code TuiThemeSchema).
+// kimi-code's tui.toml `theme` enum (mirrors apps/echadron TuiThemeSchema).
 // A legacy theme outside this set would fail loadTuiConfig()'s whole-file
 // validation, taking the migrated editor command down with it — so drop it.
 const TUI_THEMES: ReadonlySet<string> = new Set(['dark', 'light', 'auto']);

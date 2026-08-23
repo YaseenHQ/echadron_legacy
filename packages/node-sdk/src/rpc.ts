@@ -20,8 +20,8 @@ import {
   type ToolCallResponse,
   type SwarmModeTrigger,
   type SessionTurn,
-} from '@moonshot-ai/agent-core';
-import type { Kaos } from '@moonshot-ai/kaos';
+} from '@yaseenhq/agent-core';
+import type { Kaos } from '@yaseenhq/kaos';
 
 import type { ApprovalHandler, QuestionHandler } from '#/events';
 import type {

@@ -1,4 +1,4 @@
-import type { ContentPart } from '#/kosong/contract/message';
+import type { ContentPart } from '#/tsugite/contract/message';
 
 export const HOOK_EVENT_TYPES = [
   'PreToolUse',

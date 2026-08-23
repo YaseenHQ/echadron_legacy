@@ -5,10 +5,10 @@ import {
   modelSupportsThinkingEffort,
   resolveForcedThinkingEffort,
   resolveThinkingEffortForModel,
-} from '#/kosong/model/thinking';
+} from '#/tsugite/model/thinking';
 
 // The old `#/agent/profile/thinking` helpers derived "Kimi thinking
-// semantics" from `protocol: 'kimi'` on the model fixture. The kosong layer
+// semantics" from `protocol: 'kimi'` on the model fixture. The tsugite layer
 // has no Kimi protocol (Kimi is a set of `(baseProtocol, traits)`
 // registrations, so fixtures use `providerType: 'kimi'` + a legal protocol);
 // the semantics verdict is now an explicit `strictValidation` argument

@@ -1,7 +1,7 @@
-import type { Message } from '#/kosong/contract/message';
+import type { Message } from '#/tsugite/contract/message';
 import type { ProfileModelContext } from '#/agent/profile/profile';
 import type { CompactionSource } from './types';
-import { estimateTokensForMessage } from '#/kosong/contract/tokens';
+import { estimateTokensForMessage } from '#/tsugite/contract/tokens';
 
 export interface CompactionConfig {
   triggerRatio: number;

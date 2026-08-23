@@ -21,9 +21,9 @@ import { recordingTelemetry, type TelemetryRecord } from './telemetry';
 
 const hostEnvProbe = vi.hoisted(() => ({ failWithMissingShell: false }));
 
-vi.mock('@moonshot-ai/agent-core-v2/_base/execEnv/environmentProbe', async (importOriginal) => {
+vi.mock('@yaseenhq/agent-core-v2/_base/execEnv/environmentProbe', async (importOriginal) => {
   const actual = await importOriginal<
-    typeof import('@moonshot-ai/agent-core-v2/_base/execEnv/environmentProbe')
+    typeof import('@yaseenhq/agent-core-v2/_base/execEnv/environmentProbe')
   >();
   return {
     ...actual,

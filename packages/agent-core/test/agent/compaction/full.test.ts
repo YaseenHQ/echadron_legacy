@@ -7,14 +7,14 @@ import {
   APIContextOverflowError,
   APIRequestTooLargeError,
   APIStatusError,
-  generate as runKosongGenerate,
+  generate as runTsugiteGenerate,
   UNKNOWN_CAPABILITY,
   type ChatProvider,
   type Message,
   type StreamedMessage,
   type StreamedMessagePart,
   type ToolCall,
-} from '@moonshot-ai/kosong';
+} from '@yaseenhq/tsugite';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import type { KimiConfig } from '../../../src/config';
@@ -818,7 +818,7 @@ describe('FullCompaction', () => {
   });
 
   it('reduces the compacted prefix and retries when the model returns only thinking content', async () => {
-    // End-to-end through the real kosong generate(): a think-only stream (think
+    // End-to-end through the real tsugite generate(): a think-only stream (think
     // parts, no text, no tool calls) makes generate() itself throw
     // APIEmptyResponseError. Compaction must treat that like a truncated summary
     // — shrink the compacted prefix and retry — rather than resend the identical
@@ -826,7 +826,7 @@ describe('FullCompaction', () => {
     vi.useFakeTimers();
     const firstThinkOnly = deferred<void>();
     const inputs: string[][] = [];
-    const generate = realKosongGenerate((attempt, history) => {
+    const generate = realTsugiteGenerate((attempt, history) => {
       inputs.push(inputHistorySnapshot(history));
       if (attempt === 1) {
         firstThinkOnly.resolve();
@@ -864,14 +864,14 @@ describe('FullCompaction', () => {
   });
 
   it('fails after exhausting retries when the model only ever returns thinking content', async () => {
-    // End-to-end through the real kosong generate(): every attempt is think-only,
+    // End-to-end through the real tsugite generate(): every attempt is think-only,
     // so generate() keeps throwing APIEmptyResponseError. Compaction shrinks the
     // prefix on each retry but eventually exhausts MAX_COMPACTION_RETRY_ATTEMPTS
     // and fails without ever applying a summary.
     vi.useFakeTimers();
     const records: TelemetryRecord[] = [];
     const inputs: string[][] = [];
-    const generate = realKosongGenerate((_attempt, history) => {
+    const generate = realTsugiteGenerate((_attempt, history) => {
       inputs.push(inputHistorySnapshot(history));
       return mockStreamedMessage([
         { type: 'think', think: 'Still only thinking, no summary produced.' },
@@ -2639,10 +2639,10 @@ function mockStreamedMessage(parts: readonly StreamedMessagePart[]): StreamedMes
   };
 }
 
-// Runs the REAL kosong generate() over a scripted provider stream so think-only
-// and empty responses exercise kosong's actual APIEmptyResponseError path rather
+// Runs the REAL tsugite generate() over a scripted provider stream so think-only
+// and empty responses exercise tsugite's actual APIEmptyResponseError path rather
 // than a mocked generate function that throws directly.
-function realKosongGenerate(
+function realTsugiteGenerate(
   script: (attempt: number, history: readonly Message[]) => StreamedMessage,
 ): GenerateFn {
   let attempt = 0;
@@ -2658,7 +2658,7 @@ function realKosongGenerate(
         return provider;
       },
     };
-    return runKosongGenerate(provider, systemPrompt, tools, history, callbacks, options);
+    return runTsugiteGenerate(provider, systemPrompt, tools, history, callbacks, options);
   };
 }
 

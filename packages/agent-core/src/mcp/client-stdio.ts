@@ -30,7 +30,7 @@ const STDERR_BUFFER_CAPACITY = 4 * 1024;
 
 /**
  * Wraps the `@modelcontextprotocol/client` stdio client and exposes the small
- * surface required by kosong's {@link MCPClient}. Lifecycle is explicit:
+ * surface required by tsugite's {@link MCPClient}. Lifecycle is explicit:
  * the caller must `connect()` before use and `close()` to terminate the
  * child process.
  */

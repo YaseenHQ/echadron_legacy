@@ -1,7 +1,7 @@
-import type { Message } from '#/kosong/contract/message';
+import type { Message } from '#/tsugite/contract/message';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 
-import { estimateTokensForMessages } from '#/kosong/contract/tokens';
+import { estimateTokensForMessages } from '#/tsugite/contract/tokens';
 import { buildImageCompressionCaption } from '#/agent/media/image-compress';
 import { buildContextCompactionShape } from '#/agent/contextMemory/compactionHandoff';
 import type { ContextMessage } from '#/agent/contextMemory/types';

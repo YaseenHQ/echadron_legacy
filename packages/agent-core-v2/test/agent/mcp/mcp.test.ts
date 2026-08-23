@@ -1,5 +1,5 @@
-import type { ContentPart } from '#/kosong/contract/message';
-import type { Tool as KosongTool } from '#/kosong/contract/tool';
+import type { ContentPart } from '#/tsugite/contract/message';
+import type { Tool as TsugiteTool } from '#/tsugite/contract/tool';
 import { Jimp } from 'jimp';
 import { CallToolResultSchema, ErrorCode, McpError } from '@modelcontextprotocol/sdk/types.js';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
@@ -45,7 +45,7 @@ const MCP_OUTPUT_TRUNCATED_TEXT =
 
 interface ResolvedServer {
   readonly client: MCPClient;
-  readonly tools: readonly KosongTool[];
+  readonly tools: readonly TsugiteTool[];
   readonly rawTools: readonly MCPToolDefinition[];
   readonly enabledNames: ReadonlySet<string>;
 }
@@ -113,7 +113,7 @@ class FakeMcpManager {
   setResolved(
     name: string,
     client: MCPClient,
-    tools: readonly KosongTool[],
+    tools: readonly TsugiteTool[],
     enabledNames = new Set(tools.map((tool) => tool.name)),
     rawTools?: readonly MCPToolDefinition[],
   ): void {

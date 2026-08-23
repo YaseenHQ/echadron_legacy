@@ -11,7 +11,7 @@ import { noopTelemetryClient, type TelemetryClient } from '../../telemetry';
 import {
   createKimiDefaultHeaders,
   type KimiHostIdentity,
-} from '@moonshot-ai/kimi-code-oauth';
+} from '@yaseenhq/echadron-oauth';
 
 import { createManagedAuthFacade } from '../auth/managedAuth';
 import { BridgeClientAPI } from './coreProcessClient';

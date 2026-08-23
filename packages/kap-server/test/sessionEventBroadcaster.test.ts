@@ -14,7 +14,7 @@ import type {
   SessionActivityCause,
   SessionActivityChangedEvent,
   SessionActivityState,
-} from '@moonshot-ai/agent-core-v2';
+} from '@yaseenhq/agent-core-v2';
 import {
   ContextSizeModel,
   IAgentActivityView,
@@ -32,7 +32,7 @@ import {
   MAIN_AGENT_ID,
   SessionInteractionService,
   StateRegistry,
-} from '@moonshot-ai/agent-core-v2';
+} from '@yaseenhq/agent-core-v2';
 import type { AgentEvent } from '../src/transport/ws/v1/events';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 

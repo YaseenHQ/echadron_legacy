@@ -11,10 +11,10 @@ import { MASTER_ENV } from '#/app/flag/flagService';
 import { toInputJsonSchema } from '#/tool/input-schema';
 import { userCancellationReason } from '#/_base/utils/abort';
 import { createHooks } from '#/hooks';
-import type { ToolCall } from '#/kosong/contract/message';
-import type { TokenUsage } from '#/kosong/contract/usage';
-import { IModelCatalog, type Model } from '#/kosong/model/catalog';
-import { SECONDARY_DERIVED_MODEL_ID } from '#/app/kosongConfig/secondaryModelOverlay';
+import type { ToolCall } from '#/tsugite/contract/message';
+import type { TokenUsage } from '#/tsugite/contract/usage';
+import { IModelCatalog, type Model } from '#/tsugite/model/catalog';
+import { SECONDARY_DERIVED_MODEL_ID } from '#/app/tsugiteConfig/secondaryModelOverlay';
 import {
   SECONDARY_MODEL_FLAG_ENV,
   SECONDARY_MODEL_FLAG_ID,

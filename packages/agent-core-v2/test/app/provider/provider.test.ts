@@ -1,11 +1,11 @@
 /**
  * `provider` config-section tests — the `providers` section registration
- * (schema + env bindings + strip hook, self-registered by the app/kosongConfig
+ * (schema + env bindings + strip hook, self-registered by the app/tsugiteConfig
  * persistence wrapper) and the TOML/env helper transforms.
  *
  * The registry itself (`ProviderService`) is a pure in-memory store covered
- * by `test/kosong/provider/providerService.test.ts`; persistence through the
- * config bridge is covered by `test/app/kosongConfig/kosongConfigService.test.ts`.
+ * by `test/tsugite/provider/providerService.test.ts`; persistence through the
+ * config bridge is covered by `test/app/tsugiteConfig/tsugiteConfigService.test.ts`.
  */
 
 import { describe, expect, it } from 'vitest';
@@ -18,7 +18,7 @@ import {
   providersFromToml,
   providersToToml,
   stripProvidersEnv,
-} from '#/app/kosongConfig/configSection';
+} from '#/app/tsugiteConfig/configSection';
 
 describe('providers config section', () => {
   it('self-registers the schema with the env bindings and strip hook', () => {

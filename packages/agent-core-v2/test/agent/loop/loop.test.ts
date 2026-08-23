@@ -1,11 +1,11 @@
-import { type ToolCall } from '#/kosong/contract/message';
-import { emptyUsage } from '#/kosong/contract/usage';
+import { type ToolCall } from '#/tsugite/contract/message';
+import { emptyUsage } from '#/tsugite/contract/usage';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 
 import type { IDisposable } from '#/_base/di/lifecycle';
 import { IAgentProfileService } from '#/index';
 import { IAgentLLMRequesterService } from '#/agent/llmRequester/llmRequester';
-import type { ModelRequestTiming } from '#/kosong/model/modelRequester';
+import type { ModelRequestTiming } from '#/tsugite/model/modelRequester';
 import type { ContextMessage } from '#/agent/contextMemory/types';
 import { IAgentContextMemoryService } from '#/agent/contextMemory/contextMemory';
 import { IAgentGoalService } from '#/agent/goal/goal';

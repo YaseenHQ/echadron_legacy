@@ -1,9 +1,9 @@
-import { ErrorCodes, KimiError } from '@moonshot-ai/agent-core';
+import { ErrorCodes, KimiError } from '@yaseenhq/agent-core';
 import {
   OAuthConnectionError,
   OAuthUnauthorizedError,
   RetryableRefreshError,
-} from '@moonshot-ai/kimi-code-oauth';
+} from '@yaseenhq/echadron-oauth';
 
 /**
  * Classify an OAuth token-fetch failure into the public {@link KimiError}
