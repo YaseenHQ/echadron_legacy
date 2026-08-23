@@ -5,14 +5,27 @@
  * MUST treat the returned promise as `Promise<never>`.
  */
 
+import { kimiRegionLoginHosts, type KimiRegion } from '@moonshot-ai/kimi-code-oauth';
 import { createKimiHarness } from '@moonshot-ai/kimi-code-sdk';
 
 import { createKimiCodeHostIdentity } from '#/cli/version';
 import { openUrl } from '#/utils/open-url';
 import { getDataDir } from '#/utils/paths';
 
-export async function runLoginFlow(): Promise<never> {
+export interface LoginFlowOptions {
+  /**
+   * Which Kimi Code deployment to sign in against. Omitted means "whatever
+   * the environment and existing config already resolve to", which keeps a
+   * bare `echadron login` behaving exactly as before.
+   */
+  readonly region?: KimiRegion;
+}
+
+export async function runLoginFlow(options: LoginFlowOptions = {}): Promise<never> {
   const identity = createKimiCodeHostIdentity();
+  // Only an explicit --region supplies hosts; kimiRegionLoginHosts itself
+  // yields to env overrides so a pinned endpoint still wins.
+  const hosts = options.region === undefined ? undefined : kimiRegionLoginHosts(options.region);
   const harness = createKimiHarness({
     homeDir: getDataDir(),
     identity,
@@ -25,6 +38,8 @@ export async function runLoginFlow(): Promise<never> {
   try {
     const result = await harness.auth.login(undefined, {
       signal: controller.signal,
+      baseUrl: hosts?.baseUrl,
+      oauthHost: hosts?.oauthHost,
       onDeviceCode: (data) => {
         const url = data.verificationUriComplete || data.verificationUri;
         // Print the manual fallback before attempting to open the user's

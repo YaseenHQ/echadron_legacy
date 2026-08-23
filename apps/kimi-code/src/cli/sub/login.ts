@@ -8,13 +8,30 @@
 
 import type { Command } from 'commander';
 
+import { parseKimiRegion, type KimiRegion } from '@moonshot-ai/kimi-code-oauth';
+
 import { runLoginFlow } from './login-flow';
+
+/** Parse a `--region` value; exits with an actionable message on bad input. */
+function parseRegionFlag(value: string): KimiRegion {
+  const parsed = parseKimiRegion(value);
+  if (parsed === undefined) {
+    process.stderr.write(`Invalid --region "${value}" (expected "mainland-cn" or "global").\n`);
+    process.exit(1);
+  }
+  return parsed;
+}
 
 export function registerLoginCommand(parent: Command): void {
   parent
     .command('login')
     .description('Authenticate with Echadron via the device-code flow.')
-    .action(async () => {
-      await runLoginFlow();
+    .option(
+      '--region <region>',
+      'Kimi Code deployment to sign in against: "mainland-cn" or "global".',
+      parseRegionFlag,
+    )
+    .action(async (options: { region?: KimiRegion }) => {
+      await runLoginFlow({ region: options.region });
     });
 }
