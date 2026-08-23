@@ -6,7 +6,7 @@ import {
   IHostTerminalService,
   ScopeActivation,
   LifecycleScope,
-  registerScopedService,
+  overrideScopedService,
   type TerminalProcess,
   type TerminalSpawnOptions,
 } from '@yaseenhq/agent-core-v2';
@@ -76,7 +76,7 @@ class FakeHostTerminalService implements IHostTerminalService {
 const spawnOptions: TerminalSpawnOptions[] = [];
 const processes: FakeTerminalProcess[] = [];
 
-registerScopedService(
+overrideScopedService(
   LifecycleScope.App,
   IHostTerminalService,
   FakeHostTerminalService,

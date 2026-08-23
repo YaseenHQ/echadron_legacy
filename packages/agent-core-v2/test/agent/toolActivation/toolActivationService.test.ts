@@ -90,6 +90,9 @@ describe('AgentToolActivationService', () => {
   }
 
   beforeEach(() => {
+    // The duplicate-registration guard means each test must start from a clean
+    // registry; these tests register the same tool ids repeatedly.
+    _clearScopedRegistryForTests();
     savedContributions = [...getAgentToolContributions()];
     disposables = new DisposableStore();
     alphaConstructions = 0;
@@ -103,13 +106,13 @@ describe('AgentToolActivationService', () => {
   afterEach(() => {
     disposables.dispose();
     _clearAgentToolContributionsForTests();
+    _clearScopedRegistryForTests();
     for (const contribution of savedContributions) {
       registerAgentToolService(contribution.id, contribution.ctor, contribution.options);
     }
   });
 
   it('keeps an AgentTool unconstructed during scope creation and resolves a real instance', () => {
-    _clearScopedRegistryForTests();
     registerAgentToolService(IAlphaTool, AlphaTool, { name: 'Alpha' });
 
     const app = createAppScope();
