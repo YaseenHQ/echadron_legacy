@@ -1,5 +1,17 @@
 # @moonshot-ai/kimi-code
 
+## 0.33.0
+
+### Minor Changes
+
+- [#67](https://github.com/YaseenHQ/echadron/pull/67) [`66548d6`](https://github.com/YaseenHQ/echadron/commit/66548d67234a8bdcbae55b88a32f394bca9661d1) Thanks [@YaseenHQ](https://github.com/YaseenHQ)! - Let users with a global (kimi.ai) Kimi Code account sign in. Echadron only ever talked to the mainland-China deployment, so a global account could not authenticate at all — and pointing `KIMI_CODE_OAUTH_HOST` at kimi.ai did not help, because the managed API base still resolved to api.kimi.com. `echadron login --region global` now selects a matching set of endpoints; omit the flag and nothing changes.
+
+### Patch Changes
+
+- [#65](https://github.com/YaseenHQ/echadron/pull/65) [`a2af934`](https://github.com/YaseenHQ/echadron/commit/a2af934751920ae864fbdde43367853ed970d15b) Thanks [@YaseenHQ](https://github.com/YaseenHQ)! - Stop an `[unexpected]` error when a bound model alias no longer resolves. Media tool registration re-resolves the alias from persisted profile state that resume replays without checking the catalog, so an alias whose config.toml entry was removed (for example on logout) threw out of an event listener. It now degrades to registering without a model-bound video uploader.
+
+- [#64](https://github.com/YaseenHQ/echadron/pull/64) [`d9f41a6`](https://github.com/YaseenHQ/echadron/commit/d9f41a6ad7df118f7cf916f52900bcae3ab8d0cb) Thanks [@YaseenHQ](https://github.com/YaseenHQ)! - Port compatible upstream reliability fixes: preserve Unicode text classification across file surfaces, expose a browser-safe device OAuth entry point, and keep CJK punctuation outside terminal hyperlinks.
+
 ## 0.32.2
 
 ### Patch Changes
