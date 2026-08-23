@@ -818,9 +818,17 @@ describe('Agent tool description', () => {
       initialConfig: { secondaryModel: { model: 'provider/secondary' } },
     });
 
-    const properties = agentParameters()['properties'] as Record<string, { enum?: string[] }>;
+    const properties = agentParameters()['properties'] as Record<
+      string,
+      { type?: string; description?: string }
+    >;
 
-    expect(properties['model']?.enum).toEqual(['secondary', 'primary']);
+    // This fork widened `model` from upstream's ['secondary','primary'] enum to
+    // a free-form string, so a task can also be routed to any configured model
+    // id by capability. Assert it is advertised and still names both roles.
+    expect(properties['model']?.type).toBe('string');
+    expect(properties['model']?.description).toContain('secondary');
+    expect(properties['model']?.description).toContain('primary');
   });
 });
 
@@ -2297,9 +2305,15 @@ describe('AgentSwarm tool description', () => {
       initialConfig: { secondaryModel: { model: 'provider/secondary' } },
     });
 
-    const properties = agentSwarmParameters()['properties'] as Record<string, { enum?: string[] }>;
+    const properties = agentSwarmParameters()['properties'] as Record<
+      string,
+      { type?: string; description?: string }
+    >;
 
-    expect(properties['model']?.enum).toEqual(['secondary', 'primary']);
+    // Same widening as the Agent tool: a free-form model id, not upstream's enum.
+    expect(properties['model']?.type).toBe('string');
+    expect(properties['model']?.description).toContain('secondary');
+    expect(properties['model']?.description).toContain('primary');
   });
 });
 
