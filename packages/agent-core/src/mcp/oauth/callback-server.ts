@@ -45,6 +45,14 @@ const ERROR_HTML =
   '<p>The authorization server reported an error. Return to kimi-code for details.</p>' +
   '</body></html>';
 
+/** Raised on a pending `waitForCode` when the listener is closed. */
+export class OAuthCallbackClosedError extends Error {
+  constructor() {
+    super('OAuth callback listener closed');
+    this.name = 'OAuthCallbackClosedError';
+  }
+}
+
 export async function startCallbackServer(): Promise<CallbackServer> {
   let resolveCode: ((value: CallbackResult) => void) | undefined;
   let rejectCode: ((reason: Error) => void) | undefined;
@@ -117,6 +125,10 @@ export async function startCallbackServer(): Promise<CallbackServer> {
   const close = async () => {
     if (closed) return;
     closed = true;
+    // Closing the listener strands any waiter: the browser can no longer
+    // deliver a code, so waitForCode would sit until its timeout. Settle it
+    // now, which is what cancelling an in-flight authorization does.
+    settle(() => rejectCode?.(new OAuthCallbackClosedError()));
     await new Promise<void>((resolve) => {
       server.close(() => {
         resolve();
