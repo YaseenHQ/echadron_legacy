@@ -561,7 +561,7 @@ command = "vim"
     ).toContain('Session reloaded.');
   });
 
-  it('prints the sign-up page and GitHub Issues links when not signed in', async () => {
+  it('prints the GitHub Issues link when not signed in', async () => {
     const { driver, harness } = await makeDriver(makeSession());
     harness.auth.status.mockResolvedValueOnce({
       providers: [{ providerName: 'managed:kimi-code', hasToken: false }],
@@ -577,8 +577,7 @@ command = "vim"
     expect(harness.auth.submitFeedback).not.toHaveBeenCalled();
     const transcript = stripSgr(renderTranscript(driver));
     expect(transcript).toContain("You're not signed in");
-    expect(transcript).toContain('https://www.kimi.com/code');
-    expect(transcript).toContain('https://github.com/MoonshotAI/kimi-code/issues');
+    expect(transcript).toContain('https://github.com/YaseenHQ/echadron/issues');
   });
 
   it('falls back to GitHub Issues when the sign-in status cannot be read', async () => {
@@ -591,7 +590,7 @@ command = "vim"
     await handleFeedbackCommand(feedbackDriver as any);
 
     expect(openUrl).toHaveBeenCalledTimes(1);
-    expect(openUrl).toHaveBeenCalledWith('https://github.com/MoonshotAI/kimi-code/issues');
+    expect(openUrl).toHaveBeenCalledWith('https://github.com/YaseenHQ/echadron/issues');
     expect(promptFeedbackInput).not.toHaveBeenCalled();
     expect(harness.auth.submitFeedback).not.toHaveBeenCalled();
     const transcript = stripSgr(renderTranscript(driver));
@@ -928,7 +927,7 @@ command = "vim"
 
     await expect(handleFeedbackCommand(feedbackDriver as any)).rejects.toThrow('socket hangup');
 
-    expect(openUrl).toHaveBeenCalledWith('https://github.com/MoonshotAI/kimi-code/issues');
+    expect(openUrl).toHaveBeenCalledWith('https://github.com/YaseenHQ/echadron/issues');
     const transcript = stripSgr(renderTranscript(driver));
     expect(transcript).toContain('Opening GitHub Issues as fallback');
   });
