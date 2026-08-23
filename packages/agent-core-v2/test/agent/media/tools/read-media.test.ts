@@ -7,12 +7,16 @@
  * compression. Run: pnpm test -- test/agent/media/tools/read-media.test.ts
  */
 
-import type { ModelCapability } from '#/kosong/contract/capability';
+import { UNKNOWN_CAPABILITY, type ModelCapability } from '#/kosong/contract/capability';
 import type { ContentPart } from '#/kosong/contract/message';
 import { VideoUploadUnsupportedError } from '#/kosong/contract/errors';
 import { Jimp } from 'jimp';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
+import {
+  resetUnexpectedErrorHandler,
+  setUnexpectedErrorHandler,
+} from '#/_base/errors/unexpectedError';
 import type { IHostFileSystem } from '#/os/interface/hostFileSystem';
 import type { IHostEnvironment } from '#/os/interface/hostEnvironment';
 import type { ITelemetryService, TelemetryProperties } from '#/app/telemetry/telemetry';
@@ -835,10 +839,14 @@ describe('AgentMediaToolsRegistrar', () => {
       getModelCapabilities: () => state.capabilities,
       getModel: () => state.alias,
     } as unknown as IAgentProfileService;
+    const brokenAliases = new Set<string>();
     const modelCatalog = {
-      getRequester: (id: string) => ({
-        model: { id, name: id, providerName: 'test', protocol: 'openai' },
-      }),
+      getRequester: (id: string) => {
+        if (brokenAliases.has(id)) {
+          throw new Error(`Model "${id}" is not configured in config.toml.`);
+        }
+        return { model: { id, name: id, providerName: 'test', protocol: 'openai' } };
+      },
     } as unknown as IModelCatalog;
     const workspaceCtx = {
       workDir: '/workspace',
@@ -864,7 +872,13 @@ describe('AgentMediaToolsRegistrar', () => {
         maxContextTokens: caps.max_context_tokens,
       });
     };
-    return { registry, registrar, bindModel };
+    const breakAlias = (alias: string): void => {
+      brokenAliases.add(alias);
+    };
+    const healAlias = (alias: string): void => {
+      brokenAliases.delete(alias);
+    };
+    return { registry, registrar, bindModel, breakAlias, healAlias };
   }
 
   it('registers nothing until a media-capable model binds, then registers ReadMediaFile', () => {
@@ -904,6 +918,25 @@ describe('AgentMediaToolsRegistrar', () => {
 
     bindModel('vision-model', capabilities({ image_in: true, video_in: true }));
     expect(registry.resolve('ReadMediaFile')).toBe(first);
+  });
+
+  it('survives an unconfigured bound alias and recovers when it resolves again', () => {
+    const unexpected: unknown[] = [];
+    setUnexpectedErrorHandler((err) => unexpected.push(err));
+    try {
+      const { registry, bindModel, breakAlias, healAlias } = createRegistrarHarness();
+      breakAlias('stale-model');
+      bindModel('stale-model', UNKNOWN_CAPABILITY);
+      expect(unexpected).toHaveLength(0);
+      expect(registry.resolve('ReadMediaFile')).toBeUndefined();
+
+      healAlias('stale-model');
+      bindModel('stale-model', capabilities({ image_in: true, video_in: true }));
+      expect(registry.resolve('ReadMediaFile')).toBeInstanceOf(ReadMediaFileTool);
+      expect(unexpected).toHaveLength(0);
+    } finally {
+      resetUnexpectedErrorHandler();
+    }
   });
 
   it('unregisters on dispose', () => {
