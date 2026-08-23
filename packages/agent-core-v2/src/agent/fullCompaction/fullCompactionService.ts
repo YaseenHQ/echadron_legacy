@@ -867,16 +867,26 @@ export class AgentFullCompactionService extends Disposable implements IAgentFull
         // session dead-ends here: it is too large to send, and the only path
         // that shrinks it needs the model that is failing. Fold it with no
         // model call instead.
-        const folded = this.applyDeterministicFallback({
-          active,
-          originalHistory,
-          tokensBefore,
-          error,
-          source: data.source,
-          startedAt,
-          thinkingEffort,
-          retryCount,
-        });
+        let folded: CompactionResult | null = null;
+        try {
+          folded = this.applyDeterministicFallback({
+            active,
+            originalHistory,
+            tokensBefore,
+            error,
+            source: data.source,
+            startedAt,
+            thinkingEffort,
+            retryCount,
+          });
+        } catch (fallbackError) {
+          // The fold is a recovery path; a defect in it must not replace the
+          // failure that sent us here. Report it, then fall through and finish
+          // reporting the original error exactly as before.
+          this.log.error('deterministic compaction fallback threw', {
+            error: fallbackError instanceof Error ? fallbackError.message : String(fallbackError),
+          });
+        }
         if (folded !== null) return folded;
       }
       // Only now is the compaction really over: a fold that succeeded above
