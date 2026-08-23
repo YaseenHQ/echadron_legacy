@@ -258,6 +258,7 @@ describe('server-v2 /api/v1/sessions/{sid}/tasks', () => {
     const id = await createSession();
     const tasks = await mainAgentTasks(id);
     const taskId = tasks.registerTask(fakeTask('process'));
+    const subagentId = tasks.registerTask(fakeTask('agent'));
     await flush();
 
     const got = await getJson<TaskWire>(`/api/v1/sessions/${id}/tasks/${taskId}`);
