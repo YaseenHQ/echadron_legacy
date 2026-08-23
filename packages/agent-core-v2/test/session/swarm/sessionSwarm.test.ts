@@ -1236,27 +1236,6 @@ describe('SessionSwarmService metadata compatibility', () => {
     );
   });
 
-  it('points at the secondary model config when a spawn task binding is invalid', async () => {
-    const service = ix.get(ISessionSwarmService);
-    const spawnTask: SessionSwarmSpawnTask = {
-      ...spawnSessionTask('src/a.ts'),
-      kind: 'spawn',
-      binding: { model: 'provider/bad', thinking: 'low' },
-    };
-
-    await expect(
-      service.run({
-        callerAgentId: 'main',
-        tasks: [spawnTask],
-      }),
-    ).resolves.toMatchObject([
-      {
-        status: 'failed',
-        error: expect.stringContaining('comes from [secondary_model].model / KIMI_SECONDARY_MODEL'),
-      },
-    ]);
-    expect(createAgent).not.toHaveBeenCalled();
-  });
 
   it('does not emit spawned again when a rate-limited child retries', async () => {
     vi.useFakeTimers();

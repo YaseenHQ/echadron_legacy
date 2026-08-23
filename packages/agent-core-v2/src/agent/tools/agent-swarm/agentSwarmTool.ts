@@ -131,7 +131,6 @@ export class AgentSwarmTool implements IAgentSwarmTool {
       this.config,
       this.flags,
       this.profile.data().modelAlias,
-      this.modelCatalog,
     );
     return modelLines === undefined
       ? AGENT_SWARM_DESCRIPTION

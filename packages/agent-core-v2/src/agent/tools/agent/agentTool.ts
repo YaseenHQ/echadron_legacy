@@ -86,7 +86,6 @@ import { ISessionSubagentService } from '#/session/subagent/subagent';
 import {
   buildSubagentModelDescriptions,
   formatSubagentTimeoutDescription,
-  isSubagentModelRole,
   resolveSubagentBinding,
   resolveSubagentTimeoutMs,
   stripSubagentModelParameter,
@@ -186,7 +185,6 @@ export class SubagentTool implements ISubagentTool {
       this.config,
       this.flags,
       this.profile.data().modelAlias,
-      this.modelCatalog,
     );
     if (modelLines !== undefined) {
       description += `\n\n${modelLines}`;
@@ -313,10 +311,9 @@ export class SubagentTool implements ISubagentTool {
       // `model: secondary` in an agent file behaves exactly like the legacy
       // `model_preference: secondary`.
       const profileModel = profile.model === 'inherit' ? undefined : profile.model;
-      const usesProfileModel =
-        args.model === undefined &&
-        profileModel !== undefined &&
-        !isSubagentModelRole(profileModel);
+      // `model_preference` roles are gone with the pool, so a profile model is
+      // always a plain alias now.
+      const usesProfileModel = args.model === undefined && profileModel !== undefined;
       const binding = usesProfileModel
         ? {
             model: agentProfileModelAlias(profile, own.modelAlias),
@@ -348,10 +345,7 @@ export class SubagentTool implements ISubagentTool {
           labels: subagentLabels(this.callerAgentId),
         });
       } catch (error) {
-        if (usesProfileModel) throw error;
-        throw wrapSubagentModelError(error, binding.model, own.modelAlias, {
-          requestedExplicitly: args.model !== undefined && !isSubagentModelRole(args.model),
-        });
+        throw wrapSubagentModelError(error, binding.model, own.modelAlias);
       }
       created.accessor.get(IAgentPermissionModeService).setMode(this.permissionMode.mode);
       created.accessor
@@ -359,7 +353,9 @@ export class SubagentTool implements ISubagentTool {
         .inheritUserTools(requester.accessor.get(IAgentUserToolService));
       agentId = created.id;
       profileName = profile.name;
-      displayModel = binding.displayModel;
+      // The bound alias is the display now; the derived secondary entry that
+      // needed resolving is gone with the overlay.
+      displayModel = binding.model;
       promptText = await applyProfilePromptPrefix(profile, args.prompt, {
         cwd: this.workspace.workDir,
         runner: this.processRunner,
