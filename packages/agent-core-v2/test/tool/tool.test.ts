@@ -754,39 +754,7 @@ describe('Agent tool description', () => {
     expect(agentDescription()).not.toContain('Available models');
   });
 
-  it('lists both selectable models when the secondary-model env flag is enabled', () => {
-    vi.stubEnv(MASTER_ENV, '0');
-    vi.stubEnv(SECONDARY_MODEL_FLAG_ENV, '1');
-    ctx = createTestAgent({
-      initialConfig: { secondaryModel: { model: 'provider/secondary' } },
-    });
 
-    const description = agentDescription();
-
-    expect(description).toContain('Available models (pass via model):');
-    expect(description).toContain('- secondary: provider/secondary (default)');
-    expect(description).toContain('- primary: mock-model');
-  });
-
-  it('advertises resolved capabilities for selectable subagent models', () => {
-    ctx = createTestAgent(secondaryModelFlags(), {
-      initialConfig: {
-        secondaryModel: { model: 'secondary-model' },
-        models: {
-          'secondary-model': {
-            provider: 'test-provider',
-            model: 'secondary-model',
-            maxContextSize: 262_144,
-            capabilities: ['image_in', 'thinking'],
-          },
-        },
-      },
-    });
-
-    const description = agentDescription();
-    expect(description).toContain('capabilities: image_in, thinking');
-    expect(description).toContain('capabilities: none');
-  });
 
   it('omits the models section when configured but the experiment is disabled', () => {
     ctx = createTestAgent(secondaryModelFlags(false), {
@@ -831,6 +799,7 @@ describe('Agent tool description', () => {
     expect(properties['model']?.description).toContain('primary');
   });
 });
+
 
 describe('Agent tool execution contract', () => {
   let ctx: TestAgentContext | undefined;
@@ -1130,32 +1099,6 @@ describe('Agent tool execution contract', () => {
     expect(result.output).toContain('child result');
   });
 
-  it('spawns the subagent on the configured secondary model by default', async () => {
-    const lifecycle = createAgentLifecycleStub({ createAgentIds: ['agent-child'] });
-    const context = createAgentToolContext(
-      lifecycle,
-      secondaryModelFlags(),
-      {
-        initialConfig: {
-          secondaryModel: { model: 'provider/secondary', defaultEffort: 'low' },
-        },
-      },
-    );
-
-    await executeAgentTool(context, {
-      prompt: 'Investigate',
-      description: 'Find cause',
-    });
-
-    expect(lifecycle.create).toHaveBeenCalledWith(
-      expect.objectContaining({
-        binding: expect.objectContaining({
-          model: SECONDARY_DERIVED_MODEL_ID,
-          thinking: 'low',
-        }),
-      }),
-    );
-  });
 
   it('reports the display-normalized model on the spawned signal', async () => {
     const lifecycle = createAgentLifecycleStub({ createAgentIds: ['agent-child'] });
@@ -1294,73 +1237,8 @@ describe('Agent tool execution contract', () => {
     );
   });
 
-  it('lets an explicit model override the target profile preference', async () => {
-    const lifecycle = createAgentLifecycleStub({ createAgentIds: ['agent-child'] });
-    const catalog = profileCatalogWithPreference('coder', 'primary');
-    const coder = catalog.get('coder');
-    if (coder === undefined) throw new Error('expected coder profile');
-    Object.assign(coder, { model: 'reviewer-model' });
-    const context = createAgentToolContext(
-      lifecycle,
-      sessionService(ISessionAgentProfileCatalog, catalog),
-      secondaryModelFlags(),
-      {
-        initialConfig: { secondaryModel: { model: 'provider/secondary', defaultEffort: 'low' } },
-      },
-    );
 
-    await executeAgentTool(context, {
-      prompt: 'Investigate',
-      description: 'Find cause',
-      model: 'secondary',
-    });
 
-    expect(lifecycle.create).toHaveBeenCalledWith(
-      expect.objectContaining({
-        binding: expect.objectContaining({
-          model: SECONDARY_DERIVED_MODEL_ID,
-          thinking: 'low',
-        }),
-      }),
-    );
-  });
-
-  it('inherits the caller model when no secondary model is configured', async () => {
-    const lifecycle = createAgentLifecycleStub({ createAgentIds: ['agent-child'] });
-    const context = createAgentToolContext(lifecycle);
-
-    await executeAgentTool(context, {
-      prompt: 'Investigate',
-      description: 'Find cause',
-      model: 'secondary',
-    });
-
-    expect(lifecycle.create).toHaveBeenCalledWith(
-      expect.objectContaining({
-        binding: expect.objectContaining({
-          model: 'mock-model',
-          thinking: 'off',
-        }),
-      }),
-    );
-  });
-
-  it('points at the secondary model config when the configured alias is invalid', async () => {
-    const lifecycle = createAgentLifecycleStub();
-    const context = createAgentToolContext(lifecycle, secondaryModelFlags(), {
-      initialConfig: { secondaryModel: { model: 'provider/bad' } },
-    });
-
-    const result = await executeAgentTool(context, {
-      prompt: 'Investigate',
-      description: 'Find cause',
-    });
-
-    expect(result.isError).toBe(true);
-    expect(result.output).toContain('Model "provider/bad" is not configured in config.toml.');
-    expect(result.output).toContain('comes from [secondary_model].model / KIMI_SECONDARY_MODEL');
-    expect(lifecycle.create).not.toHaveBeenCalled();
-  });
 
   it('does not rewrite spawn failures unrelated to the model config', async () => {
     const lifecycle = createAgentLifecycleStub({
@@ -2271,17 +2149,6 @@ describe('AgentSwarm tool description', () => {
     expect(agentSwarmDescription()).not.toContain('Available models');
   });
 
-  it('lists both selectable models when a secondary model is configured', () => {
-    ctx = createTestAgent(secondaryModelFlags(), {
-      initialConfig: { secondaryModel: { model: 'provider/secondary' } },
-    });
-
-    const description = agentSwarmDescription();
-
-    expect(description).toContain('Available models (pass via model):');
-    expect(description).toContain('- secondary: provider/secondary (default)');
-    expect(description).toContain('- primary: mock-model');
-  });
 
   function agentSwarmParameters(): Record<string, unknown> {
     const tool = ctx.toolsData().find((entry) => entry.name === 'AgentSwarm');
@@ -2400,62 +2267,6 @@ describe('AgentSwarm tool execution contract', () => {
     expect(result.isError).toBeUndefined();
   });
 
-  it('threads the configured secondary model into spawn task bindings', async () => {
-    const runSwarm = vi.fn(
-      async (
-        args: SessionSwarmRunArgs,
-      ): Promise<readonly SessionSwarmRunResult[]> => {
-        return args.tasks.map((task, index) => ({
-          task,
-          agentId: `agent-explore-${String(index + 1)}`,
-          status: 'completed' as const,
-          result: 'ok',
-        }));
-      },
-    );
-    const swarmService: ISessionSwarmService = {
-      _serviceBrand: undefined,
-      getSwarmItem: async () => undefined,
-      run: runSwarm as ISessionSwarmService['run'],
-      cancel: () => {},
-    };
-    ctx = createTestAgent(
-      swarmServices(swarmService),
-      secondaryModelFlags(),
-      {
-        initialConfig: {
-          secondaryModel: { model: 'provider/secondary', defaultEffort: 'low' },
-        },
-      },
-    );
-
-    await executeTool(agentSwarmTool(ctx), {
-      turnId: 0,
-      toolCallId: 'call_swarm',
-      args: {
-        description: 'Review files',
-        prompt_template: 'Review {{item}}',
-        items: ['src/a.ts', 'src/b.ts'],
-        subagent_type: 'explore',
-      },
-      signal,
-    });
-
-    expect(runSwarm).toHaveBeenCalledWith(
-      expect.objectContaining({
-        tasks: [
-          expect.objectContaining({
-            kind: 'spawn',
-            binding: { model: SECONDARY_DERIVED_MODEL_ID, thinking: 'low' },
-          }),
-          expect.objectContaining({
-            kind: 'spawn',
-            binding: { model: SECONDARY_DERIVED_MODEL_ID, thinking: 'low' },
-          }),
-        ],
-      }),
-    );
-  });
 
   it('uses the target profile model preference for item-based spawns', async () => {
     const runSwarm = vi.fn(

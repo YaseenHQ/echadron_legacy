@@ -359,6 +359,16 @@ export const SECONDARY_MODEL_EFFORT_ENV = 'KIMI_SECONDARY_EFFORT';
 
 export const SecondaryModelConfigSchema = ModelOverrideSchema.extend({
   model: z.string().min(1).optional(),
+  /**
+   * Declared pool of subagent models: `[models]` entry id -> the selection hint
+   * rendered in the Agent / AgentSwarm tool descriptions. A caller passes one of
+   * these ids as the tool's `model` argument.
+   */
+  models: z.record(z.string(), z.string()).optional(),
+  /** Spawn model used when the caller passes none. Must resolve in the pool. */
+  defaultModel: z.string().min(1).optional(),
+  /** Ignore a caller's explicit choice and always spawn on `defaultModel`. */
+  force: z.boolean().optional(),
 });
 
 export type SecondaryModelConfig = z.infer<typeof SecondaryModelConfigSchema>;

@@ -945,28 +945,6 @@ describe('AgentSwarmTool', () => {
     );
   });
 
-  it('resolves spawn task bindings from the configured secondary model', async () => {
-    const host = mockSwarmHost();
-    const tool = new AgentSwarmTool(host.swarmService, makeAgentScopeContext({ agentId: host.callerAgentId, agentScope: '' }), mockSwarmMode(), stubConfig({ model: 'provider/secondary', defaultEffort: 'low' }), stubFlag(true), stubSwarmCatalog(), stubCallerProfile({ modelAlias: 'main-model', thinkingLevel: 'high' }));
-
-    await executeTool(
-      tool,
-      context({
-        description: 'Review files',
-        prompt_template: 'Review {{item}}',
-        items: ['src/a.ts', 'src/b.ts'],
-      }),
-    );
-
-    expect(host.swarmService.run).toHaveBeenCalledWith(
-      expect.objectContaining({
-        tasks: [
-          expect.objectContaining({ binding: { model: SECONDARY_DERIVED_MODEL_ID, thinking: 'low' } }),
-          expect.objectContaining({ binding: { model: SECONDARY_DERIVED_MODEL_ID, thinking: 'low' } }),
-        ],
-      }),
-    );
-  });
 
   it('lets the tool call opt back into the primary model', async () => {
     const host = mockSwarmHost();
@@ -998,18 +976,6 @@ describe('AgentSwarmTool', () => {
     );
   });
 
-  it('advertises both selectable models in the description only when configured', async () => {
-    const host = mockSwarmHost();
-    const configured = new AgentSwarmTool(host.swarmService, makeAgentScopeContext({ agentId: host.callerAgentId, agentScope: '' }), mockSwarmMode(), stubConfig({ model: 'provider/secondary' }), stubFlag(true), stubSwarmCatalog(), stubCallerProfile({ modelAlias: 'main-model' }));
-
-    expect(configured.description).toContain('Available models (pass via model):');
-    expect(configured.description).toContain('- secondary: provider/secondary (default)');
-    expect(configured.description).toContain('- primary: main-model');
-
-    const unconfigured = new AgentSwarmTool(host.swarmService, makeAgentScopeContext({ agentId: host.callerAgentId, agentScope: '' }), mockSwarmMode(), stubConfig(), stubFlag(true), stubSwarmCatalog(), stubCallerProfile({ modelAlias: 'main-model' }));
-
-    expect(unconfigured.description).not.toContain('Available models');
-  });
 
   it('omits resume hint when incomplete subagents have no agent ids', async () => {
     const host = mockSwarmHost({

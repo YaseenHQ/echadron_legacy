@@ -336,6 +336,9 @@ merge_all_available_skills = true
 # request_headers: record<string, string>
 # request_body: record<string, any>
 # model: string
+# models: record<string, string>
+# default_model: string
+# force: boolean
 
 # ##########################################################################
 # services
