@@ -164,6 +164,16 @@ export type {
   UsageWindow,
 } from './managed-usage';
 
+export {
+  KIMI_REGION_MARKER_FILENAME,
+  KIMI_REGION_PROFILES,
+  kimiRegionLoginHosts,
+  kimiRegionProfile,
+  kimiRegionSchema,
+  resolveKimiRegion,
+} from './region';
+export type { KimiRegion, KimiRegionProfile, ResolveKimiRegionOptions } from './region';
+
 export { fetchSubmitFeedback, kimiCodeFeedbackUrl } from './managed-feedback';
 export type {
   FetchSubmitFeedbackError,
