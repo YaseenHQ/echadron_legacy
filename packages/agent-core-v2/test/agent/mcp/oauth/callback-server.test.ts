@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest';
 import {
   OAuthCallbackClosedError,
   startCallbackServer,
-} from '#/agent/mcp/oauth/callback-server';
+} from '#/mcpCore/oauth/callback-server';
 
 describe('MCP OAuth callback server', () => {
   it('settles a pending waitForCode when the listener is closed', async () => {

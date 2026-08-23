@@ -1,7 +1,7 @@
 import type { OAuthClientInformationFull, OAuthTokens } from '@modelcontextprotocol/sdk/shared/auth.js';
 import { describe, expect, it } from 'vitest';
 
-import { McpOAuthClientProvider } from '#/agent/mcp/oauth/provider';
+import { McpOAuthClientProvider } from '#/mcpCore/oauth/provider';
 import { McpOAuthService } from '#/agent/mcp/oauth/service';
 import {
   createMcpOAuthStore,

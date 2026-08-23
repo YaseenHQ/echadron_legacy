@@ -27,7 +27,7 @@ import {
   type McpRemoteServerConfig,
   type McpServerConfig,
 } from '@yaseenhq/agent-core';
-import type { McpConnectionManager } from '@yaseenhq/agent-core-v2/agent/mcp/connection-manager';
+import type { McpConnectionManager } from '@yaseenhq/agent-core-v2/mcpCore/connection-manager';
 import { atomicWrite } from '@yaseenhq/agent-core-v2/_base/utils/fs';
 
 import type { McpTestResult } from '#/types';

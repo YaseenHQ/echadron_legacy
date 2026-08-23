@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { isMcpToolName, qualifyMcpToolName, sanitizeMcpNamePart } from '#/agent/mcp/tool-naming';
+import { isMcpToolName, qualifyMcpToolName, sanitizeMcpNamePart } from '#/mcpCore/tool-naming';
 
 describe('sanitizeMcpNamePart', () => {
   it('passes alphanumeric, underscore, and dash through unchanged', () => {

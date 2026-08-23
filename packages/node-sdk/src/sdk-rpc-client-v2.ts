@@ -134,7 +134,7 @@ import {
 } from '@yaseenhq/agent-core';
 import { encodeWorkDirKey } from '@yaseenhq/agent-core-v2/_base/utils/workdir-slug';
 import { MCP_SECTION, type McpSection } from '@yaseenhq/agent-core-v2/agent/mcp/configSection';
-import { McpConnectionManager } from '@yaseenhq/agent-core-v2/agent/mcp/connection-manager';
+import { McpConnectionManager } from '@yaseenhq/agent-core-v2/mcpCore/connection-manager';
 import {
   AlreadyAuthorizedError,
   McpOAuthService,

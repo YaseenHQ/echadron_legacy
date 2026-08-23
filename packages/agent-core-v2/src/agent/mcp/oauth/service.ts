@@ -25,8 +25,8 @@
 
 import { auth, type OAuthClientProvider } from '@modelcontextprotocol/client';
 
-import { startCallbackServer, type CallbackServer } from './callback-server';
-import { McpOAuthClientProvider } from './provider';
+import { startCallbackServer, type CallbackServer } from '#/mcpCore/oauth/callback-server';
+import { McpOAuthClientProvider } from '#/mcpCore/oauth/provider';
 import { mcpOAuthStoreKey, type McpOAuthStore } from './store';
 
 export interface McpOAuthServiceOptions {

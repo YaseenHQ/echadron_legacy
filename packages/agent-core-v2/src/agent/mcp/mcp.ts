@@ -2,9 +2,9 @@ import type { Tool as TsugiteTool } from '#/tsugite/contract/tool';
 
 import { createDecorator } from "#/_base/di/instantiation";
 import { type IDisposable } from "#/_base/di/lifecycle";
-import type { McpServerEntry } from './connection-manager';
+import type { McpServerEntry } from '#/mcpCore/connection-manager';
 import type { McpOAuthService } from '#/agent/mcp/oauth/service';
-import type { MCPClient, MCPToolDefinition } from './types';
+import type { MCPClient, MCPToolDefinition } from '#/mcpCore/types';
 
 export interface McpResolvedServer {
   readonly client: MCPClient;

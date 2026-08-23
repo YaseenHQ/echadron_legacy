@@ -24,7 +24,7 @@ import type { PermissionMode } from '#/agent/permissionPolicy/types';
 import type { SwarmModeTrigger } from '#/agent/swarm/swarm';
 import type { ToolDisclosure, ToolInfo } from '#/tool/toolContract';
 import type { ResolvedConfig } from '#/app/config/config';
-import type { McpServerConfig } from '#/agent/mcp/config-schema';
+import type { McpServerConfig } from '#/mcpCore/config-schema';
 import type { ExperimentalFeatureState } from '#/app/flag/flag';
 import type { ResumeSessionResult } from '#/agent/replayBuilder/types';
 import type { SessionMeta } from '#/session/sessionMetadata/sessionMetadata';

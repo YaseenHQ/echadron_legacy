@@ -27,7 +27,7 @@ import type {
   OAuthTokens,
 } from '@modelcontextprotocol/client';
 
-import { canonicalMcpOAuthResource, mcpOAuthStoreKey, type McpOAuthStore } from './store';
+import { canonicalMcpOAuthResource, mcpOAuthStoreKey, type McpOAuthStore } from '#/agent/mcp/oauth/store';
 
 const TOKENS_SUFFIX = '-tokens.json';
 const CLIENT_SUFFIX = '-client.json';

@@ -37,10 +37,10 @@ import { createMcpAuthTool } from '#/agent/mcp/tools/auth';
 import { createMcpTool } from '#/agent/mcp/tools/mcp';
 import { ISessionContext } from '#/session/sessionContext/sessionContext';
 import { ISessionMcpService } from '#/session/mcp/sessionMcp';
-import type { McpServerEntry } from './connection-manager';
+import type { McpServerEntry } from '#/mcpCore/connection-manager';
 import { IAgentMcpService } from './mcp';
-import { qualifyMcpToolName } from './tool-naming';
-import type { MCPClient, MCPToolDefinition } from './types';
+import { qualifyMcpToolName } from '#/mcpCore/tool-naming';
+import type { MCPClient, MCPToolDefinition } from '#/mcpCore/types';
 import { IWireService } from '#/wire/wire';
 import {
   McpDiscoveryModel,

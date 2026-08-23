@@ -9,7 +9,7 @@ import type { Tool as TsugiteTool } from '#/tsugite/contract/tool';
 import { z } from 'zod';
 
 import type { McpOAuthStore } from '#/agent/mcp/oauth/store';
-import type { MCPClient, MCPToolDefinition } from '#/agent/mcp/types';
+import type { MCPClient, MCPToolDefinition } from '#/mcpCore/types';
 import type {
   ExecutableTool,
   ExecutableToolContext,
