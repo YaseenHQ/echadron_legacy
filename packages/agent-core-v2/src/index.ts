@@ -457,6 +457,7 @@ export * from '#/app/externalHooksRunner/externalHooksRunner';
 export * from '#/app/externalHooksRunner/externalHooksRunnerService';
 export * from '#/agent/tools/fetch-url/fetch-url';
 import '#/agent/tools/fetch-url/fetchUrlTool';
+import '#/agent/tools/browser/browserTool';
 export * from '#/app/web/web';
 export * from '#/app/web/webService';
 export * from '#/app/web/providers/local-fetch-url';

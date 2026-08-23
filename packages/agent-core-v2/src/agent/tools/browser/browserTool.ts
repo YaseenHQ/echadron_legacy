@@ -45,10 +45,38 @@ export class BrowserTool implements IBrowserTool {
     this.backends = backends ?? [new CdpBrowserBackend(), new WebBridgeBackend()];
   }
 
+  /**
+   * Detach every backend when the agent scope ends. The CDP client holds an
+   * open WebSocket; without this each agent that browsed would leak one and
+   * keep a ref'd handle alive.
+   */
+  async dispose(): Promise<void> {
+    await Promise.all(this.backends.map(async (backend) => backend.close().catch(() => {})));
+  }
+
+  /**
+   * The approval subject must be the operand this action actually uses, not
+   * whichever optional field happens to be set. Otherwise a `read` carrying a
+   * stale `url` would reuse that url's approval while reading a different page.
+   */
+  private static subjectOf(args: BrowserInput): string {
+    switch (args.action) {
+      case 'navigate':
+        return `navigate ${args.url ?? ''}`.trim();
+      case 'click':
+      case 'type':
+        return `${args.action} ${args.selector ?? ''}`.trim();
+      default:
+        return args.action;
+    }
+  }
+
   resolveExecution(args: BrowserInput): ToolExecution {
-    const subject = args.url ?? args.selector ?? args.action;
+    const subject = BrowserTool.subjectOf(args);
     return {
-      accesses: ToolAccesses.none(),
+      // One shared tab and socket: parallel browser calls would interleave
+      // keystrokes and navigations, so they must serialize against each other.
+      accesses: ToolAccesses.all(),
       description: `Browser: ${args.action}${args.url === undefined ? '' : ` ${args.url}`}`,
       display: { kind: 'generic', summary: `Browser ${args.action}` },
       approvalRule: literalRulePattern(this.name, subject),
@@ -69,7 +97,9 @@ export class BrowserTool implements IBrowserTool {
     { signal }: ExecutableToolContext,
   ): Promise<ExecutableToolResult> {
     try {
+      signal.throwIfAborted();
       const backend = await this.pick();
+      signal.throwIfAborted();
       const builder = new ToolResultBuilder({ maxLineLength: null });
       switch (args.action) {
         case 'navigate': {
@@ -104,8 +134,16 @@ export class BrowserTool implements IBrowserTool {
         }
         case 'screenshot': {
           const png = await backend.screenshot();
-          builder.write(`Captured a ${String(png.byteLength)}-byte PNG via the ${backend.id} backend.`);
-          return builder.ok();
+          // Return the image itself; a byte count tells the model nothing.
+          const base64 = Buffer.from(png).toString('base64');
+          return {
+            isError: false,
+            output: [
+              { type: 'text', text: `<image source="browser:${backend.id}">` },
+              { type: 'image_url', imageUrl: { url: `data:image/png;base64,${base64}` } },
+              { type: 'text', text: '</image>' },
+            ],
+          };
         }
       }
     } catch (error) {

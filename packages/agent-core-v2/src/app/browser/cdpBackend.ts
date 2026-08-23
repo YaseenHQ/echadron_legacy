@@ -49,7 +49,14 @@ export class CdpBrowserBackend implements BrowserBackend {
 
   async navigate(url: string): Promise<BrowserPage> {
     await this.call('Page.enable', {});
-    await this.call('Page.navigate', { url });
+    // Page.navigate reports a failed navigation in the result, not as a
+    // protocol error. Without this check a DNS failure looks like a success
+    // and the caller then reads the previous page.
+    const result = await this.call('Page.navigate', { url });
+    const errorText = (result as { errorText?: string }).errorText;
+    if (errorText) {
+      throw new Error(`Navigation to ${url} failed: ${errorText}`);
+    }
     // Settle before reading: a navigate resolves on commit, not on load.
     await this.evaluate<string>(
       'new Promise(r => document.readyState === "complete" ? r("") : addEventListener("load", () => r(""), { once: true }))',

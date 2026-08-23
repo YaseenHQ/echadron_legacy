@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 
 import { BrowserUnavailableError, type BrowserBackend, type BrowserPage } from '#/app/browser/backend';
 import { BrowserTool } from '#/agent/tools/browser/browserTool';
+import { ToolAccesses } from '#/tool/toolContract';
 
 function fakeBackend(overrides: Partial<BrowserBackend> & { id?: BrowserBackend['id'] } = {}): BrowserBackend {
   return {
@@ -42,7 +43,7 @@ describe('Browser tool', () => {
     const result = await run(tool, { action: 'screenshot' });
 
     expect(order).toEqual(['cdp']);
-    expect(outputText(result)).toContain('cdp backend');
+    expect(outputText(result)).toContain('browser:cdp');
   });
 
   it('falls back to the daemon when no debuggable browser is running', async () => {
@@ -51,7 +52,7 @@ describe('Browser tool', () => {
       fakeBackend({ id: 'webbridge' }),
     ]);
 
-    expect(outputText(await run(tool, { action: 'screenshot' }))).toContain('webbridge backend');
+    expect(outputText(await run(tool, { action: 'screenshot' }))).toContain('browser:webbridge');
   });
 
   it('tells the user how to start a browser when neither backend answers', async () => {
@@ -111,5 +112,72 @@ describe('Browser tool', () => {
 
     expect(result.isError).toBe(true);
     expect(outputText(result)).toContain('No element matches');
+  });
+
+  it('returns the screenshot as an image, not a byte count', async () => {
+    const tool = new BrowserTool([fakeBackend({ screenshot: async () => new Uint8Array([137, 80, 78, 71]) })]);
+
+    const result = await run(tool, { action: 'screenshot' });
+    const parts = result.output as { type: string; imageUrl?: { url: string } }[];
+
+    const image = parts.find((part) => part.type === 'image_url');
+    expect(image?.imageUrl?.url).toBe(`data:image/png;base64,${Buffer.from([137, 80, 78, 71]).toString('base64')}`);
+  });
+
+  it('scopes the approval subject to the operand the action uses', async () => {
+    const tool = new BrowserTool([fakeBackend()]);
+
+    // A `read` that still carries a stale url must not reuse that url's approval.
+    const navigate = tool.resolveExecution({ action: 'navigate', url: 'https://example.com' });
+    const read = tool.resolveExecution({ action: 'read', url: 'https://example.com' } as never);
+
+    expect('approvalRule' in navigate && 'approvalRule' in read).toBe(true);
+    expect((navigate as { approvalRule: unknown }).approvalRule).not.toEqual(
+      (read as { approvalRule: unknown }).approvalRule,
+    );
+  });
+
+  it('serializes against other browser calls, because there is one shared tab', async () => {
+    const tool = new BrowserTool([fakeBackend()]);
+
+    const left = tool.resolveExecution({ action: 'read' });
+    const right = tool.resolveExecution({ action: 'click', selector: '#a' });
+
+    expect('accesses' in left && 'accesses' in right).toBe(true);
+    expect(
+      ToolAccesses.conflict(
+        (left as { accesses: ToolAccesses }).accesses,
+        (right as { accesses: ToolAccesses }).accesses,
+      ),
+    ).toBe(true);
+  });
+
+  it('stops before touching a backend when the call is already cancelled', async () => {
+    let touched = false;
+    const tool = new BrowserTool([fakeBackend({ available: async () => { touched = true; return true; } })]);
+    const aborted = AbortSignal.abort();
+
+    const execution = tool.resolveExecution({ action: 'read' });
+    // Cancellation propagates rather than becoming a tool error, so the turn
+    // sees an interrupt and not a failed browser call.
+    await expect(
+      (execution as { execute: (c: never) => Promise<unknown> }).execute({
+        toolCallId: 't1',
+        signal: aborted,
+      } as never),
+    ).rejects.toThrow();
+    expect(touched).toBe(false);
+  });
+
+  it('closes every backend on dispose so no socket leaks', async () => {
+    const closed: string[] = [];
+    const tool = new BrowserTool([
+      fakeBackend({ id: 'cdp', close: async () => { closed.push('cdp'); } }),
+      fakeBackend({ id: 'webbridge', close: async () => { closed.push('webbridge'); } }),
+    ]);
+
+    await tool.dispose();
+
+    expect(closed).toEqual(['cdp', 'webbridge']);
   });
 });
