@@ -1,6 +1,6 @@
 {
 	"name": "echadron",
-	"version": "0.33.0",
+	"version": "0.33.1",
 	"description": "Echadron multi-provider agent harness for the terminal",
 	"license": "MIT",
 	"author": "YaseenHQ",

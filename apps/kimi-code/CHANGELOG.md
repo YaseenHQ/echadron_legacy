@@ -1,5 +1,21 @@
 # @moonshot-ai/kimi-code
 
+## 0.33.1
+
+### Patch Changes
+
+- [#70](https://github.com/YaseenHQ/echadron/pull/70) [`d0c1cbb`](https://github.com/YaseenHQ/echadron/commit/d0c1cbb2b0ba167e17b64509b192a263b4a80ac5) Thanks [@YaseenHQ](https://github.com/YaseenHQ)! - Stop config writes from destroying `config.toml`. A failed read used to clear the in-memory snapshot, so the next write persisted that empty state over your file; and every write serialized a stale snapshot, so edits made outside Echadron were silently clobbered. A failed load now keeps the last-known-good values, records a diagnostic, and refuses to persist until a successful reload, while each write re-reads the file and applies only the sections it is changing on top of what is on disk.
+
+- [#68](https://github.com/YaseenHQ/echadron/pull/68) [`2c4e725`](https://github.com/YaseenHQ/echadron/commit/2c4e72531eb70de0951cbb593d27b288a8da1993) Thanks [@YaseenHQ](https://github.com/YaseenHQ)! - Port a batch of upstream reliability fixes: the kap-server WebSocket now heartbeats so proxies stop dropping idle sessions, footer git-status commands resolve through PATH instead of the working directory, background task output is sanitized before display, the banner stays readable with long tags on narrow terminals, Windows explorer `/select,` handles quoted paths, question ids containing colons resolve, Gemini tool-call thought signatures keep their order, and a cron turn ending no longer hides the previous answer.
+
+- [#71](https://github.com/YaseenHQ/echadron/pull/71) [`2858eb5`](https://github.com/YaseenHQ/echadron/commit/2858eb553aa1e3866e515a31a0a900d5713a03d4) Thanks [@YaseenHQ](https://github.com/YaseenHQ)! - More upstream reliability fixes: cancelling an MCP authorization no longer leaves the flow hanging until its timeout, `/feedback` now works for any signed-in user rather than only those running a managed model, a missing Git Bash on Windows reports what it looked for instead of a raw probe failure, web session export is no longer capped at 64 MiB, and a multi-select question in the VS Code panel waits for every answer.
+
+- [#72](https://github.com/YaseenHQ/echadron/pull/72) [`cbe9115`](https://github.com/YaseenHQ/echadron/commit/cbe9115ec530b7b7e464d5af09cfba445d645146) Thanks [@YaseenHQ](https://github.com/YaseenHQ)! - The `/tasks` API now reports `agent_id`, `subagent_type` and `parent_tool_call_id` for subagent tasks, so a client can tell which agent a task belongs to and which tool call spawned it.
+
+- [#73](https://github.com/YaseenHQ/echadron/pull/73) [`78418fb`](https://github.com/YaseenHQ/echadron/commit/78418fb12144375488f333276bed3d30ed1af2b3) Thanks [@YaseenHQ](https://github.com/YaseenHQ)! - Two engine fixes. Tool-call ids are now minted by the engine, so a self-hosted OpenAI-compatible endpoint that renumbers ids between responses no longer has its approvals, questions and user-tool prompts silently swallowed as duplicates. And the subagent `model` parameter is no longer advertised while the secondary-model experiment is off, so the concept stays out of the prompt and a stray `model` argument is rejected instead of quietly inheriting the caller's model.
+
+- [#74](https://github.com/YaseenHQ/echadron/pull/74) [`741855c`](https://github.com/YaseenHQ/echadron/commit/741855cbf172b9d0b1dd3a7ffe33af8e48768a76) Thanks [@YaseenHQ](https://github.com/YaseenHQ)! - File tools on Windows now understand Git Bash paths. A model-supplied POSIX path like `/c/Users/you/project` is translated to its win32 form before the path is canonicalized and checked against the workspace, so reads and writes stop failing on paths the shell itself accepts. Drive-letter forms translate lexically, root-relative paths resolve through `cygpath -w` with per-segment caching, and every failure mode falls back to the previous behaviour.
+
 ## 0.33.0
 
 ### Minor Changes
