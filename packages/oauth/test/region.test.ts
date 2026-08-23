@@ -9,9 +9,10 @@ import { DEFAULT_KIMI_CODE_BASE_URL } from '#/managed-usage';
 import {
   KIMI_REGION_MARKER_FILENAME,
   KIMI_REGION_PROFILES,
+  isKimiRegion,
   kimiRegionLoginHosts,
   kimiRegionProfile,
-  kimiRegionSchema,
+  parseKimiRegion,
   resolveKimiRegion,
 } from '#/region';
 
@@ -207,10 +208,19 @@ describe('kimiRegionLoginHosts', () => {
   });
 });
 
-describe('kimiRegionSchema', () => {
-  it('parses valid regions and rejects others', () => {
-    expect(kimiRegionSchema.parse('mainland-cn')).toBe('mainland-cn');
-    expect(kimiRegionSchema.parse('global')).toBe('global');
-    expect(kimiRegionSchema.safeParse('apac').success).toBe(false);
+describe('parseKimiRegion', () => {
+  it('accepts valid regions and rejects everything else', () => {
+    expect(parseKimiRegion('mainland-cn')).toBe('mainland-cn');
+    expect(parseKimiRegion('global')).toBe('global');
+    expect(parseKimiRegion('apac')).toBeUndefined();
+    expect(parseKimiRegion('')).toBeUndefined();
+    expect(parseKimiRegion(undefined)).toBeUndefined();
+    expect(parseKimiRegion(2)).toBeUndefined();
+  });
+
+  it('isKimiRegion narrows the type', () => {
+    expect(isKimiRegion('global')).toBe(true);
+    expect(isKimiRegion('apac')).toBe(false);
+    expect(isKimiRegion(null)).toBe(false);
   });
 });

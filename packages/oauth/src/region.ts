@@ -30,16 +30,28 @@ import { readFileSync } from 'node:fs';
 import { homedir } from 'node:os';
 import { join } from 'node:path';
 
-import { z } from 'zod';
-
 import { DEFAULT_KIMI_CODE_OAUTH_HOST } from './constants';
 import { KIMI_CODE_OAUTH_KEY, kimiCodeEnvBaseUrl, kimiCodeEnvOAuthHost } from './managed-kimi-code';
 import { DEFAULT_KIMI_CODE_BASE_URL } from './managed-usage';
 
-export type KimiRegion = 'mainland-cn' | 'global';
+/** Every deployment, and the single source the type is derived from. */
+export const KIMI_REGIONS = ['mainland-cn', 'global'] as const;
 
-/** Zod schema for the wire/domain contract; parses to {@link KimiRegion}. */
-export const kimiRegionSchema = z.enum(['mainland-cn', 'global']);
+export type KimiRegion = (typeof KIMI_REGIONS)[number];
+
+/**
+ * Upstream validates this with a zod schema. This package deliberately carries
+ * no schema dependency -- it is the lean auth layer -- so a two-value enum is
+ * checked directly instead.
+ */
+export function isKimiRegion(value: unknown): value is KimiRegion {
+  return typeof value === 'string' && (KIMI_REGIONS as readonly string[]).includes(value);
+}
+
+/** {@link isKimiRegion} as a parse: the region, or undefined when invalid. */
+export function parseKimiRegion(value: unknown): KimiRegion | undefined {
+  return isKimiRegion(value) ? value : undefined;
+}
 
 export interface KimiRegionProfile {
   /** OAuth host the device flow talks to (authorize/token derive from it). */
@@ -118,7 +130,7 @@ function normalizeHost(value: string): string {
 
 function regionForOAuthHost(oauthHost: string): KimiRegion | undefined {
   const normalized = normalizeHost(oauthHost);
-  for (const region of Object.keys(KIMI_REGION_PROFILES) as KimiRegion[]) {
+  for (const region of KIMI_REGIONS) {
     if (normalizeHost(KIMI_REGION_PROFILES[region].oauthHost) === normalized) return region;
   }
   return undefined;
@@ -131,8 +143,7 @@ function readRegionMarker(homeDir: string): KimiRegion | undefined {
   } catch {
     return undefined;
   }
-  const value = raw.trim();
-  return value === 'mainland-cn' || value === 'global' ? value : undefined;
+  return parseKimiRegion(raw.trim());
 }
 
 // Mirrors `defaultKimiHome` in ./toolkit; keep the two in sync so the marker
