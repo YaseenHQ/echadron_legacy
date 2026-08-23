@@ -52,12 +52,12 @@ export interface ConnectOptions {
   /** Persist the whole config (manual form / deep link). Default `true`;
    * discovered connects pass `false` so a reload re-discovers fresh state. */
   readonly persist?: boolean;
-  /** Remember just this URL as the preferred discovery pick (`kimi-inspect.server-url`). */
+  /** Remember just this URL as the preferred discovery pick (`echadron-inspect.server-url`). */
   readonly rememberServerUrl?: string;
 }
 
-const STORAGE_KEY = 'kimi-inspect.connection';
-const REMEMBERED_SERVER_KEY = 'kimi-inspect.server-url';
+const STORAGE_KEY = 'echadron-inspect.connection';
+const REMEMBERED_SERVER_KEY = 'echadron-inspect.server-url';
 
 function readInitialConfig(): ConnectionConfig {
   const params = new URLSearchParams(window.location.search);
@@ -261,7 +261,7 @@ function DebugSurfaceError({
       <div className="w-[520px] rounded-lg border border-red-900/60 bg-neutral-900 p-6 shadow-xl">
         <h1 className="mb-1 text-lg font-semibold text-red-300">Debug surface unavailable</h1>
         <p className="mb-3 text-xs leading-relaxed text-neutral-400">
-          Kimi Inspect talks to kap-server exclusively over the debug RPC surface (
+          Echadron Inspect talks to kap-server exclusively over the debug RPC surface (
           <code className="text-neutral-300">/api/v1/debug</code>), and{' '}
           <code className="text-neutral-300">{baseUrl}</code> does not serve it. Start kap-server
           with <code className="text-neutral-300">--debug-endpoints</code> on a loopback bind and
@@ -309,7 +309,7 @@ function ConnectScreen({
           onConnect({ url, token });
         }}
       >
-        <h1 className="mb-1 text-lg font-semibold text-neutral-100">Kimi Inspect</h1>
+        <h1 className="mb-1 text-lg font-semibold text-neutral-100">Echadron Inspect</h1>
         <p className="mb-5 text-xs text-neutral-500">
           Connect to a kap-server started with{' '}
           <code className="text-neutral-400">--debug-endpoints</code> (

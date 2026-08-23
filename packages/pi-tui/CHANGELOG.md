@@ -1,4 +1,4 @@
-# @yaseenhq/pi-tui
+# @moonshot-ai/pi-tui
 
 ## 0.84.1
 

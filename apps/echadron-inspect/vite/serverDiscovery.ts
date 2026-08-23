@@ -216,7 +216,7 @@ export function serverDiscoveryPlugin(options: { proxyTarget: string }): Plugin 
       });
   };
   return {
-    name: 'kimi-inspect-server-discovery',
+    name: 'echadron-inspect-server-discovery',
     configureServer(server) {
       server.middlewares.use(SERVER_DISCOVERY_ENDPOINT, handler);
     },

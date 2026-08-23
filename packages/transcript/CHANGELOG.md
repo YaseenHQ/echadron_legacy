@@ -1,4 +1,4 @@
-# @yaseenhq/transcript
+# @moonshot-ai/transcript
 
 ## 0.0.1
 

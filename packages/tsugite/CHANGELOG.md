@@ -1,4 +1,4 @@
-# @yaseenhq/tsugite
+# @moonshot-ai/kosong
 
 ## 0.5.6
 

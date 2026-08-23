@@ -52,7 +52,7 @@ export const HEADLESS_STDIO_DRAIN_TIMEOUT_MS = 10000;
 // Published npm package name; this can differ from the executable command.
 export const NPM_PACKAGE_NAME = 'echadron';
 /** Previous upstream package name, accepted only when locating old installs. */
-export const LEGACY_NPM_PACKAGE_NAME = '@yaseenhq/kimi-code';
+export const LEGACY_NPM_PACKAGE_NAME = '@moonshot-ai/kimi-code';
 
 // App-owned data paths. SDK/core runtime config is intentionally not routed here.
 /** Primary host-owned home environment variable. */

@@ -462,7 +462,7 @@ describe('TranscriptWs', () => {
     sock.open();
     expect(sock.sentFrames()[0]).toMatchObject({
       type: 'client_hello',
-      payload: { client_id: 'kimi-inspect', subscriptions: ['s1'] },
+      payload: { client_id: 'echadron-inspect', subscriptions: ['s1'] },
     });
     expect(sock.sentFrames()[0]).not.toHaveProperty('payload.transcript');
     expect(sock.sentFrames()[1]).toMatchObject({

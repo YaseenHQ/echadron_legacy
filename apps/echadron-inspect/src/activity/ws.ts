@@ -121,8 +121,8 @@ export class GlobalEventsWs {
       this.reconnectAttempt = 0;
       this.send({
         type: 'client_hello',
-        id: `kimi-inspect-global-${Date.now().toString(36)}`,
-        payload: { client_id: 'kimi-inspect', subscriptions: [] },
+        id: `echadron-inspect-global-${Date.now().toString(36)}`,
+        payload: { client_id: 'echadron-inspect', subscriptions: [] },
       });
       // Established (first connect and every reconnect alike): live facts may
       // have been missed — the consumer re-seeds from REST.

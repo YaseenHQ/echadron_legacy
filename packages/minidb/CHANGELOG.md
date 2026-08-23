@@ -1,4 +1,4 @@
-# @yaseenhq/minidb
+# @moonshot-ai/minidb
 
 ## 0.2.0
 

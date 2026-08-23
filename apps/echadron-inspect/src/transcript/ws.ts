@@ -159,7 +159,7 @@ export class TranscriptWs {
     this.ws = ws;
     ws.addEventListener('open', () => {
       this.reconnectAttempt = 0;
-      this.helloId = `kimi-inspect-${Date.now().toString(36)}`;
+      this.helloId = `echadron-inspect-${Date.now().toString(36)}`;
       this.subscribeV2Id = `${this.helloId}-sub`;
       this.subscribeV2Acked = false;
       const since = this.getSince?.();
@@ -167,7 +167,7 @@ export class TranscriptWs {
         type: 'client_hello',
         id: this.helloId,
         payload: {
-          client_id: 'kimi-inspect',
+          client_id: 'echadron-inspect',
           subscriptions: [this.sessionId],
         },
       });

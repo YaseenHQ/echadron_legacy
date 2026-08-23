@@ -1,4 +1,4 @@
-# @yaseenhq/echadron-oauth
+# @moonshot-ai/kimi-code-oauth
 
 ## 0.3.0
 

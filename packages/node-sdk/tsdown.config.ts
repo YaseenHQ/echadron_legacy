@@ -26,7 +26,7 @@ export default defineConfig({
     '@yaseenhq/tsugite': fileURLToPath(new URL('../tsugite/src/index.ts', import.meta.url)),
   },
   deps: {
-    alwaysBundle: [/^@moonshot-ai\//],
+    alwaysBundle: [/^@yaseenhq\//],
     neverBundle: [],
   },
 });

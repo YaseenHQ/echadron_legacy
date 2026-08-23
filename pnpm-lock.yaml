@@ -11,10 +11,10 @@ catalogs:
       version: 4.3.6
 
 overrides:
-  kimi-code>@tailwindcss/vite: 4.1.18
+  echadron>@tailwindcss/vite: 4.1.18
   ssh2@1.17.0>cpu-features: '-'
   ssh2@1.17.0>nan: '-'
-  kimi-code>tailwindcss: 4.1.18
+  echadron>tailwindcss: 4.1.18
 
 importers:
 
@@ -71,6 +71,140 @@ importers:
       vitest:
         specifier: 4.1.4
         version: 4.1.4(@types/node@22.19.17)(@vitest/coverage-v8@4.1.4)(jsdom@25.0.1)(msw@2.15.0(@types/node@22.19.17)(typescript@6.0.2))(vite@8.0.8(@types/node@22.19.17)(esbuild@0.27.7)(jiti@2.6.1)(tsx@4.21.0)(yaml@2.8.3))
+
+  apps/echadron:
+    devDependencies:
+      '@types/semver':
+        specifier: ^7.7.0
+        version: 7.7.1
+      '@types/yazl':
+        specifier: ^2.4.6
+        version: 2.4.6
+      '@yaseenhq/acp-adapter':
+        specifier: workspace:^
+        version: link:../../packages/acp-adapter
+      '@yaseenhq/acp-server':
+        specifier: workspace:^
+        version: link:../../packages/acp-server
+      '@yaseenhq/agent-core-v2':
+        specifier: workspace:^
+        version: link:../../packages/agent-core-v2
+      '@yaseenhq/echadron-oauth':
+        specifier: workspace:^
+        version: link:../../packages/oauth
+      '@yaseenhq/echadron-sdk':
+        specifier: workspace:^
+        version: link:../../packages/node-sdk
+      '@yaseenhq/echadron-telemetry':
+        specifier: workspace:^
+        version: link:../../packages/telemetry
+      '@yaseenhq/echadron-web':
+        specifier: workspace:^
+        version: link:../echadron-web
+      '@yaseenhq/kap-server':
+        specifier: workspace:^
+        version: link:../../packages/kap-server
+      '@yaseenhq/migration-legacy':
+        specifier: workspace:^
+        version: link:../../packages/migration-legacy
+      '@yaseenhq/pi-tui':
+        specifier: workspace:^
+        version: link:../../packages/pi-tui
+      '@yaseenhq/vis-server':
+        specifier: workspace:^
+        version: link:../vis/server
+      '@yaseenhq/vis-web':
+        specifier: workspace:*
+        version: link:../vis/web
+      chalk:
+        specifier: ^5.4.1
+        version: 5.6.2
+      cli-highlight:
+        specifier: ^2.1.11
+        version: 2.1.11
+      commander:
+        specifier: ^13.1.0
+        version: 13.1.0
+      jimp:
+        specifier: ^1.6.1
+        version: 1.6.1
+      pathe:
+        specifier: ^2.0.3
+        version: 2.0.3
+      postject:
+        specifier: 1.0.0-alpha.6
+        version: 1.0.0-alpha.6
+      semver:
+        specifier: ^7.7.4
+        version: 7.7.4
+      smol-toml:
+        specifier: ^1.6.1
+        version: 1.6.1
+      tsx:
+        specifier: ^4.21.0
+        version: 4.21.0
+      unicode-animations:
+        specifier: ^1.0.3
+        version: 1.0.3
+      yazl:
+        specifier: ^3.3.1
+        version: 3.3.1
+      zod:
+        specifier: ^4.3.6
+        version: 4.3.6
+    optionalDependencies:
+      '@firecrawl/anydoc':
+        specifier: ^0.1.8
+        version: 0.1.8
+      '@lydell/node-pty':
+        specifier: 1.2.0-beta.15
+        version: 1.2.0-beta.15
+      '@mariozechner/clipboard':
+        specifier: ^0.3.9
+        version: 0.3.9
+
+  apps/echadron-inspect:
+    dependencies:
+      '@tanstack/react-query':
+        specifier: ^5.74.4
+        version: 5.99.2(react@19.2.5)
+      '@yaseenhq/agent-core-v2':
+        specifier: workspace:^
+        version: link:../../packages/agent-core-v2
+      '@yaseenhq/transcript':
+        specifier: workspace:^
+        version: link:../../packages/transcript
+      react:
+        specifier: ^19.1.0
+        version: 19.2.5
+      react-dom:
+        specifier: ^19.1.0
+        version: 19.2.5(react@19.2.5)
+    devDependencies:
+      '@tailwindcss/vite':
+        specifier: ^4.1.4
+        version: 4.1.18(vite@6.4.2(@types/node@22.19.17)(jiti@2.6.1)(lightningcss@1.32.0)(tsx@4.21.0)(yaml@2.8.3))
+      '@types/react':
+        specifier: ^19.1.2
+        version: 19.2.14
+      '@types/react-dom':
+        specifier: ^19.1.2
+        version: 19.2.3(@types/react@19.2.14)
+      '@vitejs/plugin-react':
+        specifier: ^4.4.1
+        version: 4.7.0(vite@6.4.2(@types/node@22.19.17)(jiti@2.6.1)(lightningcss@1.32.0)(tsx@4.21.0)(yaml@2.8.3))
+      tailwindcss:
+        specifier: ^4.1.4
+        version: 4.1.18
+      typescript:
+        specifier: 6.0.2
+        version: 6.0.2
+      vite:
+        specifier: ^6.3.3
+        version: 6.4.2(@types/node@22.19.17)(jiti@2.6.1)(lightningcss@1.32.0)(tsx@4.21.0)(yaml@2.8.3)
+      vitest:
+        specifier: 4.1.4
+        version: 4.1.4(@types/node@22.19.17)(@vitest/coverage-v8@4.1.4)(jsdom@25.0.1)(msw@2.15.0(@types/node@22.19.17)(typescript@6.0.2))(vite@6.4.2(@types/node@22.19.17)(jiti@2.6.1)(lightningcss@1.32.0)(tsx@4.21.0)(yaml@2.8.3))
 
   apps/echadron-web:
     dependencies:
@@ -138,140 +272,6 @@ importers:
       ws:
         specifier: ^8.18.0
         version: 8.20.0
-
-  apps/echadron:
-    devDependencies:
-      '@yaseenhq/acp-adapter':
-        specifier: workspace:^
-        version: link:../../packages/acp-adapter
-      '@yaseenhq/acp-server':
-        specifier: workspace:^
-        version: link:../../packages/acp-server
-      '@yaseenhq/agent-core-v2':
-        specifier: workspace:^
-        version: link:../../packages/agent-core-v2
-      '@yaseenhq/kap-server':
-        specifier: workspace:^
-        version: link:../../packages/kap-server
-      '@yaseenhq/echadron-oauth':
-        specifier: workspace:^
-        version: link:../../packages/oauth
-      '@yaseenhq/echadron-sdk':
-        specifier: workspace:^
-        version: link:../../packages/node-sdk
-      '@yaseenhq/echadron-telemetry':
-        specifier: workspace:^
-        version: link:../../packages/telemetry
-      '@yaseenhq/migration-legacy':
-        specifier: workspace:^
-        version: link:../../packages/migration-legacy
-      '@yaseenhq/pi-tui':
-        specifier: workspace:^
-        version: link:../../packages/pi-tui
-      '@yaseenhq/vis-server':
-        specifier: workspace:^
-        version: link:../vis/server
-      '@yaseenhq/vis-web':
-        specifier: workspace:*
-        version: link:../vis/web
-      '@types/semver':
-        specifier: ^7.7.0
-        version: 7.7.1
-      '@types/yazl':
-        specifier: ^2.4.6
-        version: 2.4.6
-      '@yaseenhq/echadron-web':
-        specifier: workspace:^
-        version: link:../echadron-web
-      chalk:
-        specifier: ^5.4.1
-        version: 5.6.2
-      cli-highlight:
-        specifier: ^2.1.11
-        version: 2.1.11
-      commander:
-        specifier: ^13.1.0
-        version: 13.1.0
-      jimp:
-        specifier: ^1.6.1
-        version: 1.6.1
-      pathe:
-        specifier: ^2.0.3
-        version: 2.0.3
-      postject:
-        specifier: 1.0.0-alpha.6
-        version: 1.0.0-alpha.6
-      semver:
-        specifier: ^7.7.4
-        version: 7.7.4
-      smol-toml:
-        specifier: ^1.6.1
-        version: 1.6.1
-      tsx:
-        specifier: ^4.21.0
-        version: 4.21.0
-      unicode-animations:
-        specifier: ^1.0.3
-        version: 1.0.3
-      yazl:
-        specifier: ^3.3.1
-        version: 3.3.1
-      zod:
-        specifier: ^4.3.6
-        version: 4.3.6
-    optionalDependencies:
-      '@firecrawl/anydoc':
-        specifier: ^0.1.8
-        version: 0.1.8
-      '@lydell/node-pty':
-        specifier: 1.2.0-beta.15
-        version: 1.2.0-beta.15
-      '@mariozechner/clipboard':
-        specifier: ^0.3.9
-        version: 0.3.9
-
-  apps/echadron-inspect:
-    dependencies:
-      '@yaseenhq/agent-core-v2':
-        specifier: workspace:^
-        version: link:../../packages/agent-core-v2
-      '@yaseenhq/transcript':
-        specifier: workspace:^
-        version: link:../../packages/transcript
-      '@tanstack/react-query':
-        specifier: ^5.74.4
-        version: 5.99.2(react@19.2.5)
-      react:
-        specifier: ^19.1.0
-        version: 19.2.5
-      react-dom:
-        specifier: ^19.1.0
-        version: 19.2.5(react@19.2.5)
-    devDependencies:
-      '@tailwindcss/vite':
-        specifier: ^4.1.4
-        version: 4.1.18(vite@6.4.2(@types/node@22.19.17)(jiti@2.6.1)(lightningcss@1.32.0)(tsx@4.21.0)(yaml@2.8.3))
-      '@types/react':
-        specifier: ^19.1.2
-        version: 19.2.14
-      '@types/react-dom':
-        specifier: ^19.1.2
-        version: 19.2.3(@types/react@19.2.14)
-      '@vitejs/plugin-react':
-        specifier: ^4.4.1
-        version: 4.7.0(vite@6.4.2(@types/node@22.19.17)(jiti@2.6.1)(lightningcss@1.32.0)(tsx@4.21.0)(yaml@2.8.3))
-      tailwindcss:
-        specifier: ^4.1.4
-        version: 4.1.18
-      typescript:
-        specifier: 6.0.2
-        version: 6.0.2
-      vite:
-        specifier: ^6.3.3
-        version: 6.4.2(@types/node@22.19.17)(jiti@2.6.1)(lightningcss@1.32.0)(tsx@4.21.0)(yaml@2.8.3)
-      vitest:
-        specifier: 4.1.4
-        version: 4.1.4(@types/node@22.19.17)(@vitest/coverage-v8@4.1.4)(jsdom@25.0.1)(msw@2.15.0(@types/node@22.19.17)(typescript@6.0.2))(vite@6.4.2(@types/node@22.19.17)(jiti@2.6.1)(lightningcss@1.32.0)(tsx@4.21.0)(yaml@2.8.3))
 
   apps/vis:
     devDependencies:
@@ -367,18 +367,18 @@ importers:
       '@fontsource-variable/inter':
         specifier: 5.2.8
         version: 5.2.8
-      '@yaseenhq/echadron-sdk':
-        specifier: workspace:^
-        version: link:../../packages/node-sdk
-      '@yaseenhq/migration-legacy':
-        specifier: workspace:^
-        version: link:../../packages/migration-legacy
       '@radix-ui/react-accordion':
         specifier: ^1.2.12
         version: 1.2.16(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
       '@tabler/icons-react':
         specifier: ^3.36.0
         version: 3.44.0(react@19.2.5)
+      '@yaseenhq/echadron-sdk':
+        specifier: workspace:^
+        version: link:../../packages/node-sdk
+      '@yaseenhq/migration-legacy':
+        specifier: workspace:^
+        version: link:../../packages/migration-legacy
       ahooks:
         specifier: ^3.9.6
         version: 3.9.7(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
@@ -555,12 +555,12 @@ importers:
       '@yaseenhq/agent-core':
         specifier: workspace:^
         version: link:../agent-core
-      '@yaseenhq/kaos':
-        specifier: workspace:^
-        version: link:../kaos
       '@yaseenhq/echadron-sdk':
         specifier: workspace:^
         version: link:../node-sdk
+      '@yaseenhq/kaos':
+        specifier: workspace:^
+        version: link:../kaos
     devDependencies:
       jimp:
         specifier: ^1.6.1
@@ -595,21 +595,21 @@ importers:
       '@modelcontextprotocol/sdk':
         specifier: ^1.29.0
         version: 1.29.0(zod@4.3.6)
-      '@yaseenhq/kaos':
-        specifier: workspace:^
-        version: link:../kaos
+      '@mozilla/readability':
+        specifier: ^0.6.0
+        version: 0.6.0
       '@yaseenhq/echadron-oauth':
         specifier: workspace:^
         version: link:../oauth
+      '@yaseenhq/kaos':
+        specifier: workspace:^
+        version: link:../kaos
       '@yaseenhq/protocol':
         specifier: workspace:^
         version: link:../protocol
       '@yaseenhq/tsugite':
         specifier: workspace:^
         version: link:../tsugite
-      '@mozilla/readability':
-        specifier: ^0.6.0
-        version: 0.6.0
       ajv:
         specifier: ^8.18.0
         version: 8.18.0
@@ -734,6 +734,9 @@ importers:
       '@modelcontextprotocol/sdk':
         specifier: ^1.29.0
         version: 1.29.0(zod@4.3.6)
+      '@mozilla/readability':
+        specifier: ^0.6.0
+        version: 0.6.0
       '@yaseenhq/echadron-oauth':
         specifier: workspace:^
         version: link:../oauth
@@ -746,9 +749,6 @@ importers:
       '@yaseenhq/tree-sitter-bash':
         specifier: workspace:^
         version: link:../tree-sitter-bash
-      '@mozilla/readability':
-        specifier: ^0.6.0
-        version: 0.6.0
       ajv:
         specifier: ^8.18.0
         version: 8.18.0
@@ -940,12 +940,12 @@ importers:
         specifier: 'catalog:'
         version: 4.3.6
     devDependencies:
-      '@yaseenhq/protocol':
-        specifier: workspace:^
-        version: link:../protocol
       '@types/ws':
         specifier: ^8.18.0
         version: 8.18.1
+      '@yaseenhq/protocol':
+        specifier: workspace:^
+        version: link:../protocol
       ulid:
         specifier: ^3.0.1
         version: 3.0.2
@@ -986,27 +986,27 @@ importers:
         specifier: ^4.3.6
         version: 4.3.6
     devDependencies:
+      '@types/yazl':
+        specifier: ^2.4.6
+        version: 2.4.6
       '@yaseenhq/agent-core':
         specifier: workspace:^
         version: link:../agent-core
       '@yaseenhq/agent-core-v2':
         specifier: workspace:^
         version: link:../agent-core-v2
-      '@yaseenhq/kaos':
-        specifier: workspace:^
-        version: link:../kaos
       '@yaseenhq/echadron-oauth':
         specifier: workspace:^
         version: link:../oauth
+      '@yaseenhq/kaos':
+        specifier: workspace:^
+        version: link:../kaos
       '@yaseenhq/klient':
         specifier: workspace:^
         version: link:../klient
       '@yaseenhq/tsugite':
         specifier: workspace:^
         version: link:../tsugite
-      '@types/yazl':
-        specifier: ^2.4.6
-        version: 2.4.6
       jimp:
         specifier: ^1.6.1
         version: 1.6.1

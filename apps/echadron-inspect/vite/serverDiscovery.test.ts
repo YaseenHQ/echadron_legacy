@@ -26,7 +26,7 @@ const DEAD_PID = 999_999_999;
 let home: string;
 
 beforeEach(async () => {
-  home = await mkdtemp(join(tmpdir(), 'kimi-inspect-discovery-'));
+  home = await mkdtemp(join(tmpdir(), 'echadron-inspect-discovery-'));
 });
 
 afterEach(async () => {

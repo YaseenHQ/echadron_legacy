@@ -36,7 +36,7 @@ import {
 } from '../../src/services';
 
 const packageRoot = fileURLToPath(new URL('../..', import.meta.url));
-const sdkPackageName = ['@moonshot-ai', 'kimi-code-sdk'].join('/');
+const sdkPackageName = ['@yaseenhq', 'echadron-sdk'].join('/');
 
 function readPackageFiles(): string {
   const files = [
