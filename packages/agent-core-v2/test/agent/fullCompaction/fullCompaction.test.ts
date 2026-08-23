@@ -3432,3 +3432,72 @@ describe('goal reminder re-injection after full compaction', () => {
     expect(turnRequest.some((text) => text.includes('Compacted summary.'))).toBe(true);
   });
 });
+
+describe('deterministic compaction fallback', () => {
+  /**
+   * The point of the fallback: a session whose summarizer is dead must still be
+   * able to continue. Nothing here mocks the fallback — the summarizer simply
+   * never works, and the context has to shrink anyway.
+   */
+  it('folds the context with no model call when the summarizer never succeeds', async () => {
+    const records: TelemetryRecord[] = [];
+    const generate: GenerateFn = async () => {
+      throw new Error('the summarizer is unreachable');
+    };
+    const ctx = testAgent({ generate, telemetry: recordingTelemetry(records) });
+    ctx.configure({
+      provider: CATALOGUED_PROVIDER,
+      modelCapabilities: CATALOGUED_MODEL_CAPABILITIES,
+    });
+    // Long assistant turns are what a fold actually removes: recent user input
+    // is retained either way, so a history of short exchanges cannot shrink.
+    for (let i = 0; i < 40; i += 1) {
+      ctx.appendExchange(i, `u${String(i)}`, 'assistant answer. '.repeat(200), 400);
+    }
+    const before = ctx.compactHistory().length;
+
+    await ctx.rpc.beginCompaction({});
+    await ctx.onceAny(['compaction.completed', 'error']);
+
+    const finished = records.filter((record) => record.event === 'compaction_finished');
+    expect(finished).toHaveLength(1);
+    expect(finished[0]!.properties).toMatchObject({
+      compaction_mode: 'deterministic_fallback',
+      fallback_error_kind: 'Error',
+    });
+    // One compaction reports one terminal outcome, never both.
+    expect(records.filter((record) => record.event === 'compaction_failed')).toHaveLength(0);
+
+    const after = ctx.compactHistory();
+    expect(after.length).toBeLessThan(before);
+    expect(JSON.stringify(after)).toContain('deterministic fallback');
+  });
+
+  it('declines to fold when the fold would not make the context smaller', async () => {
+    const records: TelemetryRecord[] = [];
+    const generate: GenerateFn = async () => {
+      throw new Error('the summarizer is unreachable');
+    };
+    const ctx = testAgent({ generate, telemetry: recordingTelemetry(records) });
+    ctx.configure({
+      provider: CATALOGUED_PROVIDER,
+      modelCapabilities: CATALOGUED_MODEL_CAPABILITIES,
+    });
+    // Two short exchanges: there is nothing here a fold could remove, and
+    // applying one would grow the context instead of shrinking it.
+    ctx.appendExchange(1, 'old user one', 'old assistant one', 20);
+    ctx.appendExchange(2, 'recent user two', 'recent assistant two', 80);
+    const failed = ctx.once('error');
+
+    await ctx.rpc.beginCompaction({});
+    await failed;
+
+    expect(records.filter((record) => record.event === 'compaction_failed')).toHaveLength(1);
+    expect(ctx.compactHistory()).toEqual([
+      { role: 'user', text: 'old user one' },
+      { role: 'assistant', text: 'old assistant one' },
+      { role: 'user', text: 'recent user two' },
+      { role: 'assistant', text: 'recent assistant two' },
+    ]);
+  });
+});

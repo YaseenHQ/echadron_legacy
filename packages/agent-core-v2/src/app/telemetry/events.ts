@@ -200,6 +200,18 @@ export interface PlanEnterResolvedEvent {
 
 export interface CompactionFinishedEvent {
   turn_id?: number;
+  /**
+   * How the context was folded. Absent means the summarizer produced it;
+   * `deterministic_fallback` means the summarizer failed and the context was
+   * folded with no model call so the session could continue.
+   */
+  compaction_mode?: 'deterministic_fallback';
+  fallback_error_kind?: string;
+  fallback_context_window_tokens?: number;
+  fallback_window_ratio?: number;
+  fallback_max_chars?: number;
+  fallback_text_chars?: number;
+  fallback_message_count?: number;
   source: 'manual' | 'auto';
   tokens_before: number;
   tokens_after: number;
@@ -629,6 +641,14 @@ export const telemetryEventDefinitions = {
       compacted_count: 'Number of entries compacted',
       dropped_count: 'Number of entries dropped',
       retry_count: 'Number of retries attempted',
+      compaction_mode:
+        'Set to deterministic_fallback when the summarizer failed and the context was folded with no model call; absent for a normal summarized compaction',
+      fallback_error_kind: 'Name of the error that made the summarizer give up',
+      fallback_context_window_tokens: 'Effective model context window the fallback budget was derived from',
+      fallback_window_ratio: 'Share of the window the fallback text was allowed to occupy before clamping',
+      fallback_max_chars: 'Character budget the fallback text was built against',
+      fallback_text_chars: 'Length in characters of the fallback text actually produced',
+      fallback_message_count: 'Number of messages the fallback folded',
       round: 'Compaction round index',
       thinking_effort: 'Thinking effort level in effect',
       input_tokens: 'Total input tokens (other + cache read + cache creation)',
