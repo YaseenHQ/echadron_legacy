@@ -19,6 +19,7 @@ import {
   type IDisposable,
 } from './lifecycle';
 import { ServiceCollection } from './serviceCollection';
+import { collectionView, type CollectionToken } from './collection';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const enum TraceType {
@@ -251,6 +252,10 @@ export class InstantiationService implements IInstantiationService {
     const serviceDependencies = _util.getServiceDependencies(ctor).toSorted((a, b) => a.index - b.index);
     const serviceArgs: unknown[] = [];
     for (const dependency of serviceDependencies) {
+      if (dependency.kind === 'collection') {
+        serviceArgs.push(collectionView(dependency.id as unknown as CollectionToken<unknown>));
+        continue;
+      }
         const service = this._getOrCreateServiceInstance(dependency.id, _trace);
         if (!service) {
           this._throwIfStrict(

@@ -6,6 +6,9 @@ import type { SyncDescriptor0 } from './descriptors';
 import type { DisposableStore } from './lifecycle';
 import type { ServiceCollection } from './serviceCollection';
 
+/** Distinguishes a plain single-service dependency from a `collection()` one. */
+export type DependencyKind = 'instance' | 'collection';
+
 // eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace _util {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -16,7 +19,7 @@ export namespace _util {
   export function getServiceDependencies(
     ctor: DI_TARGET_OBJ,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  ): { id: ServiceIdentifier<any>; index: number }[] {
+  ): { id: ServiceIdentifier<any>; index: number; kind: DependencyKind }[] {
     return ctor[DI_DEPENDENCIES] || [];
   }
 
@@ -25,7 +28,7 @@ export namespace _util {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
     [DI_TARGET]: Function;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    [DI_DEPENDENCIES]: { id: ServiceIdentifier<any>; index: number }[];
+    [DI_DEPENDENCIES]: { id: ServiceIdentifier<any>; index: number; kind: DependencyKind }[];
   }
 }
 
@@ -56,14 +59,27 @@ function storeServiceDependency(
   // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
   target: Function,
   index: number,
+  kind: DependencyKind = 'instance',
 ): void {
   const t = target as _util.DI_TARGET_OBJ;
   if (t[_util.DI_TARGET] === target) {
-    t[_util.DI_DEPENDENCIES].push({ id, index });
+    t[_util.DI_DEPENDENCIES].push({ id, index, kind });
   } else {
-    t[_util.DI_DEPENDENCIES] = [{ id, index }];
+    t[_util.DI_DEPENDENCIES] = [{ id, index, kind }];
     t[_util.DI_TARGET] = target;
   }
+}
+
+/** Used by `collection()` to mark a constructor parameter as a multi-provider view. */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function storeCustomDependency(
+  id: ServiceIdentifier<any>,
+  kind: DependencyKind,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  target: any,
+  index: number,
+): void {
+  storeServiceDependency(id, target, index, kind);
 }
 
 export function createDecorator<T>(name: string): ServiceIdentifier<T> {

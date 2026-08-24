@@ -8,6 +8,7 @@
  */
 
 import { CoreErrors } from '#/_base/errors/codes';
+import { EventErrors } from '#/app/event/errors';
 import { AgentLifecycleErrors } from '#/session/agentLifecycle/errors';
 import { AuthErrors } from '#/app/auth/errors';
 import { TaskErrors } from '#/agent/task/errors';
@@ -30,6 +31,7 @@ import { ModelsDevImportErrors } from '#/app/tsugiteConfig/errors';
 import { SessionExportErrors } from '#/app/sessionExport/errors';
 import { SessionErrors } from '#/session/errors';
 import { SkillErrors } from '#/app/skillCatalog/errors';
+import { StateErrors } from '#/state/errors';
 import { StorageErrors } from '#/persistence/interface/storage';
 import { TerminalErrors } from '#/os/interface/terminalErrors';
 import { UsageErrors } from '#/agent/usage/errors';
@@ -41,6 +43,7 @@ export * from '#/_base/errors/errorMessage';
 export * from '#/_base/errors/errors';
 export * from '#/_base/errors/serialize';
 export * from '#/_base/errors/unexpectedError';
+export { EventErrors } from '#/app/event/errors';
 export { AgentLifecycleErrors } from '#/session/agentLifecycle/errors';
 export { AuthErrors } from '#/app/auth/errors';
 export { TaskErrors } from '#/agent/task/errors';
@@ -63,6 +66,7 @@ export { ModelsDevImportErrors } from '#/app/tsugiteConfig/errors';
 export { SessionExportErrors } from '#/app/sessionExport/errors';
 export { SessionErrors } from '#/session/errors';
 export { SkillErrors } from '#/app/skillCatalog/errors';
+export { StateErrors } from '#/state/errors';
 export { StorageErrors } from '#/persistence/interface/storage';
 export { TerminalErrors } from '#/os/interface/terminalErrors';
 export { UsageErrors } from '#/agent/usage/errors';
@@ -71,6 +75,7 @@ export { WorkspaceErrors } from '#/app/workspace/errors';
 
 export const ErrorCodes = {
   ...CoreErrors.codes,
+  ...EventErrors.codes,
   ...AgentLifecycleErrors.codes,
   ...AuthErrors.codes,
   ...TaskErrors.codes,
@@ -93,6 +98,7 @@ export const ErrorCodes = {
   ...SessionExportErrors.codes,
   ...SessionErrors.codes,
   ...SkillErrors.codes,
+  ...StateErrors.codes,
   ...StorageErrors.codes,
   ...TerminalErrors.codes,
   ...UsageErrors.codes,

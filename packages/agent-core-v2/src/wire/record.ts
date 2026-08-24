@@ -19,6 +19,19 @@ export interface WireRecord {
   readonly [key: string]: unknown;
 }
 
+/**
+ * Rewrites the media/blob content parts of a durable state's value before it
+ * is persisted, or after it is restored — offload-to-disk and restore, in
+ * whichever direction the durable fold needs.
+ */
+export type PartsTransformer = (parts: readonly unknown[]) => Promise<readonly unknown[]>;
+
+/** Applies a `PartsTransformer` across a whole wire record before persistence. */
+export type RecordDehydrator = (
+  record: WireRecord,
+  transform: PartsTransformer,
+) => WireRecord | Promise<WireRecord>;
+
 export interface WireMetadataRecord extends WireRecord {
   readonly type: 'metadata';
   readonly protocol_version: string;
