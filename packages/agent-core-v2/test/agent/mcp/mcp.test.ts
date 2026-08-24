@@ -16,7 +16,7 @@ import { IAgentMcpService } from '#/agent/mcp/mcp';
 import { AgentMcpService } from '#/agent/mcp/mcpService';
 import { ISessionMcpService } from '#/session/mcp/sessionMcp';
 import { ISessionContext } from '#/session/sessionContext/sessionContext';
-import type { McpOAuthService } from '#/agent/mcp/oauth/service';
+import type { McpOAuthService } from '#/mcpCore/oauth/service';
 import type { MCPClient, MCPToolDefinition } from '#/mcpCore/types';
 import { IWireService } from '#/wire/wire';
 import type { WireRecord } from '#/wire/record';

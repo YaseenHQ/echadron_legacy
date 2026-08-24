@@ -95,6 +95,7 @@ export {
   KIMI_CODE_PLATFORM,
   parseKimiCodeCustomHeaders,
   readKimiDeviceId,
+  replaceUserAgentProduct,
 } from './identity';
 export type { KimiHostIdentity, KimiIdentityOptions } from './identity';
 
@@ -254,3 +255,4 @@ export type {
   RefreshProviderScope,
   RefreshResult,
 } from './refreshProviderModels';
+export * from './oauth-token-transaction';

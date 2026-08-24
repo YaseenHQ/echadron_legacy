@@ -21,7 +21,7 @@ import { isRemoteMcpConfig } from './client-remote';
 import { SseMcpClient } from './client-sse';
 import type { UnexpectedCloseReason } from './client-shared';
 import { StdioMcpClient } from './client-stdio';
-import type { McpOAuthService } from '#/agent/mcp/oauth/service';
+import type { McpOAuthService } from '#/mcpCore/oauth/service';
 import { assertMcpInputSchema, type MCPClient, type MCPToolDefinition } from './types';
 
 export type McpServerStatus =
@@ -81,6 +81,8 @@ export interface McpConnectionManagerOptions {
   readonly oauthService?: McpOAuthService;
   readonly log?: Logger;
   readonly resolveDefaultTimeouts?: () => McpDefaultTimeouts;
+  /** Client name advertised on initialize; the agent identity slug when set. */
+  readonly resolveClientName?: () => string | undefined;
 }
 
 export class McpConnectionManager {
@@ -388,10 +390,12 @@ export class McpConnectionManager {
   ): Promise<RuntimeMcpClient> {
     const toolCallTimeoutMs =
       config.toolTimeoutMs ?? this.options.resolveDefaultTimeouts?.().toolTimeoutMs;
+    const clientName = this.options.resolveClientName?.();
     if (config.transport === 'stdio') {
       return new StdioMcpClient(config, {
         startupTimeoutMs,
         toolCallTimeoutMs,
+        clientName,
         defaultCwd: this.options.stdioCwd,
         onToolsChanged,
       });
@@ -400,6 +404,7 @@ export class McpConnectionManager {
       return new SseMcpClient(config, {
         startupTimeoutMs,
         toolCallTimeoutMs,
+        clientName,
         envLookup: this.options.envLookup,
         oauthProvider: await this.resolveOAuthProvider(config, name),
         onToolsChanged,
@@ -545,6 +550,10 @@ function isUnauthorizedLikeError(error: unknown): boolean {
   const code = (error as { code?: unknown }).code;
   if (typeof code === 'number' && code === 401) return true;
   if (typeof code === 'string' && code === '401') return true;
+  // A refresh token the authorization server rejects is spent: the grant is
+  // gone and no retry recovers it, so the user has to log in again. The token
+  // endpoint reports that as `invalid_grant` rather than a 401.
+  if (/\binvalid_grant\b/.test(error.message)) return true;
   return /\b401\b/.test(error.message) || /unauthorized/i.test(error.message);
 }
 

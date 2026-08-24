@@ -16,7 +16,7 @@ import { LifecycleScope, ScopeActivation, registerScopedService } from '#/_base/
 import { McpConnectionManager } from '#/mcpCore/connection-manager';
 import type { McpServerConfig } from '#/mcpCore/config-schema';
 import { MCP_SECTION, type McpSection } from '#/agent/mcp/configSection';
-import { McpOAuthService } from '#/agent/mcp/oauth/service';
+import { McpOAuthService } from '#/mcpCore/oauth/service';
 import { createMcpOAuthStore } from '#/mcpCore/oauth/store';
 import { mergeCallerMcpServers, resolveSessionMcpConfig } from '#/agent/mcp/session-config';
 import { IBootstrapService } from '#/app/bootstrap/bootstrap';

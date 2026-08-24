@@ -139,7 +139,7 @@ import {
   AlreadyAuthorizedError,
   McpOAuthService,
   type BeginAuthorizationResult,
-} from '@yaseenhq/agent-core-v2/agent/mcp/oauth/service';
+} from '@yaseenhq/agent-core-v2/mcpCore/oauth/service';
 import { createMcpOAuthStore } from '@yaseenhq/agent-core-v2/mcpCore/oauth/store';
 import { IAtomicDocumentStore } from '@yaseenhq/agent-core-v2/persistence/interface/atomicDocumentStore';
 import {

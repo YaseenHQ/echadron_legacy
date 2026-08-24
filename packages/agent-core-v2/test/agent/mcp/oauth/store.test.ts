@@ -2,7 +2,7 @@ import type { OAuthClientInformationFull, OAuthTokens } from '@modelcontextproto
 import { describe, expect, it } from 'vitest';
 
 import { McpOAuthClientProvider } from '#/mcpCore/oauth/provider';
-import { McpOAuthService } from '#/agent/mcp/oauth/service';
+import { McpOAuthService } from '#/mcpCore/oauth/service';
 import {
   createMcpOAuthStore,
   mcpOAuthStoreKey,

@@ -34,7 +34,7 @@ import { ILogService } from '#/_base/log/log';
 import { Error2 } from '#/errors';
 import { McpConnectionManager, type McpServerEntry } from '#/mcpCore/connection-manager';
 import { MCP_SECTION, type McpSection } from '#/agent/mcp/configSection';
-import { McpOAuthService } from '#/agent/mcp/oauth/service';
+import { McpOAuthService } from '#/mcpCore/oauth/service';
 import { IBootstrapService } from '#/app/bootstrap/bootstrap';
 import { IConfigService } from '#/app/config/config';
 import { IPluginService } from '#/app/plugin/plugin';

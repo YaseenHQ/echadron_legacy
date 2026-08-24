@@ -1,28 +1,18 @@
-/**
- * `mcp` domain (L5) — MCP OAuth credential store.
- *
- * Persists OAuth tokens, registered DCR client info, and discovery state for
- * MCP HTTP servers through the `storage` access-pattern store
- * (`IAtomicDocumentStore`) under the `credentials/mcp` scope
- * (`<homeDir>/credentials/mcp/<key>-*.json`). One logical record per
- * `(serverName, serverUrl)` identity, addressed by {@link mcpOAuthStoreKey}.
- *
- * Read semantics: missing or corrupt JSON resolves to `undefined` (never
- * throws). The provider treats `undefined` as "not stored".
- */
-
+import type { IAtomicDocumentStore } from '#/persistence/interface/atomicDocumentStore';
 import { createHash } from 'node:crypto';
 
 import { basename } from 'pathe';
 
-import type { IAtomicDocumentStore } from '#/persistence/interface/atomicDocumentStore';
+import { ErrorCodes, Error2 } from '#/errors';
 
 const CREDENTIALS_SCOPE = 'credentials/mcp';
 
 export function sanitizeStoreKey(name: string): string {
-  const safe = basename(name).replaceAll(/[^a-zA-Z0-9_-]/g, '_').replaceAll(/_+/g, '_');
+  const safe = basename(name)
+    .replaceAll(/[^a-zA-Z0-9_-]/g, '_')
+    .replaceAll(/_+/g, '_');
   if (safe.length === 0 || safe.startsWith('.')) {
-    throw new Error(`Invalid MCP OAuth store key: "${name}"`);
+    throw new Error2(ErrorCodes.CONFIG_INVALID, `Invalid MCP OAuth store key: "${name}"`);
   }
   return safe;
 }
@@ -49,7 +39,6 @@ export interface McpOAuthStore {
   read<T>(key: string): Promise<T | undefined>;
   write(key: string, data: unknown): Promise<void>;
   remove(key: string): Promise<void>;
-  /** Stored credential keys, so the App-scope store can sweep refreshes. */
   list(prefix?: string): Promise<readonly string[]>;
 }
 
