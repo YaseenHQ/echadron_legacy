@@ -3,7 +3,7 @@
  *
  * Owns the full path from "MCP protocol content blocks" to "what the agent
  * loop feeds back to the model":
- *  1. Convert each {@link MCPContentBlock} to a kosong `ContentPart`
+ *  1. Convert each {@link MCPContentBlock} to a tsugite `ContentPart`
  *     (dropping unsupported shapes).
  *  2. Wrap media-only outputs in `<mcp_tool_result name="…">` tags so the
  *     model can attribute binary output when several tools return media.
@@ -27,7 +27,7 @@
  * helpers stay private so callers cannot bypass the limits.
  */
 
-import type { ContentPart } from '@moonshot-ai/kosong';
+import type { ContentPart } from '@yaseenhq/tsugite';
 
 import type { TelemetryClient } from '#/telemetry';
 
@@ -55,7 +55,7 @@ export interface McpOutputOptions {
 // MCP servers can produce arbitrarily large outputs; cap what we feed back to
 // the model so a single chatty server does not blow up the context window. The
 // notice text is fed to the model verbatim so it can react (e.g. paginate),
-// which is why the limits live in the agent layer rather than in kosong.
+// which is why the limits live in the agent layer rather than in tsugite.
 export const MCP_MAX_OUTPUT_CHARS = 100_000;
 const MCP_OUTPUT_TRUNCATED_TEXT = `\n\n[Output truncated: exceeded ${String(
   MCP_MAX_OUTPUT_CHARS,
@@ -75,7 +75,7 @@ function binaryPartTooLargeNotice(kind: 'image' | 'audio' | 'video', urlLength: 
 }
 
 /**
- * Convert a single MCP content block into a kosong {@link ContentPart}.
+ * Convert a single MCP content block into a tsugite {@link ContentPart}.
  *
  * Returns `null` for block types that cannot be represented (e.g. unknown
  * resource shapes) so the caller can drop them.

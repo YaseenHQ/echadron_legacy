@@ -1,4 +1,4 @@
-import type { Message } from '@moonshot-ai/kosong';
+import type { Message } from '@yaseenhq/tsugite';
 import { describe, expect, it } from 'vitest';
 
 import {

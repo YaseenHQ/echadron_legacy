@@ -3,7 +3,7 @@
  *
  * Owns the full path from "MCP protocol content blocks" to "what the agent
  * loop feeds back to the model":
- *  1. Convert each {@link MCPContentBlock} to a kosong `ContentPart`
+ *  1. Convert each {@link MCPContentBlock} to a tsugite `ContentPart`
  *     (dropping unsupported shapes).
  *  2. Wrap media-only outputs in `<mcp_tool_result name="…">` tags so the
  *     model can attribute binary output when several tools return media.
@@ -27,7 +27,7 @@
  * helpers stay private so callers cannot bypass the limits.
  */
 
-import type { ContentPart } from '#/kosong/contract/message';
+import type { ContentPart } from '#/tsugite/contract/message';
 import type { ITelemetryService } from '#/app/telemetry/telemetry';
 
 import { compressImageContentParts } from '#/agent/media/image-compress';
@@ -36,7 +36,7 @@ import {
   isModelAcceptedImageMime,
 } from '#/agent/media/image-format-policy';
 import { persistOriginalImage } from '#/agent/media/image-originals';
-import type { MCPContentBlock, MCPToolResult } from './types';
+import type { MCPContentBlock, MCPToolResult } from '#/mcpCore/types';
 
 export interface McpOutputOptions {
   readonly originalsDir?: string;

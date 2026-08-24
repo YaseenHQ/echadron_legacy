@@ -1,8 +1,8 @@
-import { type FinishReason } from '#/kosong/contract/provider';
-import { isContentPart, isToolCall, type Message, type StreamedMessagePart } from '#/kosong/contract/message';
-import type { generate as kosongGenerate } from '#/kosong/contract/generate';
+import { type FinishReason } from '#/tsugite/contract/provider';
+import { isContentPart, isToolCall, type Message, type StreamedMessagePart } from '#/tsugite/contract/message';
+import type { generate as tsugiteGenerate } from '#/tsugite/contract/generate';
 
-import { estimateTokensForMessages } from '#/kosong/contract/tokens';
+import { estimateTokensForMessages } from '#/tsugite/contract/tokens';
 import {
   generateInputSnapshot,
   generateInputsSnapshot,
@@ -10,7 +10,7 @@ import {
   type GenerateCall,
 } from './snapshots';
 
-type GenerateFn = typeof kosongGenerate;
+type GenerateFn = typeof tsugiteGenerate;
 
 interface ScriptedResponse {
   readonly parts: readonly StreamedMessagePart[];

@@ -1,4 +1,4 @@
-import { APIProviderQuotaExhaustedError, APIStatusError } from '@moonshot-ai/kosong';
+import { APIProviderQuotaExhaustedError, APIStatusError } from '@yaseenhq/tsugite';
 import { describe, expect, it } from 'vitest';
 
 import { toKimiErrorPayload } from '#/errors/serialize';

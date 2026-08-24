@@ -29,7 +29,7 @@
  */
 
 import type { ServiceIdentifier, ServicesAccessor } from '#/_base/di/instantiation';
-import { LifecycleScope, ScopeActivation, registerScopedService } from '#/_base/di/scope';
+import { LifecycleScope, ScopeActivation, overrideScopedService, registerScopedService } from '#/_base/di/scope';
 import type {
   AgentTool,
   ToolDisclosure,
@@ -72,6 +72,26 @@ export function registerAgentToolService<T extends AnyAgentTool>(
     options.domain ?? 'unknown',
   );
   _agentToolContributions.push({ id, ctor, options });
+}
+
+export function overrideAgentToolService<T extends AnyAgentTool>(
+  id: ServiceIdentifier<T>,
+  ctor: AgentToolCtor<T>,
+  options: AgentToolContributionOptions,
+): void {
+  overrideScopedService(
+    LifecycleScope.Agent,
+    id,
+    ctor,
+    ScopeActivation.OnDemand,
+    options.domain ?? 'unknown',
+  );
+  const index = _agentToolContributions.findIndex((contribution) => contribution.id === id);
+  if (index === -1) {
+    _agentToolContributions.push({ id, ctor, options });
+  } else {
+    _agentToolContributions[index] = { id, ctor, options };
+  }
 }
 
 export function getAgentToolContributions(): readonly AgentToolContribution[] {

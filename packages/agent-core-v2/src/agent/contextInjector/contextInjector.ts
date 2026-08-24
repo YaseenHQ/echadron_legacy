@@ -1,6 +1,6 @@
 import { createDecorator } from "#/_base/di/instantiation";
 import type { IDisposable } from "#/_base/di/lifecycle";
-import type { ContentPart } from "#/kosong/contract/message";
+import type { ContentPart } from "#/tsugite/contract/message";
 
 export interface ContextInjectionContext {
   readonly injectedPositions: readonly number[];

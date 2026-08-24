@@ -10,7 +10,7 @@
  * Coverage:
  *   - submit returns PromptItem with status='running' or status='queued'
  *   - submit registers an active prompt → second submit enters daemon queue
- *   - submit translates protocol content → kosong content (text + image_url)
+ *   - submit translates protocol content → tsugite content (text + image_url)
  *   - submit on unknown sid → SessionNotFoundError
  *   - submit on a session with an active completed/aborted prompt succeeds
  *   - bus.publish of `turn.started` captures turnId (via PromptService subscriber)
@@ -38,7 +38,7 @@ import type {
   Event,
   SessionSummary,
 } from '../../src';
-import type { PromptSubmission, Session } from '@moonshot-ai/protocol';
+import type { PromptSubmission, Session } from '@yaseenhq/protocol';
 
 import {
   type IAuthSummaryService,
@@ -360,7 +360,7 @@ describe('PromptService.submit', () => {
     expect(result.user_message_id).toMatch(/^msg_sess_01PT_pending_prompt_/);
   });
 
-  it('translates text + image content to kosong ContentParts', async () => {
+  it('translates text + image content to tsugite ContentParts', async () => {
     const { bridge, record } = makeBridge();
     const { bus } = makeBus();
     const impl = newSvc(bridge, bus);

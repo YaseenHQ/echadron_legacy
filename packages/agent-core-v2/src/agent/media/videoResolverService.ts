@@ -30,8 +30,8 @@ import { defineState } from '#/_base/state/stateRegistry';
 import { IAgentStateService } from '#/agent/state/agentState';
 import { IFileService } from '#/app/file/fileService';
 import { ITelemetryService } from '#/app/telemetry/telemetry';
-import type { ContentPart, Message } from '#/kosong/contract/message';
-import type { ModelRequester } from '#/kosong/model/modelRequester';
+import type { ContentPart, Message } from '#/tsugite/contract/message';
+import type { ModelRequester } from '#/tsugite/model/modelRequester';
 import { IBlobStore } from '#/persistence/interface/blobStore';
 
 import { detectFileType, MEDIA_SNIFF_BYTES } from './file-type';

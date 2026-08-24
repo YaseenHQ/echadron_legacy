@@ -1,5 +1,5 @@
-import type { Kaos } from '@moonshot-ai/kaos';
-import type { ToolCall } from '@moonshot-ai/kosong';
+import type { Kaos } from '@yaseenhq/kaos';
+import type { ToolCall } from '@yaseenhq/tsugite';
 import * as posixPath from 'node:path/posix';
 import { describe, expect, it, vi } from 'vitest';
 

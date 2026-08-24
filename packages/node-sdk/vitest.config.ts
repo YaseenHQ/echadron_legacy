@@ -5,8 +5,8 @@ import { defineConfig } from 'vitest/config';
 export default defineConfig({
   resolve: {
     alias: {
-      '@moonshot-ai/agent-core': fileURLToPath(new URL('../agent-core/src/index.ts', import.meta.url)),
-      '@moonshot-ai/kimi-code-oauth': fileURLToPath(
+      '@yaseenhq/agent-core': fileURLToPath(new URL('../agent-core/src/index.ts', import.meta.url)),
+      '@yaseenhq/echadron-oauth': fileURLToPath(
         new URL('../oauth/src/index.ts', import.meta.url),
       ),
     },

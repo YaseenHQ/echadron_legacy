@@ -21,7 +21,7 @@ import {
   type KimiHostIdentity,
   type KimiOAuthLoginOptions,
   type ManagedKimiConfigShape,
-} from '@moonshot-ai/kimi-code-oauth';
+} from '@yaseenhq/echadron-oauth';
 
 import type { IEnvironmentService } from '../environment/environment';
 

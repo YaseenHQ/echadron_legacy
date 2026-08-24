@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest';
-import { emptyUsage } from '@moonshot-ai/kosong';
+import { emptyUsage } from '@yaseenhq/tsugite';
 
 import { InMemoryAgentRecordPersistence } from '../../src/agent/records';
 import { ProviderManager } from '../../src/session/provider-manager';

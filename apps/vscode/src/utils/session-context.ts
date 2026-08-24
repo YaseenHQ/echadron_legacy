@@ -3,7 +3,7 @@ import type {
   ContextMessage,
   PromptOrigin,
   ToolCall,
-} from "@moonshot-ai/kimi-code-sdk";
+} from "@yaseenhq/echadron-sdk";
 
 const INTERNAL_ORIGINS = new Set<PromptOrigin["kind"]>([
   "injection",

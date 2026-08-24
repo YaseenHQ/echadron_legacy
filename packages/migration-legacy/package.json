@@ -1,5 +1,5 @@
 {
-  "name": "@moonshot-ai/migration-legacy",
+  "name": "@yaseenhq/migration-legacy",
   "version": "0.1.17",
   "description": "Migrate kimi-cli (~/.kimi/) data into kimi-code (~/.kimi-code/).",
   "license": "MIT",
@@ -24,11 +24,11 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@moonshot-ai/agent-core": "workspace:^",
+    "@yaseenhq/agent-core": "workspace:^",
     "smol-toml": "^1.6.1",
     "zod": "^4.3.6"
   },
   "devDependencies": {
-    "@moonshot-ai/kaos": "workspace:^"
+    "@yaseenhq/kaos": "workspace:^"
   }
 }

@@ -163,7 +163,7 @@ describe('llm request trace records', () => {
     const ctx = testAgent({ persistence });
     ctx.configure();
 
-    // Already-aborted signal: kosong generate() throws before dispatching,
+    // Already-aborted signal: tsugite generate() throws before dispatching,
     // so the call never reaches the wire and must leave no request trace.
     const controller = new AbortController();
     controller.abort();

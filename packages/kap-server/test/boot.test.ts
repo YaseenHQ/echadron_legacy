@@ -22,7 +22,7 @@ import {
   IOAuthToolkit,
   ITelemetryService,
   noopTelemetryService,
-} from '@moonshot-ai/agent-core-v2';
+} from '@yaseenhq/agent-core-v2';
 
 import { listLiveServerInstances } from '../src/instanceRegistry';
 import { listenWithPortRetry, type RunningServer, startServer } from '../src/start';

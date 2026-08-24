@@ -21,7 +21,7 @@ import {
   isToolExchangeAdjacencyError,
   normalizeAPIStatusError,
   parseRetryAfterMs,
-} from '#/kosong/contract/errors';
+} from '#/tsugite/contract/errors';
 import { describe, expect, it } from 'vitest';
 
 describe('ChatProviderError', () => {

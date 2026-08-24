@@ -15,7 +15,7 @@
 
 import { basename, join, relative } from 'pathe';
 
-import type { KimiHostIdentity } from '@moonshot-ai/kimi-code-oauth';
+import type { KimiHostIdentity } from '@yaseenhq/echadron-oauth';
 
 import { LifecycleScope, ScopeActivation, registerScopedService } from '#/_base/di/scope';
 

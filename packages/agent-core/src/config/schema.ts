@@ -58,7 +58,7 @@ const ModelAliasBaseSchema = z.object({
   // stripping and beta-API routing). Login flows stamp this; it is not meant
   // for hand-editing.
   wire: z.enum(['openai', 'openai_responses']).optional(),
-  // Explicitly declare adaptive-thinking support, overriding the kosong
+  // Explicitly declare adaptive-thinking support, overriding the tsugite
   // model-name version inference. Needed for custom-named Anthropic endpoints
   // whose model name does not encode a parseable Claude version.
   adaptiveThinking: z.boolean().optional(),

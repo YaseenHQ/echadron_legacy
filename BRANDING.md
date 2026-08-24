@@ -9,7 +9,7 @@ intentionally not
 installed by default because it is a plausible user-defined/editor command and
 an npm `bin` entry could overwrite it during a global install.
 
-The `@moonshot-ai/*` package scopes, provider identifiers, storage paths, and
+The `@yaseenhq/*` package scopes, provider identifiers, storage paths, and
 OAuth keys remain compatibility interfaces. Runtime `KIMI_*` and `IMPERIUM_*`
 environment names are accepted as legacy aliases, but new documentation and
 hosts should use the `ECHADRON_*` spelling. Provider credential keys inside

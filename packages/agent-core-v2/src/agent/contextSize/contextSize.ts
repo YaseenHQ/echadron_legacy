@@ -1,6 +1,6 @@
 import { createDecorator } from '#/_base/di/instantiation';
-import type { Message } from '#/kosong/contract/message';
-import type { TokenUsage } from '#/kosong/contract/usage';
+import type { Message } from '#/tsugite/contract/message';
+import type { TokenUsage } from '#/tsugite/contract/usage';
 
 export interface ContextSize {
   readonly size: number;

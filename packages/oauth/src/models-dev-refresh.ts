@@ -3,7 +3,7 @@ import {
   normalizeCatalog,
   type Catalog,
   type CatalogModel,
-} from '@moonshot-ai/kosong';
+} from '@yaseenhq/tsugite';
 
 import {
   CUSTOM_REGISTRY_MODEL_FIELDS,
@@ -138,7 +138,7 @@ export function applyModelsDevProviderModels(
   config.models = aliases;
 }
 
-/** Translate canonical kosong catalog metadata into the config alias shape. */
+/** Translate canonical tsugite catalog metadata into the config alias shape. */
 function catalogModelToAlias(providerId: string, model: CatalogModel): ManagedKimiModelAlias {
   const capabilities: string[] = [];
   if (model.capability.image_in) capabilities.push('image_in');

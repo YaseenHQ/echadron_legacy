@@ -34,7 +34,7 @@ import type { ContextMessage } from '#/agent/contextMemory/types';
 import { isVacuousContentPart } from '#/agent/contextMemory/vacuousContent';
 import { IAgentStateService } from '#/agent/state/agentState';
 import { ErrorCodes, Error2 } from '#/errors';
-import type { ContentPart, Message } from '#/kosong/contract/message';
+import type { ContentPart, Message } from '#/tsugite/contract/message';
 import { ITelemetryService } from '#/app/telemetry/telemetry';
 import {
   IAgentContextProjectorService,

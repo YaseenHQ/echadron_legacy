@@ -6,11 +6,11 @@ import {
   IOAuthService,
   type IOAuthService as IOAuthServiceType,
   type ScopeSeed,
-} from '@moonshot-ai/agent-core-v2';
+} from '@yaseenhq/agent-core-v2';
 import {
   managedUsageResultSchema,
   type ManagedUsageResult,
-} from '@moonshot-ai/agent-core-v2/app/auth/oauthProtocol';
+} from '@yaseenhq/agent-core-v2/app/auth/oauthProtocol';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { type RunningServer, startServer } from '../src/start';

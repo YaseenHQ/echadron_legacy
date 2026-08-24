@@ -92,7 +92,7 @@ pass `ConfigTarget.Memory` for a per-run override that is never written to disk.
 - `src/profile/thinking.ts` (owner domain, not `config`) — the `resolveThinkingEffort` helper; uses the authoritative `ThinkingConfig` from `configSection.ts`.
 - `src/config/configPure.ts` — `isPlainObject`, `deepMerge`, `omitUndefined`, `describeUnknownError`.
 
-A domain that owns a section keeps the schema in its own `configSection.ts` (e.g. `src/flag/flag.ts` for `experimental`, `src/loop/configSection.ts` for `loopControl`). Exception: kosong-owned sections (`providers`, `models`, `thinking`) — kosong is a pure, persistence-free abstraction layer that defines only the types (`src/kosong/{provider,model}`); the section constants, the zod schemas (re-derived from those types and compile-time pinned via `AssertExact<Equal<z.infer<typeof Schema>, Type>>`, see `_base/utils/typeEquality.ts`), the registrations, env bindings, and TOML transforms all live in the persistence wrapper `src/app/kosongConfig/configSection.ts`. (`modelCatalog` and `secondaryModel` have no kosong-side type at all — their sections are fully self-contained in `app/kosongConfig`, types derived from the schemas.) A cross-section env overlay (e.g. the `KIMI_MODEL_*` synthesis) lives in the wrapper too (`src/app/kosongConfig/envOverlay.ts`; the `[secondary_model]` derived-entry synthesis in `secondaryModelOverlay.ts`) and is registered via `IConfigRegistry.registerEffectiveOverlay`. The two-way sync between config sections and kosong's in-memory registries is owned by `IKosongConfigService` (`src/app/kosongConfig/kosongConfigService.ts`).
+A domain that owns a section keeps the schema in its own `configSection.ts` (e.g. `src/flag/flag.ts` for `experimental`, `src/loop/configSection.ts` for `loopControl`). Exception: tsugite-owned sections (`providers`, `models`, `thinking`) — tsugite is a pure, persistence-free abstraction layer that defines only the types (`src/tsugite/{provider,model}`); the section constants, the zod schemas (re-derived from those types and compile-time pinned via `AssertExact<Equal<z.infer<typeof Schema>, Type>>`, see `_base/utils/typeEquality.ts`), the registrations, env bindings, and TOML transforms all live in the persistence wrapper `src/app/tsugiteConfig/configSection.ts`. (`modelCatalog` and `secondaryModel` have no tsugite-side type at all — their sections are fully self-contained in `app/tsugiteConfig`, types derived from the schemas.) A cross-section env overlay (e.g. the `KIMI_MODEL_*` synthesis) lives in the wrapper too (`src/app/tsugiteConfig/envOverlay.ts`; the `[secondary_model]` derived-entry synthesis in `secondaryModelOverlay.ts`) and is registered via `IConfigRegistry.registerEffectiveOverlay`. The two-way sync between config sections and tsugite's in-memory registries is owned by `ITsugiteConfigService` (`src/app/tsugiteConfig/tsugiteConfigService.ts`).
 
 ## Scope
 
@@ -113,7 +113,7 @@ A config section is identified by a camelCase domain key (`'providers'`, `'think
 Ownership rules:
 
 - **One owner per section.** `registerSection` throws if a domain is registered twice.
-- **The domain that consumes a config owns its schema.** This is what keeps `config` (L2) from importing higher domains: `config` must not import `externalHooks` / `permissionRules` / `provider` / `kosong` / etc. for a section's schema. If a schema needs a domain's types, the schema lives in that domain.
+- **The domain that consumes a config owns its schema.** This is what keeps `config` (L2) from importing higher domains: `config` must not import `externalHooks` / `permissionRules` / `provider` / `tsugite` / etc. for a section's schema. If a schema needs a domain's types, the schema lives in that domain.
 - **Demand-driven.** Do not register sections for config that no domain reads yet; a section appears (with its schema in the owning domain) only when a consumer appears.
 
 ## Env bindings
@@ -236,7 +236,7 @@ This means registration order is never a correctness concern — you do not need
 
 ### `KIMI_MODEL_*` env overlay
 
-When `KIMI_MODEL_NAME` is set, the `kosongConfig` wrapper's `kimiModelEnvOverlay` (`src/app/kosongConfig/envOverlay.ts`) injects a reserved model alias (`__kimi_env_model__`) into `effective`, points `defaultModel` at it, and merges the request `modelOverrides`; the reserved provider (`__kimi_env__`) comes from the `providers` section env bindings. The overlay is registered via `IConfigRegistry.registerEffectiveOverlay` and applied **only to `effective`**, never to `rawSnake`, so it is never persisted. Its `strip` (plus the providers section `stripEnv`) is the final guard so a caller that read `effective` (with the overlay) cannot write the reserved entries or the shell API key back to disk. `config` itself only runs registered overlays — it does not know the `KIMI_MODEL_*` semantics.
+When `KIMI_MODEL_NAME` is set, the `tsugiteConfig` wrapper's `kimiModelEnvOverlay` (`src/app/tsugiteConfig/envOverlay.ts`) injects a reserved model alias (`__kimi_env_model__`) into `effective`, points `defaultModel` at it, and merges the request `modelOverrides`; the reserved provider (`__kimi_env__`) comes from the `providers` section env bindings. The overlay is registered via `IConfigRegistry.registerEffectiveOverlay` and applied **only to `effective`**, never to `rawSnake`, so it is never persisted. Its `strip` (plus the providers section `stripEnv`) is the final guard so a caller that read `effective` (with the overlay) cannot write the reserved entries or the shell API key back to disk. `config` itself only runs registered overlays — it does not know the `KIMI_MODEL_*` semantics.
 
 ## Owner-owned sections
 
@@ -247,13 +247,13 @@ When `KIMI_MODEL_NAME` is set, the `kosongConfig` wrapper's `kimiModelEnvOverlay
 The authoritative, always-current list of registered sections — rendered in the on-disk `config.toml` shape, with owner file, scope, defaults, env bindings, and schema fields — is generated from the live registry:
 
 - `packages/agent-core-v2/docs/config-manifest.toml` (checked in; do not edit by hand).
-- Regenerate with `pnpm --filter @moonshot-ai/agent-core-v2 gen:config-manifest` (add `--check` for a freshness check; `test/app/config/configManifest.test.ts` enforces it in CI).
+- Regenerate with `pnpm --filter @yaseenhq/agent-core-v2 gen:config-manifest` (add `--check` for a freshness check; `test/app/config/configManifest.test.ts` enforces it in CI).
 
 `config` must not import from any of these owner domains; that is the whole reason the schemas, TOML normalization, and env overlays live with their owners.
 
 ## Layering & scope
 
-- `config` is **L2**. Domains that own sections import `config` (for `IConfigRegistry` / `IConfigService`) and must be at L2 or higher; lower layers need an entry in `ALLOWED_EXCEPTIONS` (e.g. `kosong>config`, `kosong>provider`).
+- `config` is **L2**. Domains that own sections import `config` (for `IConfigRegistry` / `IConfigService`) and must be at L2 or higher; lower layers need an entry in `ALLOWED_EXCEPTIONS` (e.g. `tsugite>config`, `tsugite>provider`).
 - Cross-domain type sharing for a config type may need an exception too (e.g. `plugin>mcp` for `McpServerConfig`). Prefer importing the type from the owning domain over re-declaring it.
 - `IConfigRegistry` / `IConfigService` are **App**. Agent scope services may inject App services via ancestor lookup.
 - `config` never imports a higher domain and holds no section schemas of its own; if a section needs a type from another domain, that schema lives in that domain.

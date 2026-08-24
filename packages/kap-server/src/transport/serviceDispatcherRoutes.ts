@@ -18,7 +18,7 @@
  * (`registerDebugRoutes.ts`).
  */
 
-import type { Scope } from '@moonshot-ai/agent-core-v2';
+import type { Scope } from '@yaseenhq/agent-core-v2';
 
 import { requestLog } from '../lib/requestLog';
 import { okEnvelope } from '../protocol/envelope';

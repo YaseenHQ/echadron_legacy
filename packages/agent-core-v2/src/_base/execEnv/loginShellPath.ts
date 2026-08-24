@@ -18,7 +18,7 @@
  * the suite runs identically on any host. Windows is skipped: the problem is
  * specific to POSIX login-shell profiles.
  *
- * Vendored from `@moonshot-ai/kaos` `login-shell-path.ts` — kept as a pure
+ * Vendored from `@yaseenhq/kaos` `login-shell-path.ts` — kept as a pure
  * helper with no DI dependencies.
  */
 

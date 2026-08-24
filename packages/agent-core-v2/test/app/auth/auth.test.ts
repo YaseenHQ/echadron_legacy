@@ -13,7 +13,7 @@ import {
   resolveKimiCodeOAuthKey,
   resolveKimiCodeRuntimeAuth,
   XAI_PROVIDER_NAME,
-} from '@moonshot-ai/kimi-code-oauth';
+} from '@yaseenhq/echadron-oauth';
 
 import { DisposableStore } from '#/_base/di/lifecycle';
 import { createServices, type TestInstantiationService } from '#/_base/di/test';
@@ -35,14 +35,14 @@ import { IConfigService } from '#/app/config/config';
 import { ConfigRegistry } from '#/app/config/configService';
 import { type DomainEvent, IEventService } from '#/app/event/event';
 import { ILogService } from '#/_base/log/log';
-import { IHostRequestHeaders } from '#/kosong/model/hostRequestHeaders';
-import { IModelService, type ModelRecord } from '#/kosong/model/model';
-import { MODELS_SECTION } from '#/app/kosongConfig/configSection';
-import { IProviderService, type ProviderConfig, type ProvidersChangedEvent } from '#/kosong/provider/provider';
+import { IHostRequestHeaders } from '#/tsugite/model/hostRequestHeaders';
+import { IModelService, type ModelRecord } from '#/tsugite/model/model';
+import { MODELS_SECTION } from '#/app/tsugiteConfig/configSection';
+import { IProviderService, type ProviderConfig, type ProvidersChangedEvent } from '#/tsugite/provider/provider';
 
 // Side-effect registration: the OAuth-catalog verdict
 // (`isOAuthCatalogProvider`) answers through the provider-definition registry.
-import '#/kosong/provider/providers/kimi/kimi.contrib';
+import '#/tsugite/provider/providers/kimi/kimi.contrib';
 
 import { registerBootstrapServices } from '../bootstrap/stubs';
 import { registerTelemetryServices } from '../telemetry/stubs';

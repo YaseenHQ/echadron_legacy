@@ -10,25 +10,25 @@ Current publishable packages:
 
 | Package | Directory | Description |
 | --- | --- | --- |
-| `echadron` | `apps/kimi-code` | Echadron CLI / TUI application — provides the `echadron`, `chad`, and `maker` commands |
-| `@moonshot-ai/kimi-code-sdk` | `packages/node-sdk` | Public TypeScript SDK |
+| `echadron` | `apps/echadron` | Echadron CLI / TUI application — provides the `echadron`, `chad`, and `maker` commands |
+| `@yaseenhq/echadron-sdk` | `packages/node-sdk` | Public TypeScript SDK |
 
 All other workspace packages are private internal packages, are not published to npm, and are excluded via `ignore` in `.changeset/config.json`:
 
-- `@moonshot-ai/acp-adapter`
-- `@moonshot-ai/agent-core`
-- `@moonshot-ai/kaos`
-- `@moonshot-ai/kimi-code-oauth`
-- `@moonshot-ai/kimi-telemetry`
+- `@yaseenhq/acp-adapter`
+- `@yaseenhq/agent-core`
+- `@yaseenhq/kaos`
+- `@yaseenhq/echadron-oauth`
+- `@yaseenhq/echadron-telemetry`
 - `@yaseenhq/echadron-web`
-- `@moonshot-ai/kosong`
-- `@moonshot-ai/migration-legacy`
-- `@moonshot-ai/protocol`
-- `@moonshot-ai/vis`
-- `@moonshot-ai/vis-server`
-- `@moonshot-ai/vis-web`
+- `@yaseenhq/tsugite`
+- `@yaseenhq/migration-legacy`
+- `@yaseenhq/protocol`
+- `@yaseenhq/vis`
+- `@yaseenhq/vis-server`
+- `@yaseenhq/vis-web`
 
-Version impact from internal dependencies must be judged manually. The published artifacts for CLI and SDK bundle internal workspace packages into the artifact itself; runtime `dependencies` of published packages must not include any `@moonshot-ai/*` internal workspace packages.
+Version impact from internal dependencies must be judged manually. The published artifacts for CLI and SDK bundle internal workspace packages into the artifact itself; runtime `dependencies` of published packages must not include any `@yaseenhq/*` internal workspace packages.
 
 The repository's `.changeset/config.json` sets `updateInternalDependencies: "patch"`. Because internal packages are not published, you still need to manually select all affected publishable packages in the changeset — do not rely solely on automatic dependency bumps to express user-visible changes.
 
@@ -39,9 +39,9 @@ Example scenarios:
 | Only modifies TUI behavior in `echadron` | Add `patch` / `minor` / `major` to `echadron` |
 | Only modifies internal packages, no user-visible change in SDK / CLI | Usually no changeset needed |
 | Internal package fix changes the CLI user experience | Add a changeset to `echadron` describing the user-visible fix |
-| Internal package adds a new capability exposed by the SDK | Add a changeset to `@moonshot-ai/kimi-code-sdk` |
-| SDK behavior change affects CLI user experience | Add changesets to both `@moonshot-ai/kimi-code-sdk` and `echadron` |
-| Provider abstraction change affects SDK / CLI | Add changesets to the affected `@moonshot-ai/kimi-code-sdk` and/or `echadron` |
+| Internal package adds a new capability exposed by the SDK | Add a changeset to `@yaseenhq/echadron-sdk` |
+| SDK behavior change affects CLI user experience | Add changesets to both `@yaseenhq/echadron-sdk` and `echadron` |
+| Provider abstraction change affects SDK / CLI | Add changesets to the affected `@yaseenhq/echadron-sdk` and/or `echadron` |
 | Test-only, internal refactor, docs, or private debug tooling changes | Usually no changeset needed |
 | Bundled official plugin change under `plugins/` (e.g. `kimi-datasource`) | No changeset — the plugin is versioned via its own `kimi.plugin.json` / `plugins/marketplace.json` and shipped through the marketplace CDN, not the npm package |
 
@@ -146,8 +146,8 @@ The root-level `pnpm run publish` first runs typecheck, lint, sherif, test, buil
 - Changes under `plugins/` (the bundled official plugins such as `kimi-datasource`) do **not** need a changeset: each plugin carries its own version in `kimi.plugin.json` and `plugins/marketplace.json` and is distributed via the marketplace CDN, separately from the `echadron` npm package.
 - Changeset files must be committed to the repository — release PRs are only triggered after they're merged.
 - Release PRs require human review and merge; they will not publish automatically.
-- Do not add release changesets for private internal packages; only select `echadron` and `@moonshot-ai/kimi-code-sdk`.
-- If a change in an underlying internal package alters user-visible behavior or public API of a publishable package, add a changeset to the affected publishable package. For example, when a bug fixed in `@moonshot-ai/agent-core` resolves an issue CLI users encounter, add a changeset to `echadron` describing the user-visible fix.
+- Do not add release changesets for private internal packages; only select `echadron` and `@yaseenhq/echadron-sdk`.
+- If a change in an underlying internal package alters user-visible behavior or public API of a publishable package, add a changeset to the affected publishable package. For example, when a bug fixed in `@yaseenhq/agent-core` resolves an issue CLI users encounter, add a changeset to `echadron` describing the user-visible fix.
 - `echadron` is the official Echadron CLI package name; after a global install it provides the `echadron`, `chad`, and `maker` commands.
 - Make sure each publishable package on npm has a Trusted Publisher configured.
 

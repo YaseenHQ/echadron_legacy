@@ -19,7 +19,7 @@ import {
   IWorkspaceService,
   type ContextMessage,
   type SessionSummary,
-} from '@moonshot-ai/agent-core-v2';
+} from '@yaseenhq/agent-core-v2';
 import { afterEach, describe, expect, it } from 'vitest';
 
 import {

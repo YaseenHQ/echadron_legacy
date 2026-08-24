@@ -1,7 +1,7 @@
-import { type Message } from '#/kosong/contract/message';
+import { type Message } from '#/tsugite/contract/message';
 import { describe, expect, it } from 'vitest';
 
-import { estimateTokensForMessages } from '#/kosong/contract/tokens';
+import { estimateTokensForMessages } from '#/tsugite/contract/tokens';
 import { DefaultCompactionStrategy } from '#/agent/fullCompaction/strategy';
 
 describe('DefaultCompactionStrategy', () => {

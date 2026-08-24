@@ -11,7 +11,7 @@
  * `it` keeps Vitest happy.
  */
 
-import type { ContentPart, ModelCapability, TokenUsage } from '@moonshot-ai/kosong';
+import type { ContentPart, ModelCapability, TokenUsage } from '@yaseenhq/tsugite';
 import { describe, expect, it } from 'vitest';
 
 import { createLoopEventDispatcher, runTurn, ToolAccesses } from '../../src/loop/index';
@@ -388,7 +388,7 @@ function _typeOnlyChecks(): void {
   const _badStop3: LoopTurnStopReason = 'tool_use';
   void _badStop3;
 
-  // Capability metadata reuses Kosong's provider-facing shape.
+  // Capability metadata reuses Tsugite's provider-facing shape.
   const capability: ModelCapability = {
     image_in: false,
     video_in: false,
@@ -401,7 +401,7 @@ function _typeOnlyChecks(): void {
   void capability;
   void _llmCapability;
 
-  // ToolCall reuses Kosong's provider-facing function-call shape.
+  // ToolCall reuses Tsugite's provider-facing function-call shape.
   const toolCall: ToolCall = {
     type: 'function',
     id: 'tc1',
@@ -437,7 +437,7 @@ function _typeOnlyChecks(): void {
   };
   void _badExecuteContext;
 
-  // ExecutableTool is one object: Kosong's model-visible definition plus resolveExecution().
+  // ExecutableTool is one object: Tsugite's model-visible definition plus resolveExecution().
   const _tool: ExecutableTool = {
     name: 'x',
     description: 'x',

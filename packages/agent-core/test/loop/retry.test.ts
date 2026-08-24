@@ -4,7 +4,7 @@ import {
   APIProviderRateLimitError,
   emptyUsage,
   isRetryableGenerateError,
-} from '@moonshot-ai/kosong';
+} from '@yaseenhq/tsugite';
 import { describe, expect, it } from 'vitest';
 
 import type { KimiConfig } from '#/config';

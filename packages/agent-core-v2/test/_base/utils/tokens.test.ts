@@ -6,14 +6,14 @@
  * `vitest run --config packages/agent-core-v2/vitest.config.ts test/_base/utils/tokens.test.ts`.
  */
 
-import type { ContentPart } from '#/kosong/contract/message';
+import type { ContentPart } from '#/tsugite/contract/message';
 import { describe, expect, it } from 'vitest';
 
 import {
   estimateTokensForContentPart,
   estimateTokensForMessage,
   MEDIA_TOKEN_ESTIMATE,
-} from '#/kosong/contract/tokens';
+} from '#/tsugite/contract/tokens';
 
 describe('token estimates for media content parts', () => {
   const imagePart: ContentPart = {

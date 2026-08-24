@@ -25,7 +25,7 @@ export interface FetchCustomRegistryOptions {
 }
 
 /**
- * The kosong `ProviderConfig` union (`packages/kosong/src/providers/index.ts`)
+ * The tsugite `ProviderConfig` union (`packages/tsugite/src/providers/index.ts`)
  * mirrors these literal values. `kimi` is included because the api.json schema
  * permits it even though kokub itself only emits the other three.
  */
@@ -405,7 +405,7 @@ export async function fetchCustomRegistry(
 }
 
 /**
- * Derives kosong capability strings from the rich (optional) fields on a
+ * Derives tsugite capability strings from the rich (optional) fields on a
  * custom-registry model entry. Returns an empty array when none of the rich
  * fields are present; callers are responsible for substituting the default
  * (`CUSTOM_REGISTRY_DEFAULT_CAPABILITIES`) when this returns `[]`.

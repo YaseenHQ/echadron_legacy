@@ -2,7 +2,7 @@
  * Scenario: public config parsing, validation, TOML round-trips, and runtime overrides.
  *
  * Exercises the real config API with temporary files as the persistence
- * boundary. Run with `pnpm --filter @moonshot-ai/agent-core exec vitest run
+ * boundary. Run with `pnpm --filter @yaseenhq/agent-core exec vitest run
  * test/config/configs.test.ts`.
  */
 

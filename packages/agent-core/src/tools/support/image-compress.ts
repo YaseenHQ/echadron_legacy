@@ -32,7 +32,7 @@
  *    so its raw `<system>` markup never renders in the UI.
  */
 
-import type { ContentPart } from '@moonshot-ai/kosong';
+import type { ContentPart } from '@yaseenhq/tsugite';
 
 import type { TelemetryClient } from '#/telemetry';
 

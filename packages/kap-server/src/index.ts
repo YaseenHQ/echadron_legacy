@@ -1,6 +1,6 @@
 /**
- * `@moonshot-ai/kap-server` public surface — the Echadron server backed by the
- * DI × Scope agent engine (`@moonshot-ai/agent-core-v2`).
+ * `@yaseenhq/kap-server` public surface — the Echadron server backed by the
+ * DI × Scope agent engine (`@yaseenhq/agent-core-v2`).
  */
 
 export { startServer } from './start';

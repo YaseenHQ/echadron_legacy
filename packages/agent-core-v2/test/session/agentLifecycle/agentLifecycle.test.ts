@@ -3,7 +3,7 @@
  *
  * Exercises `AgentLifecycleService` through its DI contract with controlled
  * persistence and MCP boundaries, including completion ordering.
- * Run: `pnpm --filter @moonshot-ai/agent-core-v2 exec vitest run
+ * Run: `pnpm --filter @yaseenhq/agent-core-v2 exec vitest run
  * test/session/agentLifecycle/agentLifecycle.test.ts`.
  */
 
@@ -14,11 +14,11 @@ import { Disposable, DisposableStore } from '#/_base/di/lifecycle';
 import { type ISessionScopeHandle, LifecycleScope } from '#/_base/di/scope';
 import { TestInstantiationService } from '#/_base/di/test';
 import { Event } from '#/_base/event';
-import { type McpServerConfig } from '#/agent/mcp/config-schema';
+import { type McpServerConfig } from '#/mcpCore/config-schema';
 import { IAgentProfileService } from '#/agent/profile/profile';
 import '#/agent/profile/profileService';
 import { IAgentMcpService } from '#/agent/mcp/mcp';
-import { McpConnectionManager } from '#/agent/mcp/connection-manager';
+import { McpConnectionManager } from '#/mcpCore/connection-manager';
 import { IAgentPermissionModeService } from '#/agent/permissionMode/permissionMode';
 import '#/agent/permissionMode/permissionModeOps';
 import { IAgentStateService } from '#/agent/state/agentState';
@@ -612,7 +612,13 @@ describe('AgentLifecycleService', () => {
     expect(tokenEntries).toEqual([
       [
         expect.stringMatching(/^credentials\/mcp\/linear-[a-f0-9]{24}-tokens\.json$/),
-        { access_token: 'session-token', token_type: 'Bearer' },
+        // `obtained_at` is stamped on save so proactive refresh can tell how
+        // old a token is; its value is a clock read, so only its presence matters.
+        {
+          access_token: 'session-token',
+          token_type: 'Bearer',
+          obtained_at: expect.any(Number),
+        },
       ],
     ]);
   });

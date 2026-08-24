@@ -6,10 +6,10 @@ import type {
   TelemetryClient,
   TelemetryContextPatch,
   TelemetryProperties,
-} from '@moonshot-ai/agent-core';
-import type { Kaos } from '@moonshot-ai/kaos';
-import type { KimiHostIdentity, OAuthRefreshOutcome } from '@moonshot-ai/kimi-code-oauth';
-import type { ContentPart } from '@moonshot-ai/kosong';
+} from '@yaseenhq/agent-core';
+import type { Kaos } from '@yaseenhq/kaos';
+import type { KimiHostIdentity, OAuthRefreshOutcome } from '@yaseenhq/echadron-oauth';
+import type { ContentPart } from '@yaseenhq/tsugite';
 
 export type JsonPrimitive = string | number | boolean | null;
 export type JsonValue = JsonPrimitive | JsonValue[] | { readonly [key: string]: JsonValue };
@@ -70,11 +70,11 @@ export type {
   ToolInfo,
   GlobalMcpServerConfig as McpServerConfig,
   GlobalMcpServerTestResult as McpTestResult,
-} from '@moonshot-ai/agent-core';
+} from '@yaseenhq/agent-core';
 
 export type { KimiHostIdentity, OAuthRefreshOutcome };
 export type { TelemetryClient, TelemetryContextPatch, TelemetryProperties };
-export type { ContentPart, Role, ThinkingEffort, ToolCall } from '@moonshot-ai/kosong';
+export type { ContentPart, Role, ThinkingEffort, ToolCall } from '@yaseenhq/tsugite';
 
 export type PermissionMode = 'yolo' | 'manual' | 'auto';
 

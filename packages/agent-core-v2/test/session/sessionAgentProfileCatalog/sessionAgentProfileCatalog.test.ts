@@ -2,7 +2,7 @@
  * Scenario: session agent-profile catalog — file-source discovery, priority
  * merge, explicit fatal semantics, and config-driven reload. Exercises the
  * real scoped catalog and source services against real temp directories.
- * Run: `pnpm --filter @moonshot-ai/agent-core-v2 exec vitest run
+ * Run: `pnpm --filter @yaseenhq/agent-core-v2 exec vitest run
  * test/session/sessionAgentProfileCatalog/sessionAgentProfileCatalog.test.ts`.
  */
 

@@ -42,14 +42,14 @@ import {
   transformPlainObject,
 } from '#/app/config/toml';
 import { type AssertExact, type Equal } from '#/_base/utils/typeEquality';
-import type { OAuthRef } from '#/kosong/provider/provider';
+import type { OAuthRef } from '#/tsugite/provider/provider';
 
 export const SERVICES_SECTION = 'services';
 
 const StringRecordSchema = z.record(z.string(), z.string());
 
-// Local re-derivation of kosong's `OAuthRef` type: the canonical section
-// schema lives in `app/kosongConfig` (L3), which this L2 domain must not
+// Local re-derivation of tsugite's `OAuthRef` type: the canonical section
+// schema lives in `app/tsugiteConfig` (L3), which this L2 domain must not
 // import. The `AssertExact` pin keeps this copy in lockstep with the type.
 const OAuthRefSchema = z.object({
   storage: z.enum(['file', 'keyring']),

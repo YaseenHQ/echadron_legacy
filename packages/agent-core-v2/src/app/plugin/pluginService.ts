@@ -8,17 +8,17 @@
  * contributions through the hook, MCP, and skill contracts. Bound at App scope.
  */
 
-import { KIMI_CODE_PROVIDER_NAME } from '@moonshot-ai/kimi-code-oauth';
+import { KIMI_CODE_PROVIDER_NAME } from '@yaseenhq/echadron-oauth';
 
 import { Disposable } from '#/_base/di/lifecycle';
 import { Emitter, type Event } from '#/_base/event';
 import { LifecycleScope, ScopeActivation, registerScopedService } from '#/_base/di/scope';
 import { Error2, PluginErrors } from '#/errors';
 import { IBootstrapService } from '#/app/bootstrap/bootstrap';
-import { IProviderService } from '#/kosong/provider/provider';
+import { IProviderService } from '#/tsugite/provider/provider';
 import { ISkillDiscovery } from '#/app/skillCatalog/skillDiscovery';
 import type { HookDef } from '#/agent/externalHooks/types';
-import type { McpServerConfig } from '#/agent/mcp/config-schema';
+import type { McpServerConfig } from '#/mcpCore/config-schema';
 import type { SkillRoot } from '#/app/skillCatalog/types';
 
 import { PluginManager } from './manager';

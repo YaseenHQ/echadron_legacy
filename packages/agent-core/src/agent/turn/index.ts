@@ -13,7 +13,7 @@ import {
   type ContentPart,
   type Message,
   type TokenUsage,
-} from '@moonshot-ai/kosong';
+} from '@yaseenhq/tsugite';
 import { basename } from 'pathe';
 
 import type { Agent } from '..';

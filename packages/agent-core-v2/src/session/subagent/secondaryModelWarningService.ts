@@ -4,7 +4,7 @@
  * When enabled through `flag`, runs the secondary-model check once per session
  * when the main agent appears (`agentLifecycle` onDidCreate, or an
  * already-present main at construction):
- * resolves the pointed entry through the kosong `modelCatalog` and, when the
+ * resolves the pointed entry through the tsugite `modelCatalog` and, when the
  * recipe carries patch fields, checks `default_effort` against the patched
  * `supportEfforts` (what the derived entry will carry) — on failure, caches a
  * warning and publishes it as a `warning` event on the main agent's
@@ -28,10 +28,10 @@ import { IFlagService } from '#/app/flag/flag';
 import {
   SECONDARY_MODEL_EFFORT_ENV,
   SECONDARY_MODEL_ENV,
-} from '#/app/kosongConfig/configSection';
-import { IModelCatalog, type Model } from '#/kosong/model/catalog';
-import { secondaryModelPatch } from '#/app/kosongConfig/secondaryModelOverlay';
-import { normalizeRequestedThinkingEffort } from '#/kosong/model/thinking';
+} from '#/app/tsugiteConfig/configSection';
+import { IModelCatalog, type Model } from '#/tsugite/model/catalog';
+import { secondaryModelPatch } from '#/app/tsugiteConfig/secondaryModelOverlay';
+import { normalizeRequestedThinkingEffort } from '#/tsugite/model/thinking';
 import {
   IAgentLifecycleService,
   MAIN_AGENT_ID,

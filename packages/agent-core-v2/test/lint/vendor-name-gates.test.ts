@@ -1,7 +1,7 @@
 /**
- * Vendor-name gate probe — outside the kosong layer (`src/kosong/**`, which
+ * Vendor-name gate probe — outside the tsugite layer (`src/tsugite/**`, which
  * owns the vendor registries), `src/**` must never branch on the vendor id
- * `'kimi'`. Vendor identity is answered structurally by the kosong
+ * `'kimi'`. Vendor identity is answered structurally by the tsugite
  * provider-definition / adapter registries (`drivesThinkingThroughTraits`,
  * `requiresStrictThinkingValidation`, `isOAuthCatalogVendor` and the
  * `modelSource: 'oauth-catalog'` declaration behind it); a string compare
@@ -41,7 +41,7 @@ function walk(dir: string): string[] {
     const abs = join(dir, entry);
     const st = statSync(abs);
     if (st.isDirectory()) {
-      if (relative(SRC_ROOT, abs) === 'kosong') continue;
+      if (relative(SRC_ROOT, abs) === 'tsugite') continue;
       out.push(...walk(abs));
     } else if (abs.endsWith('.ts')) {
       out.push(abs);
@@ -100,13 +100,13 @@ describe('vendor-name gates', () => {
     expect(hits).toEqual([]);
   });
 
-  it('finds no vendor-name gates in src/ outside kosong', () => {
+  it('finds no vendor-name gates in src/ outside tsugite', () => {
     const hits = walk(SRC_ROOT).flatMap((file) =>
       findVendorGates(readFileSync(file, 'utf8'), relative(SRC_ROOT, file)),
     );
     expect(
       hits.map((hit) => `${hit.file}:${hit.line} ${hit.text}`),
-      'vendor-name gate found outside kosong — ask the provider-definition / adapter registries instead',
+      'vendor-name gate found outside tsugite — ask the provider-definition / adapter registries instead',
     ).toEqual([]);
   });
 });

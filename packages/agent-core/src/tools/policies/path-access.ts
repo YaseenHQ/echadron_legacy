@@ -19,7 +19,7 @@ import {
   translateShellDrivePath,
   type Kaos,
   type ShellPathBridge,
-} from '@moonshot-ai/kaos';
+} from '@yaseenhq/kaos';
 
 import type { WorkspaceConfig } from '../support/workspace';
 import { isSensitiveFile } from './sensitive';

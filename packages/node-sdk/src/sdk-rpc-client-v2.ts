@@ -131,23 +131,23 @@ import {
   type AgentContextData,
   type BeginGlobalMcpServerAuthResult,
   type ExperimentalFeatureState,
-} from '@moonshot-ai/agent-core';
-import { encodeWorkDirKey } from '@moonshot-ai/agent-core-v2/_base/utils/workdir-slug';
-import { MCP_SECTION, type McpSection } from '@moonshot-ai/agent-core-v2/agent/mcp/configSection';
-import { McpConnectionManager } from '@moonshot-ai/agent-core-v2/agent/mcp/connection-manager';
+} from '@yaseenhq/agent-core';
+import { encodeWorkDirKey } from '@yaseenhq/agent-core-v2/_base/utils/workdir-slug';
+import { MCP_SECTION, type McpSection } from '@yaseenhq/agent-core-v2/agent/mcp/configSection';
+import { McpConnectionManager } from '@yaseenhq/agent-core-v2/mcpCore/connection-manager';
 import {
   AlreadyAuthorizedError,
   McpOAuthService,
   type BeginAuthorizationResult,
-} from '@moonshot-ai/agent-core-v2/agent/mcp/oauth/service';
-import { createMcpOAuthStore } from '@moonshot-ai/agent-core-v2/agent/mcp/oauth/store';
-import { IAtomicDocumentStore } from '@moonshot-ai/agent-core-v2/persistence/interface/atomicDocumentStore';
+} from '@yaseenhq/agent-core-v2/mcpCore/oauth/service';
+import { createMcpOAuthStore } from '@yaseenhq/agent-core-v2/mcpCore/oauth/store';
+import { IAtomicDocumentStore } from '@yaseenhq/agent-core-v2/persistence/interface/atomicDocumentStore';
 import {
   SECONDARY_MODEL_SECTION,
   type SecondaryModelConfig,
-} from '@moonshot-ai/agent-core-v2/app/kosongConfig/configSection';
-import { wrapSubagentModelError } from '@moonshot-ai/agent-core-v2/session/subagent/configSection';
-import { promptMetadataTextFromContentParts } from '@moonshot-ai/agent-core-v2/agent/prompt/promptMetadataText';
+} from '@yaseenhq/agent-core-v2/app/tsugiteConfig/configSection';
+import { wrapSubagentModelError } from '@yaseenhq/agent-core-v2/session/subagent/configSection';
+import { promptMetadataTextFromContentParts } from '@yaseenhq/agent-core-v2/agent/prompt/promptMetadataText';
 import {
   applyPromptMetadataUpdate,
   bootstrap,
@@ -222,11 +222,11 @@ import {
   type ISessionScopeHandle,
   type Scope,
   type ServicesAccessor,
-} from '@moonshot-ai/agent-core-v2';
-import type { AgentHandle, Klient } from '@moonshot-ai/klient';
-import type { ContentPart } from '@moonshot-ai/kosong';
-import { createKlient } from '@moonshot-ai/klient/memory';
-import { assertKimiHostIdentity } from '@moonshot-ai/kimi-code-oauth';
+} from '@yaseenhq/agent-core-v2';
+import type { AgentHandle, Klient } from '@yaseenhq/klient';
+import type { ContentPart } from '@yaseenhq/tsugite';
+import { createKlient } from '@yaseenhq/klient/memory';
+import { assertKimiHostIdentity } from '@yaseenhq/echadron-oauth';
 
 import { KimiAuthFacade } from '#/auth';
 import { KimiHarness } from '#/kimi-harness';
@@ -613,7 +613,7 @@ export class SDKRpcClientV2 extends SDKRpcClientBase {
   /**
    * v1's removal cascades: the provider entry, every model pointing at it,
    * and the default pointers when they dangle. The engine's own
-   * `kosong.removeProvider` only clears the default-provider pointer, so
+   * `tsugite.removeProvider` only clears the default-provider pointer, so
    * the full v1 cascade is computed from the user-layer values and applied
    * through the config facade (see `planProviderRemoval`).
    */

@@ -20,15 +20,15 @@
 import {
   KIMI_CODE_PROVIDER_NAME,
   kimiCodeBaseUrl,
-} from '@moonshot-ai/kimi-code-oauth';
+} from '@yaseenhq/echadron-oauth';
 
 import { LifecycleScope, ScopeActivation, registerScopedService } from '#/_base/di/scope';
 import { IOAuthService } from '#/app/auth/auth';
 import { SERVICES_SECTION, type ServicesConfig } from '#/app/auth/configSection';
 import { IConfigService } from '#/app/config/config';
-import { IHostRequestHeaders } from '#/kosong/model/hostRequestHeaders';
-import { IProviderService } from '#/kosong/provider/provider';
-import { isOAuthCatalogVendor } from '#/kosong/provider/providerDefinition';
+import { IHostRequestHeaders } from '#/tsugite/model/hostRequestHeaders';
+import { IProviderService } from '#/tsugite/provider/provider';
+import { isOAuthCatalogVendor } from '#/tsugite/provider/providerDefinition';
 
 import { LocalFetchURLProvider } from './providers/local-fetch-url';
 import { MoonshotFetchURLProvider } from './providers/moonshot-fetch-url';

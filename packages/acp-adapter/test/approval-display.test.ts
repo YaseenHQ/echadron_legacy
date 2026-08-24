@@ -21,7 +21,7 @@ import type {
   KimiHarness,
   Session,
   ToolInputDisplay,
-} from '@moonshot-ai/kimi-code-sdk';
+} from '@yaseenhq/echadron-sdk';
 import { describe, expect, it } from 'vitest';
 
 import {

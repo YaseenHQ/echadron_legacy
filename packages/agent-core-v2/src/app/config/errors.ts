@@ -1,12 +1,12 @@
 /**
  * `config` domain error codes.
  *
- * The `config.invalid` code string is owned by the kosong L0 wire contract
- * (`kosong/contract/errors.ts`); this module only registers it.
+ * The `config.invalid` code string is owned by the tsugite L0 wire contract
+ * (`tsugite/contract/errors.ts`); this module only registers it.
  */
 
 import { registerErrorDomain, type ErrorDomain } from '#/_base/errors/codes';
-import { CONFIG_INVALID_ERROR_CODE } from '#/kosong/contract/errors';
+import { CONFIG_INVALID_ERROR_CODE } from '#/tsugite/contract/errors';
 
 export const ConfigErrors = {
   codes: {

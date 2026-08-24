@@ -41,7 +41,7 @@
 
 import { z } from 'zod';
 
-import type { ContentPart } from '#/kosong/contract/message';
+import type { ContentPart } from '#/tsugite/contract/message';
 import { defineModel, type PartsTransformer } from '#/wire/model';
 import type { WireRecord } from '#/wire/record';
 

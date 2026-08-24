@@ -5,7 +5,7 @@ import {
   type KimiErrorCode,
   type SwarmModeTrigger,
   type SessionTurn,
-} from '@moonshot-ai/agent-core';
+} from '@yaseenhq/agent-core';
 
 import { type ApprovalHandler, type Event, type QuestionHandler } from '#/events';
 import type { SDKRpcClientBase } from '#/rpc';

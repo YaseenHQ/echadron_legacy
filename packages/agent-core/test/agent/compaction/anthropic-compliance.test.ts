@@ -14,8 +14,8 @@
 // These tests drive the real compaction/projection functions, run their output
 // through the real AnthropicChatProvider conversion, and assert the wire request
 // is well-formed — so a regression in any single layer turns red here.
-import { createProvider } from '@moonshot-ai/kosong';
-import type { Message, Tool } from '@moonshot-ai/kosong';
+import { createProvider } from '@yaseenhq/tsugite';
+import type { Message, Tool } from '@yaseenhq/tsugite';
 import { describe, expect, it, vi } from 'vitest';
 
 import type { ContextMessage } from '../../../src/agent/context';
@@ -48,7 +48,7 @@ function makeAnthropicResponse() {
 
 /**
  * Convert a projected `Message[]` through the real Anthropic provider and return
- * the wire `messages` it would POST — mirroring kosong's own captureRequestBody.
+ * the wire `messages` it would POST — mirroring tsugite's own captureRequestBody.
  */
 async function toAnthropicWire(history: Message[], tools: Tool[] = []): Promise<WireMessage[]> {
   const provider = createProvider({

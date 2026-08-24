@@ -14,9 +14,9 @@
  */
 
 import type { AgentProfile, AgentProfileContext } from '#/app/agentProfileCatalog/agentProfileCatalog';
-import type { ModelCapability } from '#/kosong/contract/capability';
-import type { ThinkingEffort } from '#/kosong/contract/provider';
-import type { ModelRequestParams } from '#/kosong/model/modelRequester';
+import type { ModelCapability } from '#/tsugite/contract/capability';
+import type { ThinkingEffort } from '#/tsugite/contract/provider';
+import type { ModelRequestParams } from '#/tsugite/model/modelRequester';
 
 import { createDecorator } from "#/_base/di/instantiation";
 import type { ErrorCode } from '#/errors';

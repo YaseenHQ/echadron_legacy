@@ -15,7 +15,7 @@
 
 import { afterEach, describe, expect, it } from 'vitest';
 
-import type { Message } from '#/kosong/contract/message';
+import type { Message } from '#/tsugite/contract/message';
 import { IAgentSwarmService } from '#/agent/swarm/swarm';
 import { createTestAgent, type TestAgentContext } from '../../harness';
 

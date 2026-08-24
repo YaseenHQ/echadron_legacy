@@ -16,7 +16,7 @@ v1 is a **VSCode-style singleton container**: services self-register with `regis
 | DI import | `from '../../di'` | `from '#/_base/di/scope'` / `'#/_base/di/instantiation'` / `'#/_base/di/lifecycle'` |
 | Lifetime | implicit singleton-per-container | explicit `LifecycleScope` (App/Session/Agent) — see orient.md |
 | Domain granularity | coarse (`session`, `tool`, `loop`) | fine, split by scope + responsibility |
-| Test import | `from '@moonshot-ai/agent-core/di/test'` | `from '#/_base/di/test'` |
+| Test import | `from '@yaseenhq/agent-core/di/test'` | `from '#/_base/di/test'` |
 | Resolve SUT in tests | `ix.createInstance(Impl)` (common) | `ix.get(IX)` by interface — see test.md |
 | Scope tests | none | `createScopedTestHost` — see test.md |
 | Errors | `from '../../errors'` (central `KimiError`, `ErrorCodes`) | `from '#/_base/errors'` + domain co-located `XxxError` — see errors.md |
@@ -197,7 +197,7 @@ Convert v1 tests to the v2 harness, following test.md:
 
 ```ts
 // v1
-import { TestInstantiationService } from '@moonshot-ai/agent-core/di/test';
+import { TestInstantiationService } from '@yaseenhq/agent-core/di/test';
 const svc = ix.createInstance(XxxService, 'static-arg');
 
 // v2

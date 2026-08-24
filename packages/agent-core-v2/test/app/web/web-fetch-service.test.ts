@@ -13,13 +13,13 @@ import { createServices, type TestInstantiationService } from '#/_base/di/test';
 import { IOAuthService } from '#/app/auth/auth';
 import { SERVICES_SECTION, type ServicesConfig } from '#/app/auth/configSection';
 import { IConfigService } from '#/app/config/config';
-import { IHostRequestHeaders } from '#/kosong/model/hostRequestHeaders';
-import { IProviderService, type ProviderConfig } from '#/kosong/provider/provider';
+import { IHostRequestHeaders } from '#/tsugite/model/hostRequestHeaders';
+import { IProviderService, type ProviderConfig } from '#/tsugite/provider/provider';
 import { LocalFetchURLProvider } from '#/app/web/providers/local-fetch-url';
 import { MoonshotFetchURLProvider } from '#/app/web/providers/moonshot-fetch-url';
 import { IWebFetchService } from '#/app/web/web';
 import { WebFetchService } from '#/app/web/webService';
-import '#/kosong/provider/providers/kimi/kimi.contrib';
+import '#/tsugite/provider/providers/kimi/kimi.contrib';
 
 const OAUTH_PROVIDER = 'managed:kimi-code';
 const NON_OAUTH_PROVIDER = 'openai-main';

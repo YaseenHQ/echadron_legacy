@@ -28,14 +28,18 @@ import {
   estimateTokensForMessage,
   estimateTokensForMessages,
   estimateTokensForTools,
-} from "#/kosong/contract/tokens";
-import { buildCompactionSummaryText, isRealUserInput } from '#/agent/contextMemory/compactionHandoff';
+} from "#/tsugite/contract/tokens";
+import {
+  buildCompactionSummaryText,
+  buildContextCompactionShape,
+  isRealUserInput,
+} from '#/agent/contextMemory/compactionHandoff';
 import { IAgentContextInjectorService } from '#/agent/contextInjector/contextInjector';
 import { IAgentContextMemoryService } from '#/agent/contextMemory/contextMemory';
 import type { ContextMessage } from '#/agent/contextMemory/types';
 import { IAgentContextSizeService } from '#/agent/contextSize/contextSize';
 import { IAgentLLMRequesterService, type AgentLLMRequestFinish } from '#/agent/llmRequester/llmRequester';
-import type { LLMRequestTrace } from '#/kosong/contract/requestTrace';
+import type { LLMRequestTrace } from '#/tsugite/contract/requestTrace';
 import {
   readRetryAfterMs,
   retryBackoffDelays,
@@ -56,10 +60,10 @@ import {
   APIEmptyResponseError,
   APIStatusError,
   isRetryableGenerateError,
-} from '#/kosong/contract/errors';
-import { createUserMessage, type Message } from '#/kosong/contract/message';
-import type { Tool } from '#/kosong/contract/tool';
-import { inputTotal, type TokenUsage } from '#/kosong/contract/usage';
+} from '#/tsugite/contract/errors';
+import { createUserMessage, type Message } from '#/tsugite/contract/message';
+import type { Tool } from '#/tsugite/contract/tool';
+import { inputTotal, type TokenUsage } from '#/tsugite/contract/usage';
 import { IEventBus } from '#/app/event/eventBus';
 import type { CompactionFailedEvent, CompactionFinishedEvent } from '#/app/telemetry/events';
 import { ITelemetryService } from '#/app/telemetry/telemetry';
@@ -84,7 +88,14 @@ import {
 import {
   type CompactionBeginData,
   type CompactionResult,
+  type CompactionSource,
 } from './types';
+import {
+  buildDeterministicSummary,
+  deterministicFallbackMaxChars,
+  DEFAULT_FALLBACK_WINDOW_RATIO,
+  type CompactionOutcome,
+} from './deterministicFallback';
 import { Emitter, type Event } from '#/_base/event';
 import { OrderedHookSlot } from '#/hooks';
 
@@ -621,6 +632,14 @@ export class AgentFullCompactionService extends Disposable implements IAgentFull
     const originalHistory = [...this.context.get()];
     const tokensBefore = this.estimateRequestTokens(originalHistory);
     let retryCount = 0;
+    // Set only where the summarizer itself gives up. The outer catch also
+    // covers hooks, context application and telemetry, and a defect in those
+    // must surface rather than be papered over by a deterministic fold.
+    let summarizerExhausted = false;
+    const summarizerGaveUp = <T>(error: T): T => {
+      summarizerExhausted = true;
+      return error;
+    };
     let thinkingEffort = this.profile.data().thinkingLevel;
 
     try {
@@ -748,7 +767,7 @@ export class AgentFullCompactionService extends Disposable implements IAgentFull
               overflowShrinkCount > MAX_COMPACTION_OVERFLOW_SHRINK_ATTEMPTS ||
               messagesToCompact.length <= 1
             ) {
-              throw error;
+              throw summarizerGaveUp(error);
             }
             const before = messagesToCompact.length;
             historyForModel = shrinkCompactionHistoryAfterOverflow(
@@ -765,7 +784,7 @@ export class AgentFullCompactionService extends Disposable implements IAgentFull
           ) {
             emptyOrTruncatedShrinkCount += 1;
             if (emptyOrTruncatedShrinkCount > MAX_COMPACTION_RETRY_ATTEMPTS) {
-              throw error;
+              throw summarizerGaveUp(error);
             }
             const reduced = dropOldestMessageAndLeadingToolResults(messagesToCompact);
             droppedCount += messagesToCompact.length - reduced.length;
@@ -774,10 +793,10 @@ export class AgentFullCompactionService extends Disposable implements IAgentFull
             continue;
           }
           if (!isRetryableGenerateError(unwrapErrorCause(error))) {
-            throw error;
+            throw summarizerGaveUp(error);
           }
           if (retryCount + 1 >= MAX_COMPACTION_RETRY_ATTEMPTS) {
-            throw error;
+            throw summarizerGaveUp(error);
           }
           const failedAttempt = retryCount + 1;
           const retryError = unwrapErrorCause(error);
@@ -797,8 +816,8 @@ export class AgentFullCompactionService extends Disposable implements IAgentFull
       }
 
       if (attempt === undefined) {
-        throw new APIEmptyResponseError(
-          'The compaction response did not contain a usable summary.',
+        throw summarizerGaveUp(
+          new APIEmptyResponseError('The compaction response did not contain a usable summary.'),
         );
       }
 
@@ -839,6 +858,40 @@ export class AgentFullCompactionService extends Disposable implements IAgentFull
       return result;
     } catch (error) {
       if (isAbortError(error)) throw error;
+      const isAuthFailure =
+        isError2(error) &&
+        (error.code === ErrorCodes.AUTH_LOGIN_REQUIRED ||
+          error.code === ErrorCodes.PROVIDER_AUTH_ERROR);
+      if (summarizerExhausted && !isAuthFailure) {
+        // The summarizer is gone, but the context still has to shrink or the
+        // session dead-ends here: it is too large to send, and the only path
+        // that shrinks it needs the model that is failing. Fold it with no
+        // model call instead.
+        let folded: CompactionResult | null = null;
+        try {
+          folded = this.applyDeterministicFallback({
+            active,
+            originalHistory,
+            tokensBefore,
+            error,
+            source: data.source,
+            startedAt,
+            thinkingEffort,
+            retryCount,
+          });
+        } catch (fallbackError) {
+          // The fold is a recovery path; a defect in it must not replace the
+          // failure that sent us here. Report it, then fall through and finish
+          // reporting the original error exactly as before.
+          this.log.error('deterministic compaction fallback threw', {
+            error: fallbackError instanceof Error ? fallbackError.message : String(fallbackError),
+          });
+        }
+        if (folded !== null) return folded;
+      }
+      // Only now is the compaction really over: a fold that succeeded above
+      // reports `compaction_finished` instead, so a consumer never sees one
+      // compaction claim both terminal outcomes.
       const properties: CompactionFailedEvent = {
         turn_id: active.originTurnId,
         source: data.source,
@@ -851,15 +904,107 @@ export class AgentFullCompactionService extends Disposable implements IAgentFull
         trace_id: findAPIStatusError(error)?.traceId ?? active.traceId,
       };
       this.telemetry.track2('compaction_failed', properties);
-      if (
-        isError2(error) &&
-        (error.code === ErrorCodes.AUTH_LOGIN_REQUIRED ||
-          error.code === ErrorCodes.PROVIDER_AUTH_ERROR)
-      ) {
-        throw error;
-      }
+      if (isAuthFailure) throw error;
       throw new Error2(ErrorCodes.COMPACTION_FAILED, String(error), { cause: error });
     }
+  }
+
+  /**
+   * Fold the history with no model call, after the summarizer gave up.
+   *
+   * Returns `null` when the fold would not help — nothing to fold, the
+   * compaction was cancelled underneath us, or the projected result is not
+   * actually smaller — and the caller then reports the original failure.
+   *
+   * The shrink check is the load-bearing part. `applyCompaction` keeps recent
+   * user messages independently of this budget, so a short history can project
+   * LARGER than what it replaces. Applying that would leave the caller to
+   * overflow again on the next step and compact again, forever. So the shape
+   * is computed first, with the same pure function the real path uses, and
+   * applied only if it is genuinely smaller.
+   */
+  private applyDeterministicFallback(input: {
+    active: ActiveCompaction;
+    originalHistory: readonly ContextMessage[];
+    tokensBefore: number;
+    error: unknown;
+    source: CompactionSource;
+    startedAt: number;
+    thinkingEffort: string | undefined;
+    retryCount: number;
+  }): CompactionResult | null {
+    const { active, originalHistory, tokensBefore, error } = input;
+    if (originalHistory.length === 0) return null;
+    // The compaction may have been cancelled while the summarizer was failing.
+    // A generic transport error does not look like an abort, so the flag has to
+    // be read directly or a cancelled lifecycle would still rewrite history.
+    if (this._compacting !== active || active.abortController.signal.aborted) return null;
+
+    // The learned window, not the catalog one: a 413 may already have taught us
+    // the real limit is lower than the model advertises.
+    const window = this.getEffectiveMaxContextTokens();
+    const maxChars = deterministicFallbackMaxChars(window, DEFAULT_FALLBACK_WINDOW_RATIO);
+    const summary = buildDeterministicSummary(originalHistory, maxChars);
+    const contextSummary = buildCompactionSummaryText(summary);
+
+    const history = this.context.get();
+    if (!historySafeToCompact(history, originalHistory)) return null;
+
+    const shape = buildContextCompactionShape(history, {
+      summary,
+      contextSummary,
+      compactedCount: originalHistory.length,
+      tokensBefore,
+      requestOverheadTokens: this.estimateRequestTokens([]),
+    });
+    if (shape.tokensAfter >= tokensBefore) {
+      this.log.warn('deterministic compaction fallback would not shrink the context; not applying', {
+        tokensBefore,
+        tokensAfter: shape.tokensAfter,
+      });
+      return null;
+    }
+
+    if (this._compacting !== active || active.abortController.signal.aborted) return null;
+    const result = this.context.applyCompaction({
+      summary,
+      contextSummary,
+      compactedCount: originalHistory.length,
+      tokensBefore,
+      requestOverheadTokens: this.estimateRequestTokens([]),
+    });
+
+    const outcome: CompactionOutcome = {
+      mode: 'deterministic_fallback',
+      errorKind: error instanceof Error ? error.name : 'unknown',
+      contextWindowTokens: window,
+      windowRatio: DEFAULT_FALLBACK_WINDOW_RATIO,
+      maxChars,
+      fallbackTextLength: summary.length,
+      totalMessages: originalHistory.length,
+    };
+    this.log.warn('compaction summarizer failed; folded the context deterministically', outcome);
+    const properties: CompactionFinishedEvent = {
+      turn_id: active.originTurnId,
+      source: input.source,
+      tokens_before: result.tokensBefore,
+      tokens_after: result.tokensAfter,
+      duration_ms: Date.now() - input.startedAt,
+      compacted_count: result.compactedCount,
+      retry_count: input.retryCount,
+      round: 1,
+      thinking_effort: input.thinkingEffort ?? 'unknown',
+      compaction_mode: 'deterministic_fallback',
+      fallback_error_kind: outcome.errorKind ?? undefined,
+      fallback_context_window_tokens: outcome.contextWindowTokens,
+      fallback_window_ratio: outcome.windowRatio,
+      fallback_max_chars: outcome.maxChars,
+      fallback_text_chars: outcome.fallbackTextLength,
+      fallback_message_count: outcome.totalMessages,
+      trace_id: findAPIStatusError(error)?.traceId ?? active.traceId,
+    };
+    this.telemetry.track2('compaction_finished', properties);
+    return result;
   }
 
   private postProcessSummary(summary: string): string {

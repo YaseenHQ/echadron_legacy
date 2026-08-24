@@ -19,7 +19,7 @@ import {
   ISessionLifecycleService,
   ISessionMetadata,
   IWorkspaceService,
-} from '@moonshot-ai/agent-core-v2';
+} from '@yaseenhq/agent-core-v2';
 import { sessionSnapshotResponseSchema } from '../src/protocol/rest-snapshot';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 

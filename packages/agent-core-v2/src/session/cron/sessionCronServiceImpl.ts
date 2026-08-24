@@ -19,7 +19,7 @@
 
 import { ulid } from 'ulid';
 
-import type { ContentPart } from '#/kosong/contract/message';
+import type { ContentPart } from '#/tsugite/contract/message';
 import type { CronJobOrigin, CronMissedOrigin } from '#/agent/contextMemory/types';
 
 import { Disposable, toDisposable } from '#/_base/di/lifecycle';

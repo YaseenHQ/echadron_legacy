@@ -51,7 +51,7 @@ import {
   type ImageCompressionTelemetry,
   type ISessionScopeHandle,
   type Scope,
-} from '@moonshot-ai/agent-core-v2';
+} from '@yaseenhq/agent-core-v2';
 import { ErrorCode } from '../protocol/error-codes';
 import {
   promptAbortResponseSchema,

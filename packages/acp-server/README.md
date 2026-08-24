@@ -1,8 +1,8 @@
-# `@moonshot-ai/acp-server`
+# `@yaseenhq/acp-server`
 
 ACP protocol-v2 transport for Echadron.
 
-The package deliberately sits beside `@moonshot-ai/acp-adapter`: the v1
+The package deliberately sits beside `@yaseenhq/acp-adapter`: the v1
 adapter continues to own ACP v1, while this package uses the official SDK's
 `@agentclientprotocol/sdk-v2/experimental/v2` entry point and reuses the existing
 Echadron `KimiHarness` session/event mapping. The main `echadron acp` command

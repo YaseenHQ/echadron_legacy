@@ -1,5 +1,5 @@
-import type { Message } from '#/kosong/contract/message';
-import type { Tool as LLMTool } from '#/kosong/contract/tool';
+import type { Message } from '#/tsugite/contract/message';
+import type { Tool as LLMTool } from '#/tsugite/contract/tool';
 import { expect } from 'vitest';
 
 import { WIRE_PROTOCOL_VERSION } from '#/wire/migration/migration';

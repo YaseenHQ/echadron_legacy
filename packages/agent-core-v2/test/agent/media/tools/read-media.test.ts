@@ -7,9 +7,9 @@
  * compression. Run: pnpm test -- test/agent/media/tools/read-media.test.ts
  */
 
-import { UNKNOWN_CAPABILITY, type ModelCapability } from '#/kosong/contract/capability';
-import type { ContentPart } from '#/kosong/contract/message';
-import { VideoUploadUnsupportedError } from '#/kosong/contract/errors';
+import { UNKNOWN_CAPABILITY, type ModelCapability } from '#/tsugite/contract/capability';
+import type { ContentPart } from '#/tsugite/contract/message';
+import { VideoUploadUnsupportedError } from '#/tsugite/contract/errors';
 import { Jimp } from 'jimp';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
@@ -42,8 +42,8 @@ import {
 } from '#/tool/toolContract';
 import { EventBusService } from '#/app/event/eventBusService';
 import type { IAgentProfileService } from '#/agent/profile/profile';
-import type { IModelCatalog } from '#/kosong/model/catalog';
-import type { ModelRequester } from '#/kosong/model/modelRequester';
+import type { IModelCatalog } from '#/tsugite/model/catalog';
+import type { ModelRequester } from '#/tsugite/model/modelRequester';
 import type { ISessionWorkspaceContext } from '#/session/workspaceContext/workspaceContext';
 import type { WorkspaceConfig } from '#/tool/path-access';
 import { sniffImageDimensions } from '#/agent/media/file-type';

@@ -1,4 +1,4 @@
-import type { ToolCall } from '@moonshot-ai/kosong';
+import type { ToolCall } from '@yaseenhq/tsugite';
 import { describe, expect, it, vi } from 'vitest';
 
 import type { Agent } from '../../src/agent';

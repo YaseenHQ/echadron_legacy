@@ -72,7 +72,7 @@ export function defineKlientConformance(
       expect(typeof count).toBe('number');
     });
 
-    it('providers.set/get/delete works and emits kosong.providers.changed', async () => {
+    it('providers.set/get/delete works and emits tsugite.providers.changed', async () => {
       const events: Array<{
         added: readonly string[];
         removed: readonly string[];
@@ -82,7 +82,7 @@ export function defineKlientConformance(
       target.klient.events.onError((error) => {
         errors.push(error);
       });
-      const sub = target.klient.events.on('kosong.providers.changed', (event) => {
+      const sub = target.klient.events.on('tsugite.providers.changed', (event) => {
         events.push(event);
       });
       // Give the subscription a wire round-trip (memory is synchronous; ipc
@@ -93,11 +93,11 @@ export function defineKlientConformance(
 
       const name = '__klient_conformance__';
       try {
-        await target.klient.global.kosong.addProvider(name, {
+        await target.klient.global.tsugite.addProvider(name, {
           type: 'openai',
           auth: { method: 'api-key', apiKey: 'conf-key' },
         });
-        const got = await target.klient.global.kosong.getProvider(name);
+        const got = await target.klient.global.tsugite.getProvider(name);
         expect(got.has_api_key).toBe(true);
 
         await waitFor(
@@ -105,7 +105,7 @@ export function defineKlientConformance(
           5_000,
         );
       } finally {
-        await target.klient.global.kosong.removeProvider(name);
+        await target.klient.global.tsugite.removeProvider(name);
         sub.dispose();
       }
       expect(errors).toEqual([]);
@@ -127,27 +127,27 @@ export function defineKlientConformance(
       expect(Array.isArray(browse.entries)).toBe(true);
     });
 
-    it('kosong lists models/providers and anonymous provider round-trips', async () => {
-      const kosong = target.klient.global.kosong;
-      expect(Array.isArray(await kosong.listModels())).toBe(true);
-      expect(Array.isArray(await kosong.listProviders())).toBe(true);
+    it('tsugite lists models/providers and anonymous provider round-trips', async () => {
+      const tsugite = target.klient.global.tsugite;
+      expect(Array.isArray(await tsugite.listModels())).toBe(true);
+      expect(Array.isArray(await tsugite.listProviders())).toBe(true);
 
       const events: Array<{
         added: readonly string[];
         removed: readonly string[];
         changed: readonly string[];
       }> = [];
-      const sub = target.klient.events.on('kosong.models.changed', (event) => {
+      const sub = target.klient.events.on('tsugite.models.changed', (event) => {
         events.push(event);
       });
-      // See kosong.providers.changed above — give the subscription a wire round-trip.
+      // See tsugite.providers.changed above — give the subscription a wire round-trip.
       await new Promise((resolve) => {
         setTimeout(resolve, 300);
       });
 
       const id = '__klient_conformance__';
       try {
-        await kosong.addProvider({
+        await tsugite.addProvider({
           id,
           model: 'conf-model',
           protocol: 'openai',
@@ -160,7 +160,7 @@ export function defineKlientConformance(
           5_000,
         );
       } finally {
-        await kosong.removeProvider(id);
+        await tsugite.removeProvider(id);
         sub.dispose();
       }
     });

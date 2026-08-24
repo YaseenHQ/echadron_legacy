@@ -1,7 +1,7 @@
 /**
  * Agent turn integration contracts through the public RPC harness. Provider
  * generation and host-executed user tools are the only external boundaries.
- * Run with: pnpm --filter @moonshot-ai/agent-core test -- turn.test.ts
+ * Run with: pnpm --filter @yaseenhq/agent-core test -- turn.test.ts
  */
 
 import { existsSync, mkdtempSync } from 'node:fs';
@@ -10,7 +10,7 @@ import { join } from 'pathe';
 import { setTimeout as delay } from 'node:timers/promises';
 import { Readable, type Writable } from 'node:stream';
 
-import type { Kaos, KaosProcess } from '@moonshot-ai/kaos';
+import type { Kaos, KaosProcess } from '@yaseenhq/kaos';
 import { createControlledPromise } from '@antfu/utils';
 import {
   APIConnectionError,
@@ -23,7 +23,7 @@ import {
   type Message,
   type ModelCapability,
   type ToolCall,
-} from '@moonshot-ai/kosong';
+} from '@yaseenhq/tsugite';
 import { describe, expect, it, afterEach, vi } from 'vitest';
 
 import { HookEngine } from '../../src/session/hooks';
@@ -392,7 +392,7 @@ describe('Agent turn flow', () => {
       ).toBe(true);
     });
 
-    it('strips all media and retries once on kosong client-side image error', async () => {
+    it('strips all media and retries once on tsugite client-side image error', async () => {
       let attempts = 0;
       const generate: GenerateFn = async () => {
         attempts += 1;
@@ -2299,7 +2299,7 @@ describe('Agent turn flow', () => {
   it('attributes api_error to the in-flight request trace on post-headers failures', async () => {
     const records: TelemetryRecord[] = [];
     const generate: GenerateFn = async (_provider, _system, _tools, _history, _callbacks, options) => {
-      // Mirror kosong generate(): the trace id callback fires as soon as the
+      // Mirror tsugite generate(): the trace id callback fires as soon as the
       // response headers arrive, before the stream body is drained — so a
       // mid-stream failure has a captured trace but none on the error itself.
       options?.onTraceId?.('trace-mid-stream');
@@ -2374,7 +2374,7 @@ describe('Agent turn flow', () => {
     const generate: GenerateFn = async (_provider, _system, _tools, _history, _callbacks, options) => {
       calls += 1;
       if (calls === 1) {
-        // Mirror kosong generate(): the trace id callback fires before the
+        // Mirror tsugite generate(): the trace id callback fires before the
         // stream is drained, as soon as the response headers arrive.
         options?.onTraceId?.('trace-step-1');
         return {

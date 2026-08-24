@@ -14,7 +14,7 @@ import {
   isImageFormatError,
   isRecoverableRequestStructureError,
   type TokenUsage,
-} from '@moonshot-ai/kosong';
+} from '@yaseenhq/tsugite';
 import type { Logger } from '#/logging/types';
 
 import type { LoopEventDispatcher } from './events';

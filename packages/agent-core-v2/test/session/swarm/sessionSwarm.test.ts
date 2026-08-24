@@ -15,12 +15,12 @@ import { IAgentUserToolService } from '#/agent/userTool/userTool';
 import { IEventBus, type DomainEvent } from '#/app/event/eventBus';
 import { IConfigService } from '#/app/config/config';
 import { IFlagService } from '#/app/flag/flag';
-import { SECONDARY_MODEL_SECTION } from '#/app/kosongConfig/configSection';
+import { SECONDARY_MODEL_SECTION } from '#/app/tsugiteConfig/configSection';
 import { SECONDARY_MODEL_FLAG_ID } from '#/session/subagent/flag';
 import type { AgentProfile } from '#/app/agentProfileCatalog/agentProfileCatalog';
 import { ISessionAgentProfileCatalog } from '#/session/sessionAgentProfileCatalog/sessionAgentProfileCatalog';
-import { APIProviderRateLimitError } from '#/kosong/contract/errors';
-import { IModelCatalog, type Model } from '#/kosong/model/catalog';
+import { APIProviderRateLimitError } from '#/tsugite/contract/errors';
+import { IModelCatalog, type Model } from '#/tsugite/model/catalog';
 import { ITelemetryService, noopTelemetryService } from '#/app/telemetry/telemetry';
 import {
   IAgentLifecycleService,
@@ -58,7 +58,7 @@ import { SessionSwarmService } from '#/session/swarm/sessionSwarmService';
 
 import { stubLog } from '../../_base/log/stubs';
 import { stubFlag } from '../../app/flag/stubs';
-import { StubConfigService } from '../../kosong/stubs';
+import { StubConfigService } from '../../tsugite/stubs';
 
 describe('resolveSwarmMaxConcurrency', () => {
   it('returns undefined when the variable is unset', () => {

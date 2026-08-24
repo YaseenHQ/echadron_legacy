@@ -7,10 +7,10 @@
   "baseBranch": "main",
   "updateInternalDependencies": "patch",
   "ignore": [
-    "@moonshot-ai/vis",
-    "@moonshot-ai/vis-server",
-    "@moonshot-ai/vis-web",
-    "@moonshot-ai/kimi-inspect"
+    "@yaseenhq/vis",
+    "@yaseenhq/vis-server",
+    "@yaseenhq/vis-web",
+    "@yaseenhq/echadron-inspect"
   ],
   "snapshot": {
     "useCalculatedVersion": true,

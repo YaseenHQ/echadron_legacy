@@ -41,23 +41,23 @@ import {
   APIEmptyResponseError,
   APIRequestTooLargeError,
   APIStatusError,
-} from '#/kosong/contract/errors';
-import { emptyUsage, type TokenUsage } from '#/kosong/contract/usage';
+} from '#/tsugite/contract/errors';
+import { emptyUsage, type TokenUsage } from '#/tsugite/contract/usage';
 import {
   isToolCall,
   type Message,
   type StreamedMessagePart,
   type ToolCall,
-} from '#/kosong/contract/message';
-import type { ThinkingEffort } from '#/kosong/contract/provider';
-import type { ModelCapability } from '#/kosong/contract/capability';
-import { IModelCatalog, type Model } from '#/kosong/model/catalog';
-import { IModelService } from '#/kosong/model/model';
+} from '#/tsugite/contract/message';
+import type { ThinkingEffort } from '#/tsugite/contract/provider';
+import type { ModelCapability } from '#/tsugite/contract/capability';
+import { IModelCatalog, type Model } from '#/tsugite/model/catalog';
+import { IModelService } from '#/tsugite/model/model';
 import {
   type ModelRequestEvent,
   type ModelRequestInput,
   type ModelRequester,
-} from '#/kosong/model/modelRequester';
+} from '#/tsugite/model/modelRequester';
 import { ITelemetryService } from '#/app/telemetry/telemetry';
 import { ILogService } from '#/_base/log/log';
 import { Error2, ErrorCodes } from '#/errors';

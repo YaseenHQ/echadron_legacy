@@ -6,8 +6,8 @@
  */
 
 import { createDecorator, type ServiceIdentifier } from '#/_base/di/instantiation';
-import type { McpConnectionManager } from '#/agent/mcp/connection-manager';
-import type { McpServerConfig } from '#/agent/mcp/config-schema';
+import type { McpConnectionManager } from '#/mcpCore/connection-manager';
+import type { McpServerConfig } from '#/mcpCore/config-schema';
 
 export interface ISessionMcpService {
   readonly _serviceBrand: undefined;

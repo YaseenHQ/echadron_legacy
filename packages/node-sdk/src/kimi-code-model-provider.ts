@@ -5,7 +5,7 @@ import {
   type Logger,
   type ModelProvider,
   type ResolvedRuntimeProvider,
-} from '@moonshot-ai/agent-core';
+} from '@yaseenhq/agent-core';
 import {
   createKimiDefaultHeaders,
   KIMI_CODE_FLOW_CONFIG,
@@ -16,16 +16,16 @@ import {
   resolveKimiCodeOAuthRef,
   type KimiHostIdentity,
   type ManagedKimiOAuthRef,
-} from '@moonshot-ai/kimi-code-oauth';
+} from '@yaseenhq/echadron-oauth';
 import type {
-  ProviderConfig as KosongProviderConfig,
+  ProviderConfig as TsugiteProviderConfig,
   ProviderRequestAuth,
-} from '@moonshot-ai/kosong';
+} from '@yaseenhq/tsugite';
 import {
   APIStatusError,
   clampPromptCacheKey,
   UNKNOWN_CAPABILITY,
-} from '@moonshot-ai/kosong';
+} from '@yaseenhq/tsugite';
 
 import { mapOAuthTokenError } from '#/oauth-error';
 
@@ -81,7 +81,7 @@ export class KimiForCodingProvider implements ModelProvider {
       );
     }
 
-    const provider: KosongProviderConfig = {
+    const provider: TsugiteProviderConfig = {
       type: 'kimi',
       model: this.model,
       baseUrl: this.baseUrl,

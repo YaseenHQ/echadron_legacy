@@ -63,5 +63,5 @@ pnpm build
 pnpm lint:pkg
 ```
 
-For package-level verification, pack `apps/kimi-code`, install the tarball into an
+For package-level verification, pack `apps/echadron`, install the tarball into an
 empty project, and invoke `echadron`, `chad`, and `maker` from that installation.

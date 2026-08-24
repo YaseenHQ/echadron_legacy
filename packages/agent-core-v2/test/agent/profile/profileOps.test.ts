@@ -10,8 +10,8 @@ import { DEFAULT_AGENT_PROFILE_NAME } from '#/app/agentProfileCatalog/agentProfi
 import { ISessionAgentProfileCatalog } from '#/session/sessionAgentProfileCatalog/sessionAgentProfileCatalog';
 import { IBootstrapService } from '#/app/bootstrap/bootstrap';
 import { IConfigService } from '#/app/config/config';
-import { IModelCatalog, type Model } from '#/kosong/model/catalog';
-import { IProtocolAdapterRegistry, type Protocol } from '#/kosong/protocol/protocol';
+import { IModelCatalog, type Model } from '#/tsugite/model/catalog';
+import { IProtocolAdapterRegistry, type Protocol } from '#/tsugite/protocol/protocol';
 import { ITelemetryService } from '#/app/telemetry/telemetry';
 import { IAgentTelemetryContextService } from '#/app/telemetry/agentTelemetryContext';
 import { AgentTelemetryContextService } from '#/app/telemetry/agentTelemetryContextService';
@@ -34,7 +34,7 @@ import { AGENT_WIRE_RECORD_KEY, type WireRecord } from '#/wire/record';
 
 // Side-effect registration: `drivesThinkingThroughTraits('kimi')` (used by
 // the forced-effort override) answers through the provider-definition registry.
-import '#/kosong/provider/providers/kimi/kimi.contrib';
+import '#/tsugite/provider/providers/kimi/kimi.contrib';
 
 import { registerTestAgentWire, restoreTestAgentWire, testWireScope } from '../../wire/stubs';
 
@@ -58,7 +58,7 @@ function createConfigStub(): IConfigService {
 }
 
 /**
- * The pure-data Model the kosong catalog hands out. No morphs: per-turn
+ * The pure-data Model the tsugite catalog hands out. No morphs: per-turn
  * intent (cache key / sampling / thinking effort+keep) now surfaces through
  * `IAgentProfileService.resolveRequestParams()` instead of `with*` call
  * records on a recording Model stub.
@@ -655,7 +655,7 @@ describe('AgentProfileService (wire-backed config.update)', () => {
     // The cache-key intent is dialect-free now: the profile resolves it for
     // every protocol. How each dialect encodes it (Kimi `prompt_cache_key`
     // vs Anthropic `metadata.user_id` vs silently dropped) is the dialect
-    // hook's own decision, asserted at the kosong/provider composition layer.
+    // hook's own decision, asserted at the tsugite/provider composition layer.
     expect(host.svc.resolveRequestParams().cacheKey).toBe('session-test');
   });
 });

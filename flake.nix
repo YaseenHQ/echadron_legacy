@@ -4,7 +4,7 @@
   inputs = {
     # Pinned to the 25.11 release channel because nixpkgs-unstable currently
     # ships nodejs_24 = 24.14.1, which trips the >= 24.15.0 floor that the
-    # native SEA build enforces (see apps/kimi-code/scripts/native/build.mjs).
+    # native SEA build enforces (see apps/echadron/scripts/native/build.mjs).
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
   };
 
@@ -69,7 +69,7 @@
         ./packages/kap-server
         ./packages/kaos
         ./packages/klient
-        ./packages/kosong
+        ./packages/tsugite
         ./packages/migration-legacy
         ./packages/minidb
         ./packages/node-sdk
@@ -79,9 +79,9 @@
         ./packages/telemetry
         ./packages/transcript
         ./packages/tree-sitter-bash
-        ./apps/kimi-code
+        ./apps/echadron
         ./apps/vscode
-        ./apps/kimi-inspect
+        ./apps/echadron-inspect
         ./apps/echadron-web
         ./apps/vis
         ./apps/vis/server
@@ -90,31 +90,31 @@
       ];
 
       workspaceNames = [
-        "@moonshot-ai/acp-adapter"
-        "@moonshot-ai/acp-server"
-        "@moonshot-ai/agent-core"
-        "@moonshot-ai/agent-core-v2"
-        "@moonshot-ai/kap-server"
-        "@moonshot-ai/kaos"
-        "@moonshot-ai/kosong"
-        "@moonshot-ai/migration-legacy"
-        "@moonshot-ai/minidb"
-        "@moonshot-ai/kimi-code-sdk"
-        "@moonshot-ai/kimi-code-oauth"
-        "@moonshot-ai/klient"
-        "@moonshot-ai/pi-tui"
-        "@moonshot-ai/protocol"
-        "@moonshot-ai/kimi-telemetry"
-        "@moonshot-ai/transcript"
-        "@moonshot-ai/tree-sitter-bash"
+        "@yaseenhq/acp-adapter"
+        "@yaseenhq/acp-server"
+        "@yaseenhq/agent-core"
+        "@yaseenhq/agent-core-v2"
+        "@yaseenhq/kap-server"
+        "@yaseenhq/kaos"
+        "@yaseenhq/tsugite"
+        "@yaseenhq/migration-legacy"
+        "@yaseenhq/minidb"
+        "@yaseenhq/echadron-sdk"
+        "@yaseenhq/echadron-oauth"
+        "@yaseenhq/klient"
+        "@yaseenhq/pi-tui"
+        "@yaseenhq/protocol"
+        "@yaseenhq/echadron-telemetry"
+        "@yaseenhq/transcript"
+        "@yaseenhq/tree-sitter-bash"
         "echadron"
         "echadron-code"
-        "@moonshot-ai/kimi-inspect"
+        "@yaseenhq/echadron-inspect"
         "@yaseenhq/echadron-web"
-        "@moonshot-ai/vis"
-        "@moonshot-ai/vis-server"
-        "@moonshot-ai/vis-web"
-        "kimi-code-docs"
+        "@yaseenhq/vis"
+        "@yaseenhq/vis-server"
+        "@yaseenhq/vis-web"
+        "echadron-docs"
       ];
     in
     {
@@ -123,7 +123,7 @@
         let
           nodejs = nodejsFor pkgs;
           pnpm = pnpmFor pkgs;
-          appPackageJson = builtins.fromJSON (builtins.readFile ./apps/kimi-code/package.json);
+          appPackageJson = builtins.fromJSON (builtins.readFile ./apps/echadron/package.json);
           nativeTarget =
             if pkgs.stdenv.hostPlatform.isLinux && pkgs.stdenv.hostPlatform.isAarch64 then
               "linux-arm64"
@@ -164,7 +164,7 @@
               inherit (finalAttrs) pname version src pnpmWorkspaces;
               inherit pnpm;
               fetcherVersion = 3;
-              hash = "sha256-k8hb4Xvtv4dsmkP3SNzgwiMcsDx2yS926uLwCxMqqtw=";
+              hash = "sha256-gKFgfWaFyr+/re9+8gwFnIKqgGoGZSbA8aVTRmXCEgQ=";
             };
 
             nativeBuildInputs = [
@@ -196,17 +196,17 @@
                 # but not the inspection mode (`-dv`) that 05-verify.mjs runs
                 # afterwards. Disable the verify step for the Nix build; the
                 # release CI keeps it via the unmodified script.
-                substituteInPlace apps/kimi-code/scripts/native/build.mjs \
+                substituteInPlace apps/echadron/scripts/native/build.mjs \
                   --replace-fail \
                     "await runVerifyStep({ requireGatekeeper: false });" \
                     "// runVerifyStep skipped in nix sandbox (sigtool lacks -dv)"
               ''}
               # The SEA blob step (scripts/native/02-sea-blob.mjs) embeds the
-              # Echadron web assets from apps/kimi-code/dist-web and fails if that
+              # Echadron web assets from apps/echadron/dist-web and fails if that
               # directory is missing. Build the web app and stage its assets
               # before producing the native executable.
               pnpm --filter=@yaseenhq/echadron-web run build
-              node apps/kimi-code/scripts/copy-web-assets.mjs
+              node apps/echadron/scripts/copy-web-assets.mjs
               pnpm --filter=echadron run build:native:sea
               runHook postBuild
             '';
@@ -215,7 +215,7 @@
               runHook preInstall
 
               install -Dm755 \
-                "apps/kimi-code/dist-native/bin/${nativeTarget}/echadron" \
+                "apps/echadron/dist-native/bin/${nativeTarget}/echadron" \
                 "$out/bin/echadron"
 
               runHook postInstall

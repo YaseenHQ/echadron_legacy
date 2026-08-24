@@ -17,8 +17,8 @@ import {
   ISessionExportService,
   isError2,
   type Scope,
-} from '@moonshot-ai/agent-core-v2';
-import type { KimiHostIdentity } from '@moonshot-ai/kimi-code-oauth';
+} from '@yaseenhq/agent-core-v2';
+import type { KimiHostIdentity } from '@yaseenhq/echadron-oauth';
 
 import { requestLog } from '../lib/requestLog';
 import { defineRoute } from '../middleware/defineRoute';

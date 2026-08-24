@@ -2,7 +2,7 @@ import { ErrorCodes, KimiError } from '#/errors';
 import { MAX_MCP_TIMEOUT_MS, type McpServerConfig } from '#/config/schema';
 import { log as defaultLog } from '#/logging/logger';
 import type { Logger } from '#/logging/types';
-import type { Tool } from '@moonshot-ai/kosong';
+import type { Tool } from '@yaseenhq/tsugite';
 
 import { abortable } from '../utils/abort';
 import { HttpMcpClient } from './client-http';

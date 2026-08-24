@@ -19,7 +19,7 @@ import {
   ISessionApprovalService,
   ISessionLifecycleService,
   ISessionQuestionService,
-} from '@moonshot-ai/agent-core-v2';
+} from '@yaseenhq/agent-core-v2';
 
 import {
   createKimiHarness,

@@ -72,8 +72,8 @@ import {
 import { ILogService } from '#/_base/log/log';
 import { IConfigService } from '#/app/config/config';
 import { IFlagService } from '#/app/flag/flag';
-import { secondaryModelDisplayAlias } from '#/app/kosongConfig/secondaryModelOverlay';
-import { IModelCatalog } from '#/kosong/model/catalog';
+import { secondaryModelDisplayAlias } from '#/app/tsugiteConfig/secondaryModelOverlay';
+import { IModelCatalog } from '#/tsugite/model/catalog';
 import { IAgentLifecycleService } from '#/session/agentLifecycle/agentLifecycle';
 import { isSubagentMeta, subagentLabels, subagentParentAgentId } from '#/session/agentLifecycle/subagentMetadata';
 import { ISessionProcessRunner } from '#/session/process/processRunner';

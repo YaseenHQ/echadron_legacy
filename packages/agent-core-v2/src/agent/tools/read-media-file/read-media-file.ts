@@ -13,8 +13,8 @@
 
 import { z } from 'zod';
 
-import type { VideoURLPart } from '#/kosong/contract/message';
-import type { VideoUploadInput as ProviderVideoUploadInput } from '#/kosong/contract/provider';
+import type { VideoURLPart } from '#/tsugite/contract/message';
+import type { VideoUploadInput as ProviderVideoUploadInput } from '#/tsugite/contract/provider';
 
 export const MAX_MEDIA_MEGABYTES = 100;
 export const MAX_MEDIA_BYTES = MAX_MEDIA_MEGABYTES * 1024 * 1024;

@@ -1,6 +1,6 @@
 import { sleep } from '@antfu/utils';
 
-import { APIStatusError } from '@moonshot-ai/kosong';
+import { APIStatusError } from '@yaseenhq/tsugite';
 import type { Logger } from '#/logging/types';
 
 import { abortable } from '../utils/abort';
@@ -165,7 +165,7 @@ export function retryBackoffDelays(maxAttempts: number): number[] {
 }
 
 /**
- * Server-requested backoff carried on a kosong `APIStatusError` (parsed from
+ * Server-requested backoff carried on a tsugite `APIStatusError` (parsed from
  * the `retry-after` response header). When present and positive it overrides
  * the computed backoff — a server `Retry-After` directive takes precedence
  * over the local exponential delay.

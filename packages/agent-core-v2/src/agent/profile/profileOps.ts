@@ -35,7 +35,7 @@
 
 import { z } from 'zod';
 
-import type { ThinkingEffort } from '#/kosong/contract/provider';
+import type { ThinkingEffort } from '#/tsugite/contract/provider';
 import { defineModel } from '#/wire/model';
 import type { PayloadOf } from '#/wire/types';
 

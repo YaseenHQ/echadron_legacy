@@ -25,7 +25,7 @@ import { CronTaskPersistenceService } from '#/app/cron/cronTaskPersistenceServic
 import { IAgentGoalService } from '#/agent/goal/goal';
 import { AgentGoalService } from '#/agent/goal/goalService';
 import { ISessionMcpService } from '#/session/mcp/sessionMcp';
-import type { McpConnectionManager } from '#/agent/mcp/connection-manager';
+import type { McpConnectionManager } from '#/mcpCore/connection-manager';
 import type { PermissionData, PermissionMode } from '#/agent/permissionPolicy/types';
 import type { PermissionRule } from '#/agent/permissionRules/permissionRules';
 import { IAgentPlanService, type PlanData } from '#/agent/plan/plan';
@@ -65,16 +65,16 @@ import type {
 } from '#/tool/toolContract';
 import { AGENT_WIRE_RECORD_KEY, wireRecordToPayload, type WireRecord } from '#/wire/record';
 import { OP_REGISTRY } from '#/wire/op';
-import { IProtocolAdapterRegistry, type ProtocolAdapterConfig } from '#/kosong/protocol/protocol';
-import { ProtocolAdapterRegistry } from '#/kosong/provider/protocolAdapterRegistry';
-import { hasProviderDefinition } from '#/kosong/provider/providerDefinition';
+import { IProtocolAdapterRegistry, type ProtocolAdapterConfig } from '#/tsugite/protocol/protocol';
+import { ProtocolAdapterRegistry } from '#/tsugite/provider/protocolAdapterRegistry';
+import { hasProviderDefinition } from '#/tsugite/provider/providerDefinition';
 import type { SkillCatalog } from '#/app/skillCatalog/types';
-import { type ModelCapability } from '#/kosong/contract/capability';
-import { isToolCall, isToolCallPart, type ContentPart, type Message as KosongMessage, type StreamedMessagePart } from '#/kosong/contract/message';
-import { type ThinkingEffort } from '#/kosong/contract/provider';
-import { type Tool as KosongTool } from '#/kosong/contract/tool';
-import type { generate as kosongGenerate } from '#/kosong/contract/generate';
-import type { ChatProvider, GenerateOptions, StreamedMessage } from '#/kosong/contract/provider';
+import { type ModelCapability } from '#/tsugite/contract/capability';
+import { isToolCall, isToolCallPart, type ContentPart, type Message as TsugiteMessage, type StreamedMessagePart } from '#/tsugite/contract/message';
+import { type ThinkingEffort } from '#/tsugite/contract/provider';
+import { type Tool as TsugiteTool } from '#/tsugite/contract/tool';
+import type { generate as tsugiteGenerate } from '#/tsugite/contract/generate';
+import type { ChatProvider, GenerateOptions, StreamedMessage } from '#/tsugite/contract/provider';
 import type { ILogger, LogContext, LogLevel } from '#/_base/log/log';
 import { ILogOptions } from '#/_base/log/logConfig';
 import type { EnabledPluginSessionStart } from '#/app/plugin/types';
@@ -146,24 +146,24 @@ import { IEventBus } from '#/app/event/eventBus';
 import { IWireService } from '#/wire/wire';
 import { WireService } from '#/wire/wireService';
 import { promptTurn } from '#/agent/loop/turnOps';
-import { IModelService, type ModelsSection } from '#/kosong/model/model';
+import { IModelService, type ModelsSection } from '#/tsugite/model/model';
 import {
   DEFAULT_MODEL_SECTION,
   DEFAULT_PROVIDER_SECTION,
   MODELS_SECTION,
   PROVIDERS_SECTION,
-} from '#/app/kosongConfig/configSection';
-import { secondaryModelOverlay } from '#/app/kosongConfig/secondaryModelOverlay';
-import { IModelCatalog, type Model } from '#/kosong/model/catalog';
-import { ModelCatalog } from '#/kosong/model/catalogService';
-import { IModelOAuthTokens } from '#/kosong/model/modelOAuth';
-import type { ModelRequestParams, ModelRequester } from '#/kosong/model/modelRequester';
-import { IHostRequestHeaders } from '#/kosong/model/hostRequestHeaders';
+} from '#/app/tsugiteConfig/configSection';
+import { secondaryModelOverlay } from '#/app/tsugiteConfig/secondaryModelOverlay';
+import { IModelCatalog, type Model } from '#/tsugite/model/catalog';
+import { ModelCatalog } from '#/tsugite/model/catalogService';
+import { IModelOAuthTokens } from '#/tsugite/model/modelOAuth';
+import type { ModelRequestParams, ModelRequester } from '#/tsugite/model/modelRequester';
+import { IHostRequestHeaders } from '#/tsugite/model/hostRequestHeaders';
 import {
   IProviderService,
   type ProviderConfig,
   type ProvidersSection,
-} from '#/kosong/provider/provider';
+} from '#/tsugite/provider/provider';
 import type { ApprovalResponse } from '#/session/approval/approval';
 import {
   ISessionInteractionService,
@@ -337,7 +337,7 @@ interface AgentRpcPassthroughAPI {
 }
 
 type PromiseAgentAPI = PromisifyMethods<AgentAPI & AgentRpcPassthroughAPI>;
-type GenerateFn = typeof kosongGenerate;
+type GenerateFn = typeof tsugiteGenerate;
 
 type TestToolResult = ExecutableToolResult & {
   readonly content?: unknown;
@@ -924,7 +924,7 @@ class ConfigBackedModelCatalog extends ModelCatalog {
   /**
    * The harness mutates `kimiConfig` BEHIND the config services' backs (no
    * section-change events fire), so nothing pushes the new values into the
-   * kosong registries. Re-hydrate them from the live config view before every
+   * tsugite registries. Re-hydrate them from the live config view before every
    * read: `loadAll` is deep-equal-aware, so an unchanged config is a no-op
    * and a changed one fires the diff events that drop the assembled-Model
    * cache — preserving the old read-config-live semantics through the new
@@ -1121,7 +1121,7 @@ export class AgentTestContext {
     );
     this.root = createAppScope({ extra: appSeeds });
 
-    // Hydrate the kosong registries from the (possibly overridden) config so
+    // Hydrate the tsugite registries from the (possibly overridden) config so
     // direct IProviderService/IModelService reads work before the first
     // catalog access; ConfigBackedModelCatalog re-syncs on every read after
     // that (the harness mutates kimiConfig behind the config events' backs).
@@ -2697,8 +2697,8 @@ class GenerateBackedChatProvider implements ChatProvider {
 
   async generate(
     systemPrompt: string,
-    tools: KosongTool[],
-    history: KosongMessage[],
+    tools: TsugiteTool[],
+    history: TsugiteMessage[],
     options?: GenerateOptions,
   ): Promise<StreamedMessage> {
     return generateBackedResponse(this, this.generateFn, systemPrompt, tools, history, options);
@@ -2709,8 +2709,8 @@ async function generateBackedResponse(
   provider: ChatProvider,
   generateFn: GenerateFn,
   systemPrompt: string,
-  tools: KosongTool[],
-  history: KosongMessage[],
+  tools: TsugiteTool[],
+  history: TsugiteMessage[],
   options?: GenerateOptions,
 ): Promise<StreamedMessage> {
   const parts: StreamedMessagePart[] = [];
@@ -2739,7 +2739,7 @@ async function generateBackedResponse(
       responseFormat: options?.responseFormat,
       // Forward the early-capture hook so a GenerateFn can fire the trace id
       // as soon as its (simulated) response headers arrive — e.g. before a
-      // mid-stream failure — mirroring real kosong generate() behavior.
+      // mid-stream failure — mirroring real tsugite generate() behavior.
       onTraceId: options?.onTraceId,
     },
   );

@@ -2,7 +2,7 @@
  * Scenario: legacy migration marker persistence and prompt suppression.
  * Responsibilities: preserve run history and decide whether one target still needs migration.
  * Wiring: real temporary filesystem; no stubbed collaborators.
- * Run: pnpm --filter @moonshot-ai/migration-legacy test -- marker.test.ts
+ * Run: pnpm --filter @yaseenhq/migration-legacy test -- marker.test.ts
  */
 import { describe, expect, it, beforeEach, afterEach } from 'vitest';
 import { mkdtemp, rm, readFile, writeFile, mkdir } from 'node:fs/promises';

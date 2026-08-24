@@ -5,7 +5,7 @@
  * context length while preserving undo/clear semantics. Scope-agnostic.
  */
 
-import { type ContentPart, type ToolCall } from '#/kosong/contract/message';
+import { type ContentPart, type ToolCall } from '#/tsugite/contract/message';
 import type { WireRecord } from '#/wire/record';
 
 import {

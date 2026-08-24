@@ -3,7 +3,7 @@
  *
  * Exercises the real scoped catalog and source services with filesystem or
  * in-memory discovery boundaries, including controlled concurrent refreshes.
- * Run: `pnpm --filter @moonshot-ai/agent-core-v2 exec vitest run
+ * Run: `pnpm --filter @yaseenhq/agent-core-v2 exec vitest run
  * test/session/sessionSkillCatalog/skillCatalog.test.ts`.
  */
 
@@ -25,7 +25,7 @@ import { IBootstrapService } from '#/app/bootstrap/bootstrap';
 import { IPluginService } from '#/app/plugin/plugin';
 import { PluginService } from '#/app/plugin/pluginService';
 import type { ReloadSummary } from '#/app/plugin/types';
-import { IProviderService } from '#/kosong/provider/provider';
+import { IProviderService } from '#/tsugite/provider/provider';
 import { ISessionWorkspaceContext } from '#/session/workspaceContext/workspaceContext';
 import { IConfigService } from '#/app/config/config';
 import {

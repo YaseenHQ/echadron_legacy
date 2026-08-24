@@ -27,10 +27,10 @@ We only merge PRs aligned with the roadmap. Drive-by refactors without context a
 
 This is a pnpm monorepo. The most relevant entry points are:
 
-- `apps/kimi-code` — CLI / TUI
+- `apps/echadron` — CLI / TUI
 - `apps/vis` — session replay & debugging visualizer
-- `packages/node-sdk` — public TypeScript SDK (`@moonshot-ai/kimi-code-sdk`)
-- `packages/agent-core`, `kosong`, `kaos`, `oauth`, `telemetry` — internal engine packages
+- `packages/node-sdk` — public TypeScript SDK (`@yaseenhq/echadron-sdk`)
+- `packages/agent-core`, `tsugite`, `kaos`, `oauth`, `telemetry` — internal engine packages
 - `docs/` — VitePress bilingual docs site
 
 For the full project map, see [AGENTS.md](AGENTS.md).
@@ -64,7 +64,7 @@ All commits and PR titles must follow [Conventional Commits](https://www.convent
 | fix      | A bug fix                                   | fix(tui): correct status bar alignment    |
 | docs     | Documentation only                          | docs: clarify install instructions        |
 | chore    | Tooling / housekeeping                      | chore: bump dependencies                  |
-| refactor | Internal refactor without behavior change   | refactor(kosong): extract retry helper    |
+| refactor | Internal refactor without behavior change   | refactor(tsugite): extract retry helper    |
 | test     | Adding or improving tests                   | test(agent-core): cover skill resolver    |
 | ci       | CI / build pipeline changes                 | ci: cache pnpm store                      |
 | build    | Build system / artifact changes             | build(native): add win32-arm64 target     |

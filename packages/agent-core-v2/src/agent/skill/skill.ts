@@ -11,7 +11,7 @@
 import { createDecorator } from "#/_base/di/instantiation";
 import type { SkillActivationOrigin } from '#/agent/contextMemory/types';
 import type { Turn } from '#/agent/loop/loop';
-import type { ContentPart } from '#/kosong/contract/message';
+import type { ContentPart } from '#/tsugite/contract/message';
 
 export interface SkillActivationInput {
   readonly name: string;

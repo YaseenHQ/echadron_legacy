@@ -6,7 +6,7 @@
  * the `media` domain.
  */
 
-import type { ContentPart } from '#/kosong/contract/message';
+import type { ContentPart } from '#/tsugite/contract/message';
 import { extractImageCompressionCaptions } from '#/agent/media/image-compress';
 
 const MAX_TITLE_LENGTH = 200;

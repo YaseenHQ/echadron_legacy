@@ -13,7 +13,7 @@
  * live record. Bound at Agent scope.
  */
 
-import { addUsage, type TokenUsage } from '#/kosong/contract/usage';
+import { addUsage, type TokenUsage } from '#/tsugite/contract/usage';
 import { Disposable } from '#/_base/di/lifecycle';
 import { LifecycleScope, ScopeActivation, registerScopedService } from '#/_base/di/scope';
 import { Emitter, type Event } from '#/_base/event';

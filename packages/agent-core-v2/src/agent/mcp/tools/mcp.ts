@@ -27,20 +27,20 @@
  * short-circuit with a removal notice instead of reconnecting.
  */
 
-import type { Tool as KosongTool } from '#/kosong/contract/tool';
+import type { Tool as TsugiteTool } from '#/tsugite/contract/tool';
 import type { ITelemetryService } from '#/app/telemetry/telemetry';
 import { toErrorMessage } from '#/errors';
 import { isAbortError } from '#/_base/utils/abort';
 
 import type { ExecutableTool, ExecutableToolContext, ExecutableToolResult } from '#/tool/toolContract';
 import { mcpResultToExecutableOutput } from '#/agent/mcp/output';
-import type { MCPClient, MCPToolResult } from '#/agent/mcp/types';
+import type { MCPClient, MCPToolResult } from '#/mcpCore/types';
 import {
   isMcpConnectionClosedError,
   isMcpMalformedResultError,
   isMcpTransportFailure,
   probeMcpLiveness,
-} from '#/agent/mcp/client-shared';
+} from '#/mcpCore/client-shared';
 
 interface McpToolOptions {
   readonly originalsDir?: string;
@@ -51,7 +51,7 @@ interface McpToolOptions {
 
 export function createMcpTool(
   qualifiedName: string,
-  tool: KosongTool,
+  tool: TsugiteTool,
   client: MCPClient,
   options: McpToolOptions = {},
 ): ExecutableTool {

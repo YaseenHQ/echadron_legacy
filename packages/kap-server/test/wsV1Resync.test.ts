@@ -13,7 +13,7 @@ import {
   IEventBus,
   IAgentLifecycleService,
   ISessionLifecycleService,
-} from '@moonshot-ai/agent-core-v2';
+} from '@yaseenhq/agent-core-v2';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { WebSocket } from 'ws';
 

@@ -1,5 +1,5 @@
 import { uniq } from '@antfu/utils';
-import type { ChatProvider, Tool } from '@moonshot-ai/kosong';
+import type { ChatProvider, Tool } from '@yaseenhq/tsugite';
 import picomatch from 'picomatch';
 
 import type { Agent } from '..';
@@ -980,7 +980,7 @@ export class ToolManager {
     // core can execute it": the top-level request view stays the immutable
     // core set + select_tools, while loaded dynamic tools join the executable
     // table as deferred extras — dispatchable, but stripped from the outbound
-    // top-level tools[] by kosong generate(). With disclosure off this is the
+    // top-level tools[] by tsugite generate(). With disclosure off this is the
     // inline behavior, byte for byte.
     const loadedSet = disclosure ? this.loadedDynamicToolNames() : undefined;
     const enabledNames =

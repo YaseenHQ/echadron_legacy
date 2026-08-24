@@ -12,7 +12,7 @@
  * and render the timeout message with `formatSubagentTimeoutDescription`.
  *
  * The model half of the spawn binding is the secondary model (the section
- * and type in `app/kosongConfig` — `[secondary_model]` on disk): when its
+ * and type in `app/tsugiteConfig` — `[secondary_model]` on disk): when its
  * experiment is enabled and the model is set, newly spawned subagents bind to
  * it by default instead of inheriting the caller's model, and the
  * `Agent`/`AgentSwarm` tools let the parent model pick per spawn via their
@@ -48,11 +48,11 @@ import type { IFlagService } from '#/app/flag/flag';
 import {
   MODELS_SECTION,
   SECONDARY_MODEL_SECTION,
-} from '#/app/kosongConfig/configSection';
+} from '#/app/tsugiteConfig/configSection';
 import {
   SECONDARY_DERIVED_MODEL_ID,
-} from '#/app/kosongConfig/secondaryModelOverlay';
-import { type SecondaryModelConfig } from '#/app/kosongConfig/configSection';
+} from '#/app/tsugiteConfig/secondaryModelOverlay';
+import { type SecondaryModelConfig } from '#/app/tsugiteConfig/configSection';
 import {
   type EnvBindings,
   envBindings,
@@ -60,7 +60,7 @@ import {
   type IConfigService,
 } from '#/app/config/config';
 import { registerConfigSection } from '#/app/config/configSectionContributions';
-import type { IModelCatalog } from '#/kosong/model/catalog';
+import type { IModelCatalog } from '#/tsugite/model/catalog';
 
 import { SECONDARY_MODEL_FLAG_ID } from './flag';
 

@@ -8,7 +8,7 @@
  * model-catalog changes through `event`, reports through `telemetry`,
  * logs through `log`, and delegates
  * the device-code protocol, token storage, and token refresh to `IOAuthToolkit`
- * (provided by `OAuthToolkitService` over `@moonshot-ai/kimi-code-oauth`,
+ * (provided by `OAuthToolkitService` over `@yaseenhq/echadron-oauth`,
  * which locates token storage through `bootstrap`). Bound at App scope.
  */
 
@@ -49,7 +49,7 @@ import {
   type BrowserAuthorization,
   type DeviceAuthorization,
   type ManagedKimiConfigShape,
-} from '@moonshot-ai/kimi-code-oauth';
+} from '@yaseenhq/echadron-oauth';
 import type {
   OAuthFlowSnapshot,
   OAuthFlowStart,
@@ -71,21 +71,21 @@ import {
   effectiveModelConfig,
   nonEmpty,
   resolveModelAuthMaterial,
-} from '#/kosong/model/modelAuth';
-import { IModelService, type ModelRecord } from '#/kosong/model/model';
+} from '#/tsugite/model/modelAuth';
+import { IModelService, type ModelRecord } from '#/tsugite/model/model';
 import {
   DEFAULT_MODEL_SECTION,
   MODELS_SECTION,
   PROVIDERS_SECTION,
   THINKING_SECTION,
-} from '#/app/kosongConfig/configSection';
+} from '#/app/tsugiteConfig/configSection';
 import {
   IProviderService,
   type OAuthRef,
   type ProviderConfig,
   type ProvidersChangedEvent,
-} from '#/kosong/provider/provider';
-import { isOAuthCatalogVendor } from '#/kosong/provider/providerDefinition';
+} from '#/tsugite/provider/provider';
+import { isOAuthCatalogVendor } from '#/tsugite/provider/providerDefinition';
 import { ITelemetryService } from '#/app/telemetry/telemetry';
 
 import {
@@ -758,10 +758,10 @@ export class AuthSummaryService implements IAuthSummaryService {
   }
 
   async ensureReady(modelOverride?: string): Promise<void> {
-    // Reload so external file edits reach the kosong registries through the
+    // Reload so external file edits reach the tsugite registries through the
     // persistence bridge, then read the RUNTIME state from the registries —
     // the config sections are only their persistence and may lag a pending
-    // kosong-originated persist.
+    // tsugite-originated persist.
     await this.config.reload();
     const providers = this.providerService.list();
     const models = this.modelService.list();

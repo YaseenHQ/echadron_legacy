@@ -17,7 +17,7 @@ import {
   APIStatusError,
   createUserMessage,
   isImageFormatError,
-} from '@moonshot-ai/kosong';
+} from '@yaseenhq/tsugite';
 
 import type { Agent } from '..';
 import type { GenerateOptionsWithRequestLogFields } from '../llm-request-logger';
@@ -242,7 +242,7 @@ export class FullCompaction {
   private estimateRequestTokens(messages: readonly Message[]): number {
     return (
       estimateTokens(this.agent.config.systemPrompt) +
-      // Deferred tools never reach the outbound top-level tools[] (kosong
+      // Deferred tools never reach the outbound top-level tools[] (tsugite
       // generate() strips them); keep the estimate aligned with the wire.
       estimateTokensForTools(this.agent.tools.loopTools.filter((t) => t.deferred !== true)) +
       estimateTokensForMessages(messages)

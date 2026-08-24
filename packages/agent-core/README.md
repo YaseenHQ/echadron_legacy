@@ -1,4 +1,4 @@
-# @moonshot-ai/agent-core
+# @yaseenhq/agent-core
 
 The unified agent engine for Kimi Code.
 

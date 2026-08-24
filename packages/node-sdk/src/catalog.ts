@@ -1,4 +1,4 @@
-import type { KimiConfig, ModelAlias } from '@moonshot-ai/agent-core';
+import type { KimiConfig, ModelAlias } from '@yaseenhq/agent-core';
 import {
   catalogBaseUrl,
   catalogProviderModels,
@@ -12,8 +12,8 @@ import {
   type CatalogProviderEntry,
   type ModelCapability,
   type ProviderType,
-} from '@moonshot-ai/kosong';
-import { XAI_PROVIDER_NAME, xaiWireTypeForModel } from '@moonshot-ai/kimi-code-oauth';
+} from '@yaseenhq/tsugite';
+import { XAI_PROVIDER_NAME, xaiWireTypeForModel } from '@yaseenhq/echadron-oauth';
 
 export { catalogBaseUrl, catalogProviderModels, inferWireType, resolveCatalogImport };
 export type { CatalogImportInvalidReason, CatalogImportResolution };

@@ -13,7 +13,7 @@ import { AgentSystemReminderService } from '#/agent/systemReminder/systemReminde
 import { IAgentSwarmService } from '#/agent/swarm/swarm';
 import { AgentSwarmService } from '#/agent/swarm/swarmService';
 import { SwarmModel } from '#/agent/swarm/swarmOps';
-import { SECONDARY_DERIVED_MODEL_ID } from '#/app/kosongConfig/secondaryModelOverlay';
+import { SECONDARY_DERIVED_MODEL_ID } from '#/app/tsugiteConfig/secondaryModelOverlay';
 import { AgentSwarmToolInputSchema } from '#/agent/tools/agent-swarm/agent-swarm';
 import { buildResultSchemaInstruction } from '#/agent/tools/agent/resultSchema';
 import { AgentSwarmTool } from '#/agent/tools/agent-swarm/agentSwarmTool';
@@ -23,7 +23,7 @@ import type {
   BeforeExecuteDecision,
   ResolvedToolExecutionHookContext,
 } from '#/agent/toolExecutor/toolHooks';
-import type { ToolCall } from '#/kosong/contract/message';
+import type { ToolCall } from '#/tsugite/contract/message';
 import type { ExecutableToolContext } from '#/tool/toolContract';
 import { IAgentToolRegistryService } from '#/agent/toolRegistry/toolRegistry';
 import { AgentToolRegistryService } from '#/agent/toolRegistry/toolRegistryService';

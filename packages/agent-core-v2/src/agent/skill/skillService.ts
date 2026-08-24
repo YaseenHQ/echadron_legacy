@@ -15,7 +15,7 @@
 import { randomUUID } from 'node:crypto';
 import { LifecycleScope, ScopeActivation, registerScopedService } from '#/_base/di/scope';
 
-import type { ContentPart } from '#/kosong/contract/message';
+import type { ContentPart } from '#/tsugite/contract/message';
 
 import type { ContextMessage, SkillActivationOrigin } from '#/agent/contextMemory/types';
 import { renderUserSlashSkillPrompt } from './prompt';

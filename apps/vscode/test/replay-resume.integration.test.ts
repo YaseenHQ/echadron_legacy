@@ -14,13 +14,13 @@ import {
   type Event,
   type KimiHarness,
   type Session,
-} from "@moonshot-ai/kimi-code-sdk";
+} from "@yaseenhq/echadron-sdk";
 import { afterEach, describe, expect, it } from "vitest";
 
 import {
   createFakeProviderHarness,
   type FakeProviderHarness,
-} from "../../../packages/kosong/test/e2e/fake-provider-harness";
+} from "../../../packages/tsugite/test/e2e/fake-provider-harness";
 import { replaySessionToWebviewEvents } from "../src/runtime/replay-adapter";
 
 const MODEL_ALIAS = "vscode-replay-test";

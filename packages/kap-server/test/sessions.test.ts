@@ -2,7 +2,7 @@
  * Scenario: v1-compatible session routes, including blocked-goal Web resume.
  * Responsibilities: verify HTTP envelopes, persisted reads, and session actions.
  * Wiring: real kap-server; route errors stub the agent service contract.
- * Run: `pnpm --filter @moonshot-ai/kap-server exec vitest run test/sessions.test.ts`.
+ * Run: `pnpm --filter @yaseenhq/kap-server exec vitest run test/sessions.test.ts`.
  */
 import { randomBytes } from 'node:crypto';
 import { mkdir, mkdtemp, readdir, rm, writeFile } from 'node:fs/promises';
@@ -25,9 +25,9 @@ import {
   ISessionLifecycleService,
   MAIN_AGENT_ID,
   type ServiceIdentifier,
-} from '@moonshot-ai/agent-core-v2';
-import { sessionWarningsResponseSchema } from '@moonshot-ai/agent-core-v2/app/sessionLegacy/sessionProtocol';
-import { encodeWorkDirKey } from '@moonshot-ai/agent-core-v2/_base/utils/workdir-slug';
+} from '@yaseenhq/agent-core-v2';
+import { sessionWarningsResponseSchema } from '@yaseenhq/agent-core-v2/app/sessionLegacy/sessionProtocol';
+import { encodeWorkDirKey } from '@yaseenhq/agent-core-v2/_base/utils/workdir-slug';
 
 import { type RunningServer, startServer } from '../src/start';
 import { TEST_HOST_IDENTITY } from './helpers/hostIdentity';

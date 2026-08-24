@@ -4,7 +4,7 @@ import { join } from 'pathe';
 import { Readable } from 'node:stream';
 import type { Writable } from 'node:stream';
 
-import type { KaosProcess } from '@moonshot-ai/kaos';
+import type { KaosProcess } from '@yaseenhq/kaos';
 
 import { testKaos } from '../fixtures/test-kaos';
 import { afterEach, describe, expect, it, vi } from 'vitest';

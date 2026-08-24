@@ -41,7 +41,7 @@ export interface SseMcpClientOptions {
 }
 
 /**
- * Wraps the SDK's deprecated HTTP+SSE transport as a kosong
+ * Wraps the SDK's deprecated HTTP+SSE transport as a tsugite
  * {@link MCPClient}. This exists for compatibility with older MCP servers;
  * new remote servers should prefer streamable HTTP.
  */

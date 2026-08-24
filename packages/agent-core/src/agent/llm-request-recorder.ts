@@ -10,7 +10,7 @@
  * `records/types.ts` for the persistence contract.
  */
 
-import { KimiChatProvider, type ChatProvider, type Message, type Tool } from '@moonshot-ai/kosong';
+import { KimiChatProvider, type ChatProvider, type Message, type Tool } from '@yaseenhq/tsugite';
 
 import { parseFloatEnv } from '#/config/resolve';
 import { resolveThinkingKeep } from '#/config/kimi-env-params';
@@ -49,7 +49,7 @@ export class LlmRequestRecorder {
   }): void {
     const { provider, systemPrompt, messages } = input;
     const fields = input.fields ?? {};
-    // Deferred tools are stripped by kosong generate() before the provider
+    // Deferred tools are stripped by tsugite generate() before the provider
     // sees them; snapshot what actually goes on the wire. In disclosure mode
     // this keeps the snapshot byte-stable across select_tools loads.
     const wireTools = input.tools.filter((tool) => tool.deferred !== true);

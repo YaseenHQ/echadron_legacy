@@ -5,11 +5,11 @@ import type { AddressInfo } from 'node:net';
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { SSEServerTransport } from '@modelcontextprotocol/sdk/server/sse.js';
 import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/streamableHttp.js';
-import type { Tool as KosongTool } from '#/kosong/contract/tool';
+import type { Tool as TsugiteTool } from '#/tsugite/contract/tool';
 import { z } from 'zod';
 
-import type { McpOAuthStore } from '#/agent/mcp/oauth/store';
-import type { MCPClient, MCPToolDefinition } from '#/agent/mcp/types';
+import type { McpOAuthStore } from '#/mcpCore/oauth/store';
+import type { MCPClient, MCPToolDefinition } from '#/mcpCore/types';
 import type {
   ExecutableTool,
   ExecutableToolContext,
@@ -50,6 +50,10 @@ export function createMemoryMcpOAuthStore(): McpOAuthStore {
     async remove(key: string): Promise<void> {
       data.delete(key);
     },
+    async list(prefix?: string): Promise<readonly string[]> {
+      const keys = [...data.keys()];
+      return prefix === undefined ? keys : keys.filter((key) => key.startsWith(prefix));
+    },
   };
 }
 
@@ -84,7 +88,7 @@ export function fakeMcpClient(
   };
 }
 
-export async function discoverTools(client: MCPClient): Promise<KosongTool[]> {
+export async function discoverTools(client: MCPClient): Promise<TsugiteTool[]> {
   const defs = await client.listTools();
   return defs.map((d) => ({
     name: d.name,

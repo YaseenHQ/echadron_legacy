@@ -43,7 +43,7 @@ export interface HttpMcpClientOptions {
 }
 
 /**
- * Wraps the SDK streamable-HTTP transport as a kosong {@link MCPClient}.
+ * Wraps the SDK streamable-HTTP transport as a tsugite {@link MCPClient}.
  * Static bearer tokens are looked up from `process.env[bearerTokenEnvVar]`.
  * OAuth providers are attached separately by the connection manager.
  */

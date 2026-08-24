@@ -1,6 +1,6 @@
 import { createHash } from 'node:crypto';
 
-import type { ContentPart, Message, TextPart } from '@moonshot-ai/kosong';
+import type { ContentPart, Message, TextPart } from '@yaseenhq/tsugite';
 
 import { ErrorCodes, KimiError } from '../../errors';
 import { renderToolResultForModel } from './tool-result-render';

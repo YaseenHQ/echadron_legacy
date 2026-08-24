@@ -8,7 +8,7 @@
  * Agent-scoped — one instance per agent.
  */
 
-import type { ContentPart } from '#/kosong/contract/message';
+import type { ContentPart } from '#/tsugite/contract/message';
 
 import { createDecorator, type ServiceIdentifier } from '#/_base/di/instantiation';
 

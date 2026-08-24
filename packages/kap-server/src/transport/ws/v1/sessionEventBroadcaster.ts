@@ -62,7 +62,7 @@ import type {
   ISessionScopeHandle,
   Scope,
   SessionActivityState,
-} from '@moonshot-ai/agent-core-v2';
+} from '@yaseenhq/agent-core-v2';
 import {
   IAgentLifecycleService,
   IEventBus,
@@ -72,7 +72,7 @@ import {
   ISessionIndex,
   ISessionLifecycleService,
   MAIN_AGENT_ID,
-} from '@moonshot-ai/agent-core-v2';
+} from '@yaseenhq/agent-core-v2';
 import type { SessionCreatedEvent, SessionMetaUpdatedEvent, Event } from './events';
 import { isVolatileEventType } from './events';
 import type { SessionCursor } from '../../../protocol/ws-control';
@@ -90,7 +90,7 @@ import {
   type TranscriptOpsEvent,
   type TranscriptResetEvent,
   type TranscriptStore,
-} from '@moonshot-ai/transcript';
+} from '@yaseenhq/transcript';
 
 import { toWireApproval } from '../../../routes/approvals';
 import { toWireQuestion } from '../../../routes/questions';

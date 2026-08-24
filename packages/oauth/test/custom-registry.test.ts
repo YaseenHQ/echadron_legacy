@@ -825,7 +825,7 @@ describe('capabilitiesFromCustomEntry', () => {
     expect(capabilitiesFromCustomEntry({ id: 'm' })).toEqual([]);
   });
 
-  it('maps individual fields to kosong capability strings', () => {
+  it('maps individual fields to tsugite capability strings', () => {
     expect(
       capabilitiesFromCustomEntry({
         id: 'm',

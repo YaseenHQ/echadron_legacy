@@ -33,11 +33,11 @@ import { join } from 'node:path';
 
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
-import { bootstrap, logSeed, resolveLoggingConfig } from '@moonshot-ai/agent-core-v2';
+import { bootstrap, logSeed, resolveLoggingConfig } from '@yaseenhq/agent-core-v2';
 
 import { TEST_CLIENT_IDENTITY } from '../helpers/engine.js';
-import type { ContentPart } from '@moonshot-ai/agent-core-v2/kosong/contract/message';
-import { IModelService } from '@moonshot-ai/agent-core-v2/kosong/model/model';
+import type { ContentPart } from '@yaseenhq/agent-core-v2/tsugite/contract/message';
+import { IModelService } from '@yaseenhq/agent-core-v2/tsugite/model/model';
 
 import type { Klient } from '../../src/index.js';
 import type { AgentHandle } from '../../src/core/klient.js';
@@ -357,12 +357,12 @@ beforeAll(async () => {
   await new Promise<void>((resolve) => server.listen(0, '127.0.0.1', resolve));
   baseUrl = `http://127.0.0.1:${(server.address() as AddressInfo).port}`;
 
-  await klient.global.kosong.addProvider(KIMI_PROVIDER, {
+  await klient.global.tsugite.addProvider(KIMI_PROVIDER, {
     type: 'kimi',
     auth: { method: 'api-key', apiKey: 'test-key' },
     baseUrl: `${baseUrl}/v1`,
   });
-  await klient.global.kosong.addProvider({
+  await klient.global.tsugite.addProvider({
     id: M_OPENAI,
     model: 'gpt-4o-mini',
     protocol: 'openai',
@@ -370,7 +370,7 @@ beforeAll(async () => {
     auth: { method: 'api-key', apiKey: 'test-key' },
     maxContextSize: 262_144,
   });
-  await klient.global.kosong.addProvider({
+  await klient.global.tsugite.addProvider({
     id: M_OPENAI_VISION,
     model: 'gpt-4o-mini',
     protocol: 'openai',
@@ -389,7 +389,7 @@ beforeAll(async () => {
     maxContextSize: 262_144,
     capabilities: ['image_in', 'video_in'],
   });
-  await klient.global.kosong.addProvider({
+  await klient.global.tsugite.addProvider({
     id: M_ANTHROPIC,
     model: 'claude-sonnet-4-5',
     protocol: 'anthropic',
@@ -397,7 +397,7 @@ beforeAll(async () => {
     auth: { method: 'api-key', apiKey: 'test-key' },
     maxContextSize: 262_144,
   });
-  await klient.global.kosong.addProvider({
+  await klient.global.tsugite.addProvider({
     id: M_GOOGLE,
     model: 'gemini-2.5-flash',
     protocol: 'google-genai',

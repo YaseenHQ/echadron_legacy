@@ -32,7 +32,7 @@ git clone https://github.com/YaseenHQ/echadron.git echadron
 cd echadron
 pnpm install
 pnpm --filter echadron build
-npm install -g ./apps/kimi-code
+npm install -g ./apps/echadron
 ```
 
 On Windows, install [Git for Windows](https://gitforwindows.org/) before

@@ -32,7 +32,7 @@ import {
   IEventService,
   SECONDARY_DERIVED_MODEL_ID,
   type Scope,
-} from '@moonshot-ai/agent-core-v2';
+} from '@yaseenhq/agent-core-v2';
 
 import { errEnvelope, okEnvelope } from '../envelope';
 import { requestLog } from '../lib/requestLog';

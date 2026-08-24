@@ -1,5 +1,5 @@
 /**
- * Server bootstrap — wires `@moonshot-ai/agent-core-v2` (DI × Scope engine) into
+ * Server bootstrap — wires `@yaseenhq/agent-core-v2` (DI × Scope engine) into
  * a Fastify HTTP server that speaks the same `/api/v1` interface as the v1
  * server.
  *
@@ -22,12 +22,12 @@ import {
   skillCatalogRuntimeOptionsSeed,
   type Scope,
   type ScopeSeed,
-} from '@moonshot-ai/agent-core-v2';
+} from '@yaseenhq/agent-core-v2';
 import {
   applyEchadronEnvironmentAliases,
   createKimiDefaultHeaders,
   type KimiHostIdentity,
-} from '@moonshot-ai/kimi-code-oauth';
+} from '@yaseenhq/echadron-oauth';
 import { createAsyncApiDocument } from './protocol/asyncapi';
 import Fastify, { type FastifyInstance } from 'fastify';
 

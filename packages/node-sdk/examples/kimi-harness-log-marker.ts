@@ -8,7 +8,7 @@ import {
   log,
   resolveGlobalLogPath,
   resolveKimiHome,
-} from '@moonshot-ai/kimi-code-sdk';
+} from '@yaseenhq/echadron-sdk';
 
 type MarkerLevel = 'error' | 'warn';
 

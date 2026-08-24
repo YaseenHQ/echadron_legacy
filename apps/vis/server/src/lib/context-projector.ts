@@ -7,7 +7,7 @@ import {
   renderToolResultForModel,
   selectCompactionUserMessages,
   selectRecentUserMessages,
-} from '@moonshot-ai/agent-core';
+} from '@yaseenhq/agent-core';
 import type {
   ContentPart,
   ContextMessage,

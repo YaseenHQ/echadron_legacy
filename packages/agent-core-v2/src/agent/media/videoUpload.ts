@@ -9,10 +9,10 @@
  * scoped service.
  */
 
-import { VideoUploadUnsupportedError } from '#/kosong/contract/errors';
-import type { VideoURLPart } from '#/kosong/contract/message';
-import type { Protocol } from '#/kosong/protocol/protocol';
-import { ProtocolErrors } from '#/kosong/protocol/errors';
+import { VideoUploadUnsupportedError } from '#/tsugite/contract/errors';
+import type { VideoURLPart } from '#/tsugite/contract/message';
+import type { Protocol } from '#/tsugite/protocol/protocol';
+import { ProtocolErrors } from '#/tsugite/protocol/errors';
 
 export function isVideoUploadAuthError(error: unknown): boolean {
   if (typeof error !== 'object' || error === null) return false;

@@ -10,7 +10,7 @@
  *
  * Tool results project to a single `tool_result` part: plain-text results keep
  * the historical flattened-text output, while a result carrying media parts
- * (image/video/audio — e.g. ReadMediaFile) passes the raw kosong content-part
+ * (image/video/audio — e.g. ReadMediaFile) passes the raw tsugite content-part
  * array through, the same shape the live `tool.result` event stream carries,
  * so REST consumers can still render the media after reload/resume.
  *

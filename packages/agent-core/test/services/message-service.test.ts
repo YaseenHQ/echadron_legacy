@@ -7,7 +7,7 @@
  * Coverage:
  *   - list pagination (default/before_id/after_id/page_size; has_more)
  *   - role filter
- *   - kosong ContentPart → SCHEMAS MessageContent adapter (text / think /
+ *   - tsugite ContentPart → SCHEMAS MessageContent adapter (text / think /
  *     image_url / audio_url / video_url)
  *   - assistant message with toolCalls → tool_use content parts appended
  *   - tool role message → tool_result single content part with output text

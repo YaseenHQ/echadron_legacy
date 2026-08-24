@@ -1,5 +1,5 @@
-import { type ChatProvider, KimiChatProvider } from '@moonshot-ai/kosong';
-import { AnthropicChatProvider } from '@moonshot-ai/kosong/providers/anthropic';
+import { type ChatProvider, KimiChatProvider } from '@yaseenhq/tsugite';
+import { AnthropicChatProvider } from '@yaseenhq/tsugite/providers/anthropic';
 import { describe, expect, it } from 'vitest';
 
 import {

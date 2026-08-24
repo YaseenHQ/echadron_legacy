@@ -57,29 +57,29 @@ import {
   isImageFormatError,
   isRecoverableRequestStructureError,
   isRetryableGenerateError,
-} from '#/kosong/contract/errors';
-import { isToolCall, type Message, type StreamedMessagePart } from '#/kosong/contract/message';
+} from '#/tsugite/contract/errors';
+import { isToolCall, type Message, type StreamedMessagePart } from '#/tsugite/contract/message';
 import type {
   ProviderCompactionResult,
   ThinkingEffort,
-} from '#/kosong/contract/provider';
-import { type Tool } from '#/kosong/contract/tool';
-import { emptyUsage, inputTotal, type TokenUsage } from '#/kosong/contract/usage';
+} from '#/tsugite/contract/provider';
+import { type Tool } from '#/tsugite/contract/tool';
+import { emptyUsage, inputTotal, type TokenUsage } from '#/tsugite/contract/usage';
 import { ILogService, type LogContext } from '#/_base/log/log';
-import { IModelCatalog, type Model } from '#/kosong/model/catalog';
+import { IModelCatalog, type Model } from '#/tsugite/model/catalog';
 import {
   effectiveMaxCompletionTokens,
   type ModelRequestEvent,
   type ModelRequestParams,
   type ModelRequester,
   type ModelRequestTiming,
-} from '#/kosong/model/modelRequester';
-import type { ModelOverrides } from '#/kosong/model/model.types';
-import { IModelService } from '#/kosong/model/model';
-import { completionBudgetParams, resolveCompletionBudget } from '#/kosong/model/completionBudget';
-import { resolveThinkingKeep, type ThinkingConfig } from '#/kosong/model/thinking';
-import { THINKING_SECTION } from '#/app/kosongConfig/configSection';
-import type { Protocol } from '#/kosong/protocol/protocol';
+} from '#/tsugite/model/modelRequester';
+import type { ModelOverrides } from '#/tsugite/model/model.types';
+import { IModelService } from '#/tsugite/model/model';
+import { completionBudgetParams, resolveCompletionBudget } from '#/tsugite/model/completionBudget';
+import { resolveThinkingKeep, type ThinkingConfig } from '#/tsugite/model/thinking';
+import { THINKING_SECTION } from '#/app/tsugiteConfig/configSection';
+import type { Protocol } from '#/tsugite/protocol/protocol';
 import type { ApiErrorEvent } from '#/app/telemetry/events';
 import { ITelemetryService } from '#/app/telemetry/telemetry';
 import { IWireService } from '#/wire/wire';
@@ -95,7 +95,7 @@ import {
   type AgentLLMRequestTask,
   type PreparedTurnRequestConfig,
 } from './llmRequester';
-import type { LLMRequestTrace } from '#/kosong/contract/requestTrace';
+import type { LLMRequestTrace } from '#/tsugite/contract/requestTrace';
 import {
   ToolCallIdNormalizer,
   type ToolCallIdResponseNormalizer,

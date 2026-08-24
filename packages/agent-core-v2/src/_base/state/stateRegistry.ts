@@ -25,13 +25,15 @@
  * belongs to wire Models. Scope-agnostic.
  */
 
-import { Disposable } from '../di/lifecycle';
+import { Disposable, type IDisposable, toDisposable } from '../di/lifecycle';
 import { BugIndicatingError } from '../errors/errors';
 import { Emitter, type Event } from '../event';
 
 export interface StateKey<T> {
   readonly name: string;
   readonly initial: () => T;
+  /** Excluded from `snapshot()` — for values too large or sensitive to export. */
+  readonly snapshotExcluded?: boolean;
 }
 
 export function defineState<T>(name: string, initial: () => T): StateKey<T> {
@@ -43,8 +45,15 @@ export interface StateChange {
   readonly value: unknown;
 }
 
+/** One scope's state plus, recursively, its parent's — the inspector's nested view. */
+export interface StateInspection {
+  readonly scope: string;
+  readonly state: Record<string, unknown>;
+  readonly parent?: StateInspection;
+}
+
 export interface IStateRegistry {
-  register<T>(key: StateKey<T>): void;
+  register<T>(key: StateKey<T>): IDisposable;
   has(key: StateKey<unknown>): boolean;
   get<T>(key: StateKey<T>): T;
   set<T>(key: StateKey<T>, value: T): void;
@@ -52,19 +61,42 @@ export interface IStateRegistry {
   readonly onDidChangeAny: Event<StateChange>;
   entries(): readonly [string, unknown][];
   snapshot(): Record<string, unknown>;
+  inspect(): StateInspection;
 }
 
 export class StateRegistry extends Disposable implements IStateRegistry {
   private readonly values = new Map<string, unknown>();
+  private readonly registrations = new Map<string, object>();
+  private readonly excludedFromSnapshot = new Set<string>();
   private readonly keyEmitters = new Map<string, Emitter<unknown>>();
   private readonly anyEmitter = this._register(new Emitter<StateChange>());
   readonly onDidChangeAny: Event<StateChange> = this.anyEmitter.event;
 
-  register<T>(key: StateKey<T>): void {
+  /** Scope name and parent, for `inspect()`'s nested view; set by scope subclasses. */
+  protected readonly inspectScope: string = 'unknown';
+  protected inspectParent?: IStateRegistry;
+
+  register<T>(key: StateKey<T>): IDisposable {
     if (this.values.has(key.name)) {
       throw new BugIndicatingError(`state key '${key.name}' is already registered`);
     }
+    const registration = {};
+    this.registrations.set(key.name, registration);
     this.values.set(key.name, key.initial());
+    if (key.snapshotExcluded === true) {
+      this.excludedFromSnapshot.add(key.name);
+    }
+    // Most callers ignore the returned disposable — state lives for the scope's
+    // lifetime — but a dynamically contributed key (e.g. a per-tool-call state
+    // slot) needs to unregister without waiting for scope teardown.
+    return toDisposable(() => {
+      if (this.registrations.get(key.name) !== registration) return;
+      this.registrations.delete(key.name);
+      this.values.delete(key.name);
+      this.excludedFromSnapshot.delete(key.name);
+      this.keyEmitters.get(key.name)?.dispose();
+      this.keyEmitters.delete(key.name);
+    });
   }
 
   has(key: StateKey<unknown>): boolean {
@@ -103,9 +135,18 @@ export class StateRegistry extends Disposable implements IStateRegistry {
   snapshot(): Record<string, unknown> {
     const out: Record<string, unknown> = {};
     for (const [key, value] of this.values) {
+      if (this.excludedFromSnapshot.has(key)) continue;
       out[key] = toJsonSafe(value, new WeakSet());
     }
     return out;
+  }
+
+  inspect(): StateInspection {
+    return {
+      scope: this.inspectScope,
+      state: this.snapshot(),
+      parent: this.inspectParent?.inspect(),
+    };
   }
 }
 

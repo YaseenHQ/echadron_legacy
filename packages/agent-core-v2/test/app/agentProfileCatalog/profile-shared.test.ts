@@ -4,7 +4,7 @@
  * `${base_prompt}` (`renderPromptTemplate`), and the builtin template renderer
  * (`renderSystemPrompt`) including its code-composed conditional sections
  * (Windows notes, additional directories, skills). Pure functions, no IO.
- * Run: `pnpm --filter @moonshot-ai/agent-core-v2 exec vitest run
+ * Run: `pnpm --filter @yaseenhq/agent-core-v2 exec vitest run
  * test/app/agentProfileCatalog/profile-shared.test.ts`.
  */
 

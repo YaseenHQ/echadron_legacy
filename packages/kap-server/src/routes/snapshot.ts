@@ -31,8 +31,8 @@ import {
   toProtocolMessage,
   type IAgentScopeHandle,
   type Scope,
-} from '@moonshot-ai/agent-core-v2';
-import type { Message } from '@moonshot-ai/agent-core-v2/agent/contextMemory/protocolMessage';
+} from '@yaseenhq/agent-core-v2';
+import type { Message } from '@yaseenhq/agent-core-v2/agent/contextMemory/protocolMessage';
 import { ErrorCode } from '../protocol/error-codes';
 import {
   sessionSnapshotResponseSchema,

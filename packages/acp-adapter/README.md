@@ -1,4 +1,4 @@
-# @moonshot-ai/acp-adapter
+# @yaseenhq/acp-adapter
 
 Agent Client Protocol adapter for Echadron. Exposes the Echadron agent over the [Agent Client Protocol](https://agentclientprotocol.com/) so that ACP-compatible clients (editors, IDEs, custom front-ends) can drive an Echadron session over stdio.
 
@@ -7,8 +7,8 @@ Part of the Echadron monorepo.
 ## Minimum usage
 
 ```ts
-import { createKimiHarness } from '@moonshot-ai/kimi-code-sdk';
-import { runAcpServer } from '@moonshot-ai/acp-adapter';
+import { createKimiHarness } from '@yaseenhq/echadron-sdk';
+import { runAcpServer } from '@yaseenhq/acp-adapter';
 
 const harness = await createKimiHarness();
 await runAcpServer(harness);

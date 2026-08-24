@@ -171,7 +171,7 @@ describe('event hub', () => {
         errors.push(error);
       });
 
-    klient.events.on('kosong.providers.changed', (event) => seen.push(event));
+    klient.events.on('tsugite.providers.changed', (event) => seen.push(event));
     expect(channel.subscriptions[0]?.source).toEqual({
       kind: 'emitter',
       service: 'providerService',
@@ -193,7 +193,7 @@ describe('event hub', () => {
     const catalog: unknown[] = [];
 
     const subA = klient.events.on('session.archived', (event) => archived.push(event));
-    const subB = klient.events.on('kosong.changed', (event) => catalog.push(event));
+    const subB = klient.events.on('tsugite.changed', (event) => catalog.push(event));
     expect(channel.subscriptions).toHaveLength(1);
     expect(channel.subscriptions[0]?.source).toEqual({ kind: 'stream', name: 'events' });
 

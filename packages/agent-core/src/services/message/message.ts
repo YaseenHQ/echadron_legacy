@@ -2,7 +2,7 @@
  * `IMessageService` — daemon-facing message history interface.
  *
  * Wraps `ICoreProcessService.rpc.getContext({sessionId, agentId})` and adapts
- * agent-core's `ContextMessage` history shape (kosong `Message` + origin) to
+ * agent-core's `ContextMessage` history shape (tsugite `Message` + origin) to
  * the protocol's SCHEMAS.md §3 `Message` discriminated-by-content union.
  *
  * Endpoint mapping (REST.md §3.4):
@@ -15,7 +15,7 @@
  *
  * The adapter is documented in the implementation below.
  *
- * **Field mapping** (kosong/agent-core → protocol):
+ * **Field mapping** (tsugite/agent-core → protocol):
  *
  *   ContextMessage.role               →  Message.role            (1:1)
  *   ContextMessage.content[]          →  Message.content[]       (per-part adapter; see below)
@@ -23,18 +23,18 @@
  *   ContextMessage.toolCallId         →  Message.content[].tool_call_id  (when role==='tool', body becomes a tool_result)
  *   ContextMessage.isError            →  Message.content[0].is_error (only on tool_result)
  *
- * Content-part adapter (kosong ContentPart → SCHEMAS MessageContent):
+ * Content-part adapter (tsugite ContentPart → SCHEMAS MessageContent):
  *
  *   { type:'text',      text }            → { type:'text', text }
  *   { type:'think',     think, encrypted? } → { type:'thinking', thinking:think, signature?:encrypted }
  *   { type:'image_url', imageUrl }        → { type:'image', source:{kind:'url', url:imageUrl.url } }
- *                                            (file/base64 reserved for future kosong shape)
+ *                                            (file/base64 reserved for future tsugite shape)
  *   { type:'audio_url', audioUrl }        → { type:'text', text:`[audio:${audioUrl.url}]` }
  *                                            (SCHEMAS §3 has no audio content variant; flatten lossy)
  *   { type:'video_url', videoUrl }        → { type:'text', text:`[video:${videoUrl.url}]` }
  *                                            (same as audio — no video variant in §3)
  *
- * **ID synthesis**: kosong's `Message` has no `id`. We derive a deterministic
+ * **ID synthesis**: tsugite's `Message` has no `id`. We derive a deterministic
  * id from `(sessionId, history_index)`:
  *
  *     id = `msg_<sessionId>_<6-digit-index>`
@@ -52,7 +52,7 @@ import type {
   MessageRole,
   PageResponse,
   ToolUseContent,
-} from '@moonshot-ai/protocol';
+} from '@yaseenhq/protocol';
 
 /**
  * Listing query — `before_id`/`after_id` + `page_size` mutex is enforced
@@ -139,7 +139,7 @@ export function parseMessageId(
 }
 
 /**
- * kosong's `Message.role` is `'system' | 'user' | 'assistant' | 'tool'` —
+ * tsugite's `Message.role` is `'system' | 'user' | 'assistant' | 'tool'` —
  * already aligned with SCHEMAS §3's `MessageRole`. We pass-through.
  */
 function toProtocolRole(role: ContextMessage['role']): MessageRole {
@@ -147,7 +147,7 @@ function toProtocolRole(role: ContextMessage['role']): MessageRole {
 }
 
 /**
- * Translate kosong content parts to SCHEMAS §3 content parts. See header
+ * Translate tsugite content parts to SCHEMAS §3 content parts. See header
  * for the full mapping table.
  */
 function mapContentPart(part: ContextMessage['content'][number]): MessageContent | undefined {
@@ -196,7 +196,7 @@ function mapContentParts(parts: ContextMessage['content']): MessageContent[] {
  *   1. For `tool` role: emit a SINGLE `tool_result` part. Plain-text results
  *      keep the historical flattened-text output (most tool messages emit a
  *      single text); a result that carries media parts (image/video/audio —
- *      e.g. ReadMediaFile) passes the raw kosong content-part array through
+ *      e.g. ReadMediaFile) passes the raw tsugite content-part array through
  *      instead, the same shape the live `tool.result` event stream carries,
  *      so REST consumers can still render the media. `is_error` is taken
  *      from `ContextMessage.isError`.
@@ -206,7 +206,7 @@ function mapContentParts(parts: ContextMessage['content']): MessageContent[] {
 function buildProtocolContent(msg: ContextMessage): MessageContent[] {
   if (msg.role === 'tool') {
     if (msg.toolCallId === undefined) {
-      // Defensive — kosong tool messages always carry toolCallId. If absent,
+      // Defensive — tsugite tool messages always carry toolCallId. If absent,
       // fall back to text passthrough so we don't lose user-visible content.
       return mapContentParts(msg.content);
     }
@@ -275,7 +275,7 @@ export function toProtocolMessage(
   const role = toProtocolRole(msg.role);
   const content = buildProtocolContent(msg);
   const createdAtMs = createdAtMsOverride ?? sessionCreatedAtMs + index;
-  // Expose the message origin (kosong/agent-core `origin`) via metadata so REST
+  // Expose the message origin (tsugite/agent-core `origin`) via metadata so REST
   // clients (e.g. the web UI) can hide injected/system user turns — compaction
   // summaries, injections, hook results, retries, system triggers, cron, etc. —
   // the same way the TUI does (see isAgentReplayUserTurnRecord in

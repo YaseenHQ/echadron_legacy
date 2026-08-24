@@ -19,7 +19,7 @@ import type {
   SessionStatus,
   SessionSummary,
   ThinkingEffort,
-} from "@moonshot-ai/kimi-code-sdk";
+} from "@yaseenhq/echadron-sdk";
 import { describe, expect, it } from "vitest";
 
 import { Events } from "../shared/bridge";

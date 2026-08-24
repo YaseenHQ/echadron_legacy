@@ -1,13 +1,13 @@
 import type { OAuthClientInformationFull, OAuthTokens } from '@modelcontextprotocol/sdk/shared/auth.js';
 import { describe, expect, it } from 'vitest';
 
-import { McpOAuthClientProvider } from '#/agent/mcp/oauth/provider';
-import { McpOAuthService } from '#/agent/mcp/oauth/service';
+import { McpOAuthClientProvider } from '#/mcpCore/oauth/provider';
+import { McpOAuthService } from '#/mcpCore/oauth/service';
 import {
   createMcpOAuthStore,
   mcpOAuthStoreKey,
   sanitizeStoreKey,
-} from '#/agent/mcp/oauth/store';
+} from '#/mcpCore/oauth/store';
 import type { IAtomicDocumentStore } from '#/persistence/interface/atomicDocumentStore';
 
 import { createMemoryMcpOAuthStore } from '../stubs';

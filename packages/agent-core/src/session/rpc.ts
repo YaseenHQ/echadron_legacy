@@ -1,5 +1,5 @@
 import { ErrorCodes, KimiError } from '#/errors';
-import type { SessionWarning } from '@moonshot-ai/protocol';
+import type { SessionWarning } from '@yaseenhq/protocol';
 import type {
   ActivateSkillPayload,
   ActivatePluginCommandPayload,

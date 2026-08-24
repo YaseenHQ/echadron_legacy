@@ -1,4 +1,4 @@
-import type { ContentPart, Tool } from '@moonshot-ai/kosong';
+import type { ContentPart, Tool } from '@yaseenhq/tsugite';
 import { describe, expect, it } from 'vitest';
 
 import type { Agent } from '../../src/agent';
@@ -57,7 +57,7 @@ function fakeClient(): MCPClient {
 }
 
 // Mirrors `connection-manager.connectAndDiscoverTools` — projects an MCP
-// client's `listTools()` output into the kosong `Tool` shape that
+// client's `listTools()` output into the tsugite `Tool` shape that
 // `ToolManager.registerMcpServer` expects. Tests can hand the same client into
 // `registerMcpServer` so the wrapped `execute` flow hits a real `callTool`.
 async function discoverTools(client: MCPClient): Promise<Tool[]> {

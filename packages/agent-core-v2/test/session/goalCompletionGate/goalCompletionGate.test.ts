@@ -3,7 +3,7 @@
  * Responsibilities: skip empty command lists, fail on the first non-zero or
  * timed-out command, and parse the env command list.
  * Wiring: the pure runner plus the env parser; no Session host.
- * Run: `pnpm --filter @moonshot-ai/agent-core-v2 exec vitest run test/session/goalCompletionGate/goalCompletionGate.test.ts`.
+ * Run: `pnpm --filter @yaseenhq/agent-core-v2 exec vitest run test/session/goalCompletionGate/goalCompletionGate.test.ts`.
  */
 import { describe, expect, it } from 'vitest';
 

@@ -1,4 +1,4 @@
-import type { Event } from '@moonshot-ai/kimi-code-sdk';
+import type { Event } from '@yaseenhq/echadron-sdk';
 
 import type {
   DisplayBlock,

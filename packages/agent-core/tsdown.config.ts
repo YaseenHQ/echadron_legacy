@@ -12,9 +12,9 @@ export default defineConfig({
   deps: {
     alwaysBundle: ['picomatch'],
     neverBundle: [
-      '@moonshot-ai/kosong',
-      '@moonshot-ai/kaos',
-      '@moonshot-ai/kimi-code-oauth',
+      '@yaseenhq/tsugite',
+      '@yaseenhq/kaos',
+      '@yaseenhq/echadron-oauth',
     ],
   },
 });

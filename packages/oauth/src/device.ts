@@ -1,5 +1,5 @@
 /**
- * Browser-safe entry for the device-code flow (`@moonshot-ai/kimi-code-oauth/device`).
+ * Browser-safe entry for the device-code flow (`@yaseenhq/echadron-oauth/device`).
  *
  * The package root re-exports `OAuthManager`, token storage, and the identity
  * helpers, which pull in `node:fs` / `node:os` / `proper-lockfile` — fine for

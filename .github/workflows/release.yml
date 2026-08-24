@@ -45,7 +45,7 @@ jobs:
         shell: bash
         run: |
           CATALOG_FILE="$RUNNER_TEMP/kimi-code-built-in-catalog.json"
-          node apps/kimi-code/scripts/update-catalog.mjs --out "$CATALOG_FILE"
+          node apps/echadron/scripts/update-catalog.mjs --out "$CATALOG_FILE"
           echo "KIMI_CODE_BUILT_IN_CATALOG_FILE=$CATALOG_FILE" >> "$GITHUB_ENV"
 
       - name: Build packages
@@ -65,7 +65,7 @@ jobs:
       - name: Resolve Echadron native release
         if: steps.changesets.outputs.published == 'true'
         id: echadron_release
-        run: node apps/kimi-code/scripts/native/resolve-release.mjs
+        run: node apps/echadron/scripts/native/resolve-release.mjs
         env:
           CHANGESETS_PUBLISHED_PACKAGES: ${{ steps.changesets.outputs.publishedPackages }}
           ECHADRON_NATIVE_RELEASE_ENABLED: ${{ vars.ECHADRON_NATIVE_RELEASE_ENABLED }}
@@ -110,7 +110,7 @@ jobs:
       - name: Produce manifest.json
         env:
           RELEASE_TAG: ${{ needs.release.outputs.echadron_release_tag }}
-        run: node apps/kimi-code/scripts/native/produce-manifest.mjs dist-native-release "$RELEASE_TAG"
+        run: node apps/echadron/scripts/native/produce-manifest.mjs dist-native-release "$RELEASE_TAG"
 
       - name: Upload assets to GitHub Release
         env:

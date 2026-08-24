@@ -8,7 +8,7 @@
  * projection path.
  *
  * Run:
- *   pnpm --filter @moonshot-ai/agent-core-v2 exec vitest bench test/contextProjector/projector.bench.ts
+ *   pnpm --filter @yaseenhq/agent-core-v2 exec vitest bench test/contextProjector/projector.bench.ts
  */
 
 import { bench, describe } from 'vitest';
@@ -21,7 +21,7 @@ import type { ContextMessage } from '#/agent/contextMemory/types';
 import { IAgentContextProjectorService } from '#/agent/contextProjector/contextProjector';
 import { AgentContextProjectorService } from '#/agent/contextProjector/contextProjectorService';
 import { ErrorCodes, Error2 } from '#/errors';
-import type { ContentPart, Message, TextPart, ToolCall } from '#/kosong/contract/message';
+import type { ContentPart, Message, TextPart, ToolCall } from '#/tsugite/contract/message';
 
 const noopLogger: ILogger = {
   error: () => {},

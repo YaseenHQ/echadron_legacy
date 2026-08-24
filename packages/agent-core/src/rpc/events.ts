@@ -1,4 +1,4 @@
-export { MCP_OAUTH_AUTHORIZATION_URL_TOOL_UPDATE } from '@moonshot-ai/protocol';
+export { MCP_OAUTH_AUTHORIZATION_URL_TOOL_UPDATE } from '@yaseenhq/protocol';
 
 export type {
   AgentEvent,
@@ -49,6 +49,6 @@ export type {
   TurnStepStartedEvent,
   UsageStatus,
   WarningEvent,
-} from '@moonshot-ai/protocol';
+} from '@yaseenhq/protocol';
 
 export type { KimiErrorPayload } from '../errors';
