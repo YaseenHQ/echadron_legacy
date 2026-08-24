@@ -1,5 +1,138 @@
 # @moonshot-ai/agent-core-v2
 
+## 0.4.0
+
+### Minor Changes
+
+- [#80](https://github.com/YaseenHQ/echadron/pull/80) [`5049cc3`](https://github.com/YaseenHQ/echadron/commit/5049cc3aaa323d3aeae21ca64e2323e0049e778f) Thanks [@YaseenHQ](https://github.com/YaseenHQ)! - Add the actor-runtime foundation for upstream PR [#3175](https://github.com/YaseenHQ/echadron/issues/3175) (agent domain migration)
+
+  This lands the state-machine substrate a set of session domains will migrate
+  onto — nothing consumes it yet, so this changes no behaviour on its own:
+
+  - `agent/runtime` — `defineAgentRuntime`, the per-agent `AgentRuntimeSet` that
+    materializes an xstate actor lazily on first use, and durable-state folding
+    for runtimes whose state must survive a restart
+  - `state/state`, `state/eventDispatcher` — the durable state-fold contract and
+    its event dispatch, layered on `wire`'s persisted-record model
+  - `agent/agentContext`, `app/event/event2` — the per-agent identity a runtime
+    runs under, and the typed, schema-validated event class registry it dispatches
+  - `_base/di/collection` — multi-provider contribution points
+    (`@SomeToken items: CollectionView<T>`) and single-provider `definition()`
+    slots, for a domain to register itself with a shared point like
+    `AgentRuntimeContributionPoint` without every consumer knowing every provider
+
+  Adds `xstate` and `immer` as dependencies of `@yaseenhq/agent-core-v2`.
+
+  One adaptation from upstream's shape: their `collection()` is backed by a
+  Fiber-based dynamic provide/unprovide DI container that this fork does not
+  have — this fork's scoped-service registration is the simpler static
+  `registerScopedService` model. `collection()` here keeps the identical public
+  surface (so nothing written against it needs to differ) but is backed by a
+  flat, scope-unaware registry, matching the pattern `toolContribution.ts`
+  already used for tool registration. Visibility is process-wide rather than
+  scope-filtered; nothing in this fork needs scope-filtered contribution
+  visibility today.
+
+  `_base/state/stateRegistry.ts`'s `register()` keeps its existing name and
+  call sites (used across ~15 files) but gains upstream's richer internals:
+  duplicate-registration guarding via a returned `IDisposable`, a
+  `snapshotExcluded` key flag, and a hierarchical `inspect()` for nested
+  scope views.
+
+- [#80](https://github.com/YaseenHQ/echadron/pull/80) [`5049cc3`](https://github.com/YaseenHQ/echadron/commit/5049cc3aaa323d3aeae21ca64e2323e0049e778f) Thanks [@YaseenHQ](https://github.com/YaseenHQ)! - Never dead-end a session when the compaction summarizer fails
+
+  Compaction asks a model to summarize the history. That call can fail — the
+  provider is down, the key expired mid-session, every shrink attempt still
+  overflows. Until now the session ended there, and the position was circular:
+  the context was too large to send, and the only path that shrinks it needed the
+  very model that was failing.
+
+  Compaction now has a path that needs no model call. The budget is a pure
+  function of the effective context window, clamped, and the replacement text
+  states only facts read off the history: how many messages were folded, how they
+  split by role, and which tool calls ran under which ids. It writes no prose,
+  because there is nothing in that path that could.
+
+  The fold is applied only when it genuinely helps. The result is projected first
+  with the same function the normal path uses, and if it would not make the
+  context smaller it is not applied and the original failure is reported as
+  before — a handful of short messages cannot be usefully folded, and applying
+  one there would grow the context and overflow again on the next step.
+
+  Cancellation and authentication failures are unaffected: a cancelled compaction
+  never rewrites history, and an expired login still surfaces as an auth error
+  rather than being papered over. Telemetry reports one terminal outcome per
+  compaction, with `compaction_mode` naming which path produced it.
+
+- [#80](https://github.com/YaseenHQ/echadron/pull/80) [`5049cc3`](https://github.com/YaseenHQ/echadron/commit/5049cc3aaa323d3aeae21ca64e2323e0049e778f) Thanks [@YaseenHQ](https://github.com/YaseenHQ)! - Hoist MCP into a layered management plane
+
+  MCP lived entirely inside the agent scope, so every agent re-read the config and
+  owned its own view of which servers exist. The transport layer now sits in
+  `mcpCore`, and configuration, the registry and the management API are App-scoped
+  above it, matching upstream's structure:
+
+  - `mcpCore` — clients, config schema, connection manager, errors and OAuth
+  - `app/mcpConfig` — the `mcp.json` store, config section and loader
+  - `app/mcpRegistry` — resolves global, project and plugin servers by name
+  - `agent/mcp` — the agent-facing service and tools, unchanged in behaviour
+
+  Echadron's own MCP client stays. It is on `@modelcontextprotocol/client` 2.0.0
+  and handles the 2026-07-28 protocol, which removed protocol-level `ping`;
+  upstream is still on the 1.x SDK. Only the layering is adopted, not the
+  transport code.
+
+- [#80](https://github.com/YaseenHQ/echadron/pull/80) [`5049cc3`](https://github.com/YaseenHQ/echadron/commit/5049cc3aaa323d3aeae21ca64e2323e0049e778f) Thanks [@YaseenHQ](https://github.com/YaseenHQ)! - Complete the MCP management plane and add the runtime layer
+
+  The management API, the App-scoped OAuth service and the runtime layer now land
+  alongside the config store and registry:
+
+  - `runtime` — the runtime abstraction, registry, local runtime and unit host
+  - `app/agentIdentity` — the identity a client advertises on MCP initialize
+  - `app/mcpManagement` — list, add, update, remove and probe servers
+  - `app/mcpConfig/oauthService` — proactive token refresh at App scope
+
+  The OAuth layer takes upstream's implementation, which is materially better than
+  what was here: token transactions that invalidate a spent grant, proactive
+  refresh, and `obtained_at` stamped on save so refresh can tell a token's age.
+  Two behaviours from this fork are preserved on top of it — the loopback client
+  still registers as a native application per SEP-837, and the whole layer runs on
+  `@modelcontextprotocol/client` 2.0 rather than the 1.x SDK.
+
+  A refresh token the authorization server rejects now moves a server to
+  `needs-auth` instead of `failed`. The grant is spent and no retry recovers it,
+  so the only way forward is to log in again, and the status now says so.
+
+  Stdio probes always run on the local runtime. Upstream binds them to the
+  workspace instance containing the cwd; there is no workspace-instance layer
+  here yet, and every stdio server already runs locally.
+
+- [#80](https://github.com/YaseenHQ/echadron/pull/80) [`5049cc3`](https://github.com/YaseenHQ/echadron/commit/5049cc3aaa323d3aeae21ca64e2323e0049e778f) Thanks [@YaseenHQ](https://github.com/YaseenHQ)! - Rename the provider layer to Tsugite and move every workspace package to the `@yaseenhq` scope
+
+  The provider abstraction layer is now `Tsugite` — Japanese joinery, interlocking
+  joints that hold without nails. It describes what the layer does: it mates
+  different model APIs to one interface.
+
+  Every workspace package also moves off the `@moonshot-ai` scope, which this fork
+  has no claim to, and the harness packages drop the `kimi-code` prefix:
+
+  - `@moonshot-ai/kimi-code-sdk` is now `@yaseenhq/echadron-sdk`
+  - `@moonshot-ai/kimi-code-oauth` is now `@yaseenhq/echadron-oauth`
+  - `@moonshot-ai/kimi-telemetry` is now `@yaseenhq/echadron-telemetry`
+  - `@moonshot-ai/kimi-inspect` is now `@yaseenhq/echadron-inspect`
+  - every other `@moonshot-ai/*` package keeps its name under `@yaseenhq/*`
+
+  The `apps/kimi-code` and `apps/kimi-inspect` directories are now `apps/echadron`
+  and `apps/echadron-inspect`.
+
+  Every package involved is private, so nothing published changes. The Kimi
+  provider, its OAuth flow and its models are untouched: those are Moonshot
+  products that Echadron integrates with, exactly like any other provider.
+
+### Patch Changes
+
+- Updated dependencies [[`5049cc3`](https://github.com/YaseenHQ/echadron/commit/5049cc3aaa323d3aeae21ca64e2323e0049e778f)]:
+  - @yaseenhq/echadron-oauth@0.4.0
+
 ## 0.3.1
 
 ### Patch Changes

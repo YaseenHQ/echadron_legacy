@@ -1,5 +1,41 @@
 # @moonshot-ai/kimi-code
 
+## 0.34.0
+
+### Minor Changes
+
+- [#80](https://github.com/YaseenHQ/echadron/pull/80) [`5049cc3`](https://github.com/YaseenHQ/echadron/commit/5049cc3aaa323d3aeae21ca64e2323e0049e778f) Thanks [@YaseenHQ](https://github.com/YaseenHQ)! - New `Browser` tool: drive your own signed-in browser to open pages, read them, click, type and screenshot. Useful when a task needs a live page behind a login or one that renders nothing without JavaScript — `FetchURL` stays the cheaper choice for plain public pages. Echadron talks the Chrome DevTools Protocol to a Chrome or Edge you started with `--remote-debugging-port=9222`; if a Kimi WebBridge daemon is already running it is used instead. The browser is yours and stays open; nothing runs headless.
+
+- [#77](https://github.com/YaseenHQ/echadron/pull/77) [`5d86f1a`](https://github.com/YaseenHQ/echadron/commit/5d86f1a699c0c5ef87a6f72b4d100e4aef55debf) Thanks [@YaseenHQ](https://github.com/YaseenHQ)! - Declare a pool of subagent models. `[secondary_model]` now accepts `models` (a map of `[models]` entry id to the hint shown in the Agent and AgentSwarm tool descriptions), `default_model` (the spawn model used when the caller passes none), and `force` (always spawn on the default, refusing an explicit choice). The tool descriptions render the pool with `[default]` and `[main model]` markers, an unresolvable alias fails at session start instead of at spawn, and `primary` is reserved for the caller's own model. `/secondary_model` and existing configuration keep working; without a pool a subagent still inherits the caller's model.
+
+- [#80](https://github.com/YaseenHQ/echadron/pull/80) [`5049cc3`](https://github.com/YaseenHQ/echadron/commit/5049cc3aaa323d3aeae21ca64e2323e0049e778f) Thanks [@YaseenHQ](https://github.com/YaseenHQ)! - Rename the provider layer to Tsugite and move every workspace package to the `@yaseenhq` scope
+
+  The provider abstraction layer is now `Tsugite` — Japanese joinery, interlocking
+  joints that hold without nails. It describes what the layer does: it mates
+  different model APIs to one interface.
+
+  Every workspace package also moves off the `@moonshot-ai` scope, which this fork
+  has no claim to, and the harness packages drop the `kimi-code` prefix:
+
+  - `@moonshot-ai/kimi-code-sdk` is now `@yaseenhq/echadron-sdk`
+  - `@moonshot-ai/kimi-code-oauth` is now `@yaseenhq/echadron-oauth`
+  - `@moonshot-ai/kimi-telemetry` is now `@yaseenhq/echadron-telemetry`
+  - `@moonshot-ai/kimi-inspect` is now `@yaseenhq/echadron-inspect`
+  - every other `@moonshot-ai/*` package keeps its name under `@yaseenhq/*`
+
+  The `apps/kimi-code` and `apps/kimi-inspect` directories are now `apps/echadron`
+  and `apps/echadron-inspect`.
+
+  Every package involved is private, so nothing published changes. The Kimi
+  provider, its OAuth flow and its models are untouched: those are Moonshot
+  products that Echadron integrates with, exactly like any other provider.
+
+### Patch Changes
+
+- [#75](https://github.com/YaseenHQ/echadron/pull/75) [`88dcbde`](https://github.com/YaseenHQ/echadron/commit/88dcbde5dc07a02ef311b663c5ad42dd7f3cbad8) Thanks [@YaseenHQ](https://github.com/YaseenHQ)! - Long `!` shell command output is collapsed in the transcript instead of flooding it, with the full text still available on expand.
+
+- [#80](https://github.com/YaseenHQ/echadron/pull/80) [`5049cc3`](https://github.com/YaseenHQ/echadron/commit/5049cc3aaa323d3aeae21ca64e2323e0049e778f) Thanks [@YaseenHQ](https://github.com/YaseenHQ)! - Reject a duplicate scoped service registration instead of silently letting the last one win. A second `registerScopedService` for the same scope and id now fails with the two competing domains named, and `overrideScopedService` is the explicit way to replace one.
+
 ## 0.33.1
 
 ### Patch Changes

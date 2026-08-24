@@ -1,5 +1,13 @@
 # @moonshot-ai/kap-server
 
+## 0.2.1
+
+### Patch Changes
+
+- Updated dependencies [[`5049cc3`](https://github.com/YaseenHQ/echadron/commit/5049cc3aaa323d3aeae21ca64e2323e0049e778f), [`5049cc3`](https://github.com/YaseenHQ/echadron/commit/5049cc3aaa323d3aeae21ca64e2323e0049e778f), [`5049cc3`](https://github.com/YaseenHQ/echadron/commit/5049cc3aaa323d3aeae21ca64e2323e0049e778f), [`5049cc3`](https://github.com/YaseenHQ/echadron/commit/5049cc3aaa323d3aeae21ca64e2323e0049e778f), [`5049cc3`](https://github.com/YaseenHQ/echadron/commit/5049cc3aaa323d3aeae21ca64e2323e0049e778f)]:
+  - @yaseenhq/agent-core-v2@0.4.0
+  - @yaseenhq/echadron-oauth@0.4.0
+
 ## 0.2.0
 
 ### Minor Changes

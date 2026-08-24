@@ -1,5 +1,31 @@
 # @moonshot-ai/kosong
 
+## 0.6.0
+
+### Minor Changes
+
+- [#80](https://github.com/YaseenHQ/echadron/pull/80) [`5049cc3`](https://github.com/YaseenHQ/echadron/commit/5049cc3aaa323d3aeae21ca64e2323e0049e778f) Thanks [@YaseenHQ](https://github.com/YaseenHQ)! - Rename the provider layer to Tsugite and move every workspace package to the `@yaseenhq` scope
+
+  The provider abstraction layer is now `Tsugite` — Japanese joinery, interlocking
+  joints that hold without nails. It describes what the layer does: it mates
+  different model APIs to one interface.
+
+  Every workspace package also moves off the `@moonshot-ai` scope, which this fork
+  has no claim to, and the harness packages drop the `kimi-code` prefix:
+
+  - `@moonshot-ai/kimi-code-sdk` is now `@yaseenhq/echadron-sdk`
+  - `@moonshot-ai/kimi-code-oauth` is now `@yaseenhq/echadron-oauth`
+  - `@moonshot-ai/kimi-telemetry` is now `@yaseenhq/echadron-telemetry`
+  - `@moonshot-ai/kimi-inspect` is now `@yaseenhq/echadron-inspect`
+  - every other `@moonshot-ai/*` package keeps its name under `@yaseenhq/*`
+
+  The `apps/kimi-code` and `apps/kimi-inspect` directories are now `apps/echadron`
+  and `apps/echadron-inspect`.
+
+  Every package involved is private, so nothing published changes. The Kimi
+  provider, its OAuth flow and its models are untouched: those are Moonshot
+  products that Echadron integrates with, exactly like any other provider.
+
 ## 0.5.6
 
 ### Patch Changes

@@ -1,5 +1,13 @@
 # @moonshot-ai/agent-core
 
+## 0.16.2
+
+### Patch Changes
+
+- Updated dependencies [[`5049cc3`](https://github.com/YaseenHQ/echadron/commit/5049cc3aaa323d3aeae21ca64e2323e0049e778f), [`5049cc3`](https://github.com/YaseenHQ/echadron/commit/5049cc3aaa323d3aeae21ca64e2323e0049e778f)]:
+  - @yaseenhq/echadron-oauth@0.4.0
+  - @yaseenhq/tsugite@0.6.0
+
 ## 0.16.1
 
 ### Patch Changes
