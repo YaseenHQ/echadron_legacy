@@ -8,7 +8,7 @@ import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/
 import type { Tool as TsugiteTool } from '#/tsugite/contract/tool';
 import { z } from 'zod';
 
-import type { McpOAuthStore } from '#/agent/mcp/oauth/store';
+import type { McpOAuthStore } from '#/mcpCore/oauth/store';
 import type { MCPClient, MCPToolDefinition } from '#/mcpCore/types';
 import type {
   ExecutableTool,
@@ -49,6 +49,10 @@ export function createMemoryMcpOAuthStore(): McpOAuthStore {
     },
     async remove(key: string): Promise<void> {
       data.delete(key);
+    },
+    async list(prefix?: string): Promise<readonly string[]> {
+      const keys = [...data.keys()];
+      return prefix === undefined ? keys : keys.filter((key) => key.startsWith(prefix));
     },
   };
 }

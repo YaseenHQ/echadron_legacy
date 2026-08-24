@@ -592,3 +592,26 @@ async function withTimeout<T>(
     if (timer !== undefined) clearTimeout(timer);
   }
 }
+
+/**
+ * Structural equality for effective configs, backing the idempotent-connect
+ * guard (config reconcilers and explicit callers may issue the same upsert)
+ * and the management plane's change detection.
+ */
+export function mcpServerConfigsEqual(a: McpServerConfig, b: McpServerConfig): boolean {
+  return stableConfigJson(a) === stableConfigJson(b);
+}
+
+function stableConfigJson(value: unknown): string {
+  if (Array.isArray(value)) {
+    return `[${value.map(stableConfigJson).join(',')}]`;
+  }
+  if (typeof value === 'object' && value !== null) {
+    const entries = Object.entries(value)
+      .filter(([, entryValue]) => entryValue !== undefined)
+      .map(([key, entryValue]) => `${JSON.stringify(key)}:${stableConfigJson(entryValue)}`)
+      .toSorted();
+    return `{${entries.join(',')}}`;
+  }
+  return JSON.stringify(value) ?? 'undefined';
+}

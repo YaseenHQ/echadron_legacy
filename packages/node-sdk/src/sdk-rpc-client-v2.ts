@@ -140,7 +140,7 @@ import {
   McpOAuthService,
   type BeginAuthorizationResult,
 } from '@yaseenhq/agent-core-v2/agent/mcp/oauth/service';
-import { createMcpOAuthStore } from '@yaseenhq/agent-core-v2/agent/mcp/oauth/store';
+import { createMcpOAuthStore } from '@yaseenhq/agent-core-v2/mcpCore/oauth/store';
 import { IAtomicDocumentStore } from '@yaseenhq/agent-core-v2/persistence/interface/atomicDocumentStore';
 import {
   SECONDARY_MODEL_SECTION,

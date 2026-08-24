@@ -17,7 +17,7 @@ import { McpConnectionManager } from '#/mcpCore/connection-manager';
 import type { McpServerConfig } from '#/mcpCore/config-schema';
 import { MCP_SECTION, type McpSection } from '#/agent/mcp/configSection';
 import { McpOAuthService } from '#/agent/mcp/oauth/service';
-import { createMcpOAuthStore } from '#/agent/mcp/oauth/store';
+import { createMcpOAuthStore } from '#/mcpCore/oauth/store';
 import { mergeCallerMcpServers, resolveSessionMcpConfig } from '#/agent/mcp/session-config';
 import { IBootstrapService } from '#/app/bootstrap/bootstrap';
 import { IConfigService } from '#/app/config/config';

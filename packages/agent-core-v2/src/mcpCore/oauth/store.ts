@@ -49,10 +49,15 @@ export interface McpOAuthStore {
   read<T>(key: string): Promise<T | undefined>;
   write(key: string, data: unknown): Promise<void>;
   remove(key: string): Promise<void>;
+  /** Stored credential keys, so the App-scope store can sweep refreshes. */
+  list(prefix?: string): Promise<readonly string[]>;
 }
 
 export function createMcpOAuthStore(docs: IAtomicDocumentStore): McpOAuthStore {
   return {
+    list(prefix) {
+      return docs.list(CREDENTIALS_SCOPE, prefix);
+    },
     async read<T>(key: string): Promise<T | undefined> {
       try {
         return await docs.get<T>(CREDENTIALS_SCOPE, key);
