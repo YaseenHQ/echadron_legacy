@@ -1,3 +1,6 @@
+This repo will be archived as Echadron's old version, while Kimi Code as base helped me learn a lot experimenting with a harness and learn a lot about it , I felt its time to do it from scratch (I kept experimenting with different bases over time and thought its time to stop and build something from scratch) and put things ive learned over the years into a better base. Echadron will return to GitHub at a later time with improved from scratch baseline. This repo could still be useful in learning to integrating some stuff , so i decided to archive it and it'll still be accesible. I've also acquired Echadron.com and you'll find a new version linked here once its ready. You'll still be able to use current version of echadron and can build it yourself from this repo. Also look into harnesses like Pi, OpenCode, Deepseek harness - it'll teach you a lot, fork and experiment stuff, eventually you'll reach a point where you'll have better ideas to build stuff from scratch.
+
+
 # Echadron
 
 Echadron is the multi-provider agent harness built from the Kimi Code CLI
