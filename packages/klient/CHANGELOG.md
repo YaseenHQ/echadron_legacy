@@ -1,5 +1,12 @@
 # @moonshot-ai/klient
 
+## 0.1.2
+
+### Patch Changes
+
+- Updated dependencies [[`5049cc3`](https://github.com/YaseenHQ/echadron_legacy/commit/5049cc3aaa323d3aeae21ca64e2323e0049e778f), [`5049cc3`](https://github.com/YaseenHQ/echadron_legacy/commit/5049cc3aaa323d3aeae21ca64e2323e0049e778f), [`5049cc3`](https://github.com/YaseenHQ/echadron_legacy/commit/5049cc3aaa323d3aeae21ca64e2323e0049e778f), [`5049cc3`](https://github.com/YaseenHQ/echadron_legacy/commit/5049cc3aaa323d3aeae21ca64e2323e0049e778f), [`5049cc3`](https://github.com/YaseenHQ/echadron_legacy/commit/5049cc3aaa323d3aeae21ca64e2323e0049e778f)]:
+  - @yaseenhq/agent-core-v2@0.4.0
+
 ## 0.1.1
 
 ### Patch Changes
